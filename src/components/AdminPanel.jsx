@@ -138,7 +138,7 @@ export default function AdminPanel() {
 
   if (!effectiveAuthed) {
     return (
-      <section id="admin" className="max-w-md mx-auto px-4 py-16 scroll-mt-16">
+      <section id="admin" className="admin-cards max-w-md mx-auto px-4 py-16 scroll-mt-16">
         <div className="glass-panel rounded-2xl p-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center"><Lock size={24} /></div>
@@ -158,7 +158,7 @@ export default function AdminPanel() {
   }
 
   return (
-    <section id="admin" className="max-w-7xl mx-auto px-4 py-12 scroll-mt-16">
+    <section id="admin" className="admin-cards max-w-7xl mx-auto px-4 py-12 scroll-mt-16">
       <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
         <div><h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2"><ShieldCheck className="text-indigo-500 dark:text-indigo-400" />{t.adminTitle}</h2><p className="text-slate-500 dark:text-slate-400">{t.adminSub}</p></div>
         <div className="flex gap-2 flex-wrap">
@@ -251,7 +251,7 @@ export default function AdminPanel() {
         </div>
         <div className="glass-panel panel-hover rounded-2xl p-6">
           <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><UserPlus size={18} className="text-amber-500 dark:text-amber-400" />{t.newRegistrations}</h3>
-          <DailyChart days={(analytics?.newUsersByDay || []).map(d => ({ ...d, uniqueVisitors: d.count }))} accent="bg-amber-500 dark:bg-amber-400" />
+          <DailyChart days={(analytics?.newUsersByDay || []).map(d => ({ ...d, uniqueVisitors: d.count }))} accent="bg-amber-300" />
         </div>
       </div>
 
@@ -329,27 +329,24 @@ function MuiVisitorChart({ analytics }) {
   if (days.length === 0) return <Typography className="text-slate-500 dark:text-slate-400" variant="body2" sx={{ color: 'inherit' }}>—</Typography>;
   const max = Math.max(...days.map(d => d.visits || 0), 1);
   return (
-    <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 0.75, height: 190, pt: 2, px: 0.5 }}>
+    <div className="flex items-end gap-1 pt-3 px-0.5" style={{ height: 190 }}>
       {days.map(d => {
         const h = d.visits ? Math.max((d.visits / max) * 100, 4) : 0;
         return (
-          <Box key={d.date} sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, height: '100%', justifyContent: 'flex-end' }} title={`${d.date}: ${d.visits}`}>
-            <Box sx={{
-              width: '100%',
-              borderRadius: '6px 6px 0 0',
-              background: 'linear-gradient(180deg, #6366f1, #4f46e5)',
-              transition: 'height 400ms ease, filter 200ms ease',
-              minHeight: 4,
-              cursor: 'pointer',
-              '&:hover': { filter: 'brightness(1.25)' },
-            }} style={{ height: `${h}%` }} />
-            <Typography className="text-slate-500 dark:text-slate-400" sx={{ fontSize: '9px', lineHeight: 1 }}>
-              {(d.date || '').slice(8)}
-            </Typography>
-          </Box>
+          <div key={d.date} className="relative flex-1 h-full flex flex-col items-center justify-end gap-1 min-w-0 group" title="">
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 z-10 mb-1 px-2 py-1 rounded-md bg-slate-900 text-white text-[10px] font-semibold text-center whitespace-nowrap opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all pointer-events-none shadow-lg">
+              <span className="block text-slate-300">{d.date}</span>
+              <span className="block">{d.visits} ta tashrif</span>
+            </div>
+            <div
+              className="w-full rounded-t bg-white transition-all duration-300 cursor-pointer group-hover:brightness-110"
+              style={{ height: `${h}%` }}
+            />
+            <span className="text-[9px] text-slate-400 leading-none">{(d.date || '').slice(8)}</span>
+          </div>
         );
       })}
-    </Box>
+    </div>
   );
 }
 
@@ -381,14 +378,16 @@ function MuiVisitorTrend({ analytics }) {
           <polyline
             points={points.map(p => `${(p.x / Math.max(points.length - 1, 1)) * 100},${100 - p.y * 0.55}`).join(' ')}
             fill="none"
-            stroke="#6366f1"
+            stroke="#fff"
             strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             vectorEffect="non-scaling-stroke"
-            style={{ filter: 'drop-shadow(0 0 3px rgba(99,102,241,0.6))' }}
+            style={{ filter: 'drop-shadow(0 0 3px rgba(255,255,255,0.55))' }}
           />
           <polyline
             points={`0,60 ${points.map(p => `${(p.x / Math.max(points.length - 1, 1)) * 100},${100 - p.y * 0.55}`).join(' ')} 100,60`}
-            fill="rgba(99,102,241,0.15)"
+            fill="rgba(255,255,255,0.22)"
             stroke="none"
           />
         </svg>
@@ -398,7 +397,7 @@ function MuiVisitorTrend({ analytics }) {
   );
 }
 
-function DailyChart({ days, accent = 'bg-indigo-500 dark:bg-indigo-400' }) {
+function DailyChart({ days, accent = 'bg-white' }) {
   const max = Math.max(...(days || []).map(d => d.visits || 0), 1);
   if (!days || days.length === 0) return <p className="text-sm text-slate-500">{'—'}</p>;
   return (
@@ -406,9 +405,13 @@ function DailyChart({ days, accent = 'bg-indigo-500 dark:bg-indigo-400' }) {
       {days.map(d => {
         const h = d.visits ? Math.max((d.visits / max) * 100, 4) : 0;
         return (
-          <div key={d.date} className="flex-1 flex flex-col items-center justify-end gap-1 h-full group" title={`${d.date}: ${d.visits}`}>
-            <div className={`w-full rounded-t ${accent} transition-all duration-300 cursor-pointer group-hover:brightness-125 group-hover:scale-x-105`} style={{ height: `${h}%` }} />
-            <span className="text-[8px] text-slate-500">{(d.date || '').slice(8)}</span>
+          <div key={d.date} className="flex-1 flex flex-col items-center justify-end gap-1 h-full group relative" title="">
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 z-10 mb-1 px-2 py-1 rounded-md bg-slate-900 text-white text-[9px] font-semibold text-center whitespace-nowrap opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all pointer-events-none shadow-lg">
+              <span className="block text-slate-300">{d.date}</span>
+              <span className="block">{d.visits} ta</span>
+            </div>
+            <div className={`w-full rounded-t ${accent} transition-all duration-300 cursor-pointer group-hover:brightness-110`} style={{ height: `${h}%` }} />
+            <span className="text-[8px] text-slate-400 leading-none">{(d.date || '').slice(8)}</span>
           </div>
         );
       })}

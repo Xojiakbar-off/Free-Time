@@ -109,6 +109,85 @@ html:not(.dark) .panel-hover:hover {
   box-shadow: 0 16px 38px rgba(99, 102, 241, 0.16);
 }
 
+/* Admin page — solid uniform cards (#1e4aa4), stand out from background */
+.admin-cards .glass-panel {
+  background: #1e4aa4;
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 32px rgba(15, 31, 68, 0.3);
+  color: #fff;
+}
+html:not(.dark) .admin-cards .glass-panel {
+  background: #1e4aa4;
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 14px 36px rgba(30, 74, 164, 0.35);
+}
+.admin-cards .MuiCard-root {
+  background-color: #1e4aa4 !important;
+}
+.admin-cards .MuiTableHead-root .MuiTableCell-root {
+  background-color: #1e4aa4 !important;
+}
+.admin-cards .MuiTableRow-root:hover .MuiTableCell-root {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.admin-cards .glass-panel h2,
+.admin-cards .glass-panel h3,
+.admin-cards .glass-panel p,
+.admin-cards .glass-panel th,
+.admin-cards .glass-panel td,
+.admin-cards .glass-panel .MuiTypography-root {
+  color: #fff;
+}
+.admin-cards .glass-panel .text-slate-400,
+.admin-cards .glass-panel .text-slate-500,
+.admin-cards .glass-panel .text-slate-600 {
+  color: rgba(255, 255, 255, 0.78);
+}
+.admin-cards .glass-panel .text-slate-700,
+.admin-cards .glass-panel .text-slate-800,
+.admin-cards .glass-panel .text-slate-900 {
+  color: #fff;
+}
+.admin-cards .glass-panel .text-green-600,
+.admin-cards .glass-panel .text-green-400 {
+  color: #4ade80;
+}
+.admin-cards .glass-panel .text-red-600,
+.admin-cards .glass-panel .text-red-400,
+.admin-cards .glass-panel .text-rose-500 {
+  color: #fda4af;
+}
+.admin-cards .glass-panel .text-amber-500,
+.admin-cards .glass-panel .text-amber-400,
+.admin-cards .glass-panel .text-yellow-600 {
+  color: #fcd34d;
+}
+.admin-cards .glass-panel .text-purple-700,
+.admin-cards .glass-panel .text-purple-300,
+.admin-cards .glass-panel .text-indigo-700,
+.admin-cards .glass-panel .text-indigo-300,
+.admin-cards .glass-panel .text-sky-500,
+.admin-cards .glass-panel .text-sky-400 {
+  color: #c7d2fe;
+}
+.admin-cards .glass-panel .bg-slate-100 {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.admin-cards .glass-panel .border-slate-200,
+.admin-cards .glass-panel .border-slate-100 {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+.admin-cards .glass-panel input,
+.admin-cards .glass-panel textarea {
+  color: #0f172a !important;
+  background-color: #eef2ff !important;
+}
+html.dark .admin-cards .glass-panel input,
+html.dark .admin-cards .glass-panel textarea {
+  color: #fff !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
 @keyframes pulse-slow {
   0%, 100% { opacity: 0.3; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(1.05); }

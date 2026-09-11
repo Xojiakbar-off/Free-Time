@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext.jsx';
-import { Sun, Moon, Bookmark, ShieldCheck, Menu, X, BookOpen, Star } from 'lucide-react';
+import { Sun, Moon, Bookmark, ShieldCheck, Menu, X, BookOpen, UserCircle } from 'lucide-react';
 
 export default function Header({ currentSection, onNavigate }) {
   const { t, lang, setLang, theme, toggleTheme, bookmarks, user } = useApp();
@@ -17,7 +17,7 @@ export default function Header({ currentSection, onNavigate }) {
     { id: 'focus', label: t.focus },
     { id: 'podcasts', label: t.podcasts },
     { id: 'saved', label: t.saved },
-    { id: 'profile', label: t.profileStars, icon: Star },
+    { id: 'profile', label: t.profile, icon: UserCircle },
   ];
 
   if (user?.is_admin) {
