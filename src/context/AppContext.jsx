@@ -64,6 +64,14 @@ export function AppProvider({ children }) {
     return () => { cancelled = true; };
   }, []);
 
+  // Heartbeat — records real time spent on the site (updates admin "hours on site").
+  useEffect(() => {
+    if (!user?.id) return;
+    api('/auth/heartbeat', { method: 'POST' }).catch(() => {});
+    const iv = setInterval(() => api('/auth/heartbeat', { method: 'POST' }).catch(() => {}), 60000);
+    return () => clearInterval(iv);
+  }, [user?.id]);
+
   const toggleTheme = () => setTheme(p => p === 'dark' ? 'light' : 'dark');
   const toggleBookmark = (item) => {
     setBookmarks(prev => {

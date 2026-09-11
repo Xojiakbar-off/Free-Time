@@ -83,5 +83,8 @@ CREATE TABLE IF NOT EXISTS messages (
 const cols = db.prepare('PRAGMA table_info(users)').all().map(c => c.name);
 if (!cols.includes('password_hash')) db.exec('ALTER TABLE users ADD COLUMN password_hash TEXT');
 if (!cols.includes('is_admin')) db.exec('ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0');
+if (!cols.includes('last_login')) db.exec('ALTER TABLE users ADD COLUMN last_login TEXT');
+if (!cols.includes('online_seconds')) db.exec('ALTER TABLE users ADD COLUMN online_seconds INTEGER DEFAULT 0');
+if (!cols.includes('last_heartbeat')) db.exec('ALTER TABLE users ADD COLUMN last_heartbeat TEXT');
 
 export default db;

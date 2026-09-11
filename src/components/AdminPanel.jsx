@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { api, API_BASE, getToken, getAdminToken, setAdminToken, clearAdminToken } from '../services/api.js';
-import { ShieldCheck, Users, Eye, Download, LogOut, Lock, Ban, RefreshCw, Activity, MessageSquare, UserPlus, Clock, BarChart3, Mail, Unlock, BookOpen } from 'lucide-react';
+import { ShieldCheck, Users, Eye, Download, LogOut, Lock, Ban, RefreshCw, Activity, MessageSquare, UserPlus, Clock, BarChart3, Mail, Unlock, BookOpen, Star, Radio, Calendar, Timer, UserCircle } from 'lucide-react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -9,6 +9,32 @@ import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
+import Avatar from '@mui/material/Avatar';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import LinearProgress from '@mui/material/LinearProgress';
+
+const AVATAR_COLORS = ['#6366f1', '#a855f7', '#0ea5e9', '#22c55e', '#f59e0b', '#f43f5e', '#06b6d4', '#8b5cf6'];
+function avatarColor(str = '') {
+  let h = 0;
+  for (const c of String(str)) h = (h * 31 + c.charCodeAt(0)) % AVATAR_COLORS.length;
+  return AVATAR_COLORS[h];
+}
+function initial(name = '?') {
+  return (name || '?').trim().charAt(0).toUpperCase();
+}
+function formatHours(seconds = 0) {
+  const s = Number(seconds) || 0;
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  if (h >= 1) return `${h}s ${m}min`;
+  if (m >= 1) return `${m}min`;
+  return `${s}sek`;
+}
 
 export default function AdminPanel() {
   const { t, user, login } = useApp();
@@ -24,6 +50,7 @@ export default function AdminPanel() {
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   const [blocked, setBlocked] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const [tick, setTick] = useState(0);
   const [live, setLive] = useState({ liveCount: 0, visitsToday: 0, members: 0, booksCompleted: 0, totalVisits: 0 });
 
@@ -37,16 +64,17 @@ export default function AdminPanel() {
       const token = user?.is_admin ? getToken() : getAdminToken();
       if (!token) return;
       try {
-        const [st, an, vis, usr, msg, blk] = await Promise.all([
+        const [st, an, vis, usr, msg, blk, onl] = await Promise.all([
           api('/admin/stats', { token }),
           api('/admin/analytics', { token }),
           api('/admin/visitors', { token }),
           api('/admin/users', { token }),
           api('/admin/messages', { token }),
           api('/admin/blocked', { token }),
+          api('/admin/online', { token }),
         ]);
         if (cancelled) return;
-        setStats(st); setAnalytics(an); setVisitors(vis || []); setUsers(usr || []); setMessages(msg || []); setBlocked(blk || []);
+        setStats(st); setAnalytics(an); setVisitors(vis || []); setUsers(usr || []); setMessages(msg || []); setBlocked(blk || []); setOnlineUsers(onl || []);
       } catch (e) {
         if (!cancelled && e.message && (e.message.includes('403') || e.message.toLowerCase().includes('ruxsat'))) {
           clearAdminToken();
@@ -55,7 +83,7 @@ export default function AdminPanel() {
       }
     };
     load();
-    const iv = setInterval(load, 10000);
+    const iv = setInterval(load, 5000);
     return () => { cancelled = true; clearInterval(iv); };
   }, [effectiveAuthed, tick, user]);
 
@@ -69,7 +97,7 @@ export default function AdminPanel() {
         .catch(() => {});
     };
     loadLive();
-    const iv = setInterval(loadLive, 8000);
+    const iv = setInterval(loadLive, 5000);
     return () => { cancelled = true; clearInterval(iv); };
   }, [effectiveAuthed, tick]);
 
@@ -169,10 +197,33 @@ export default function AdminPanel() {
       </Box>
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: 'repeat(4, 1fr)' }, gap: 2, mb: 3 }}>
         <MuiStatCard icon={<UserPlus sx={{ color: '#f59e0b' }} />} label={t.newUsers7d} value={stats?.newUsers7d ?? '—'} />
-        <MuiStatCard icon={<Clock sx={{ color: '#06b6d4' }} />} label={t.avgSessionDuration} value={stats?.avgDuration != null ? `${stats.avgDuration}s` : '—'} />
+        <MuiStatCard icon={<Clock sx={{ color: '#06b6d4' }} />} label={t.avgSessionDuration} value={stats?.avgDuration != null ? `${stats.avgDuration}sek` : '—'} />
         <MuiStatCard icon={<MessageSquare sx={{ color: '#f43f5e' }} />} label={t.messagesCount} value={stats?.messages ?? '—'} />
         <MuiStatCard icon={<BarChart3 sx={{ color: '#ef4444' }} />} label={t.blockedCountLabel} value={stats?.blockedCount ?? '—'} />
       </Box>
+
+      <div className="glass-panel panel-hover rounded-2xl p-5 mb-6">
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <h3 className="font-bold text-slate-900 dark:text-white flex items-center gap-2"><Radio size={16} className="text-green-500 animate-pulse" />{t.onlineNow} <span className="px-2 py-0.5 rounded-full bg-green-500/15 text-green-600 dark:text-green-400 text-xs font-bold">{onlineUsers.length}</span></h3>
+          <span className="text-[10px] text-slate-400 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />{t.lastSeen} · 5 min</span>
+        </div>
+        {onlineUsers.length === 0 ? <p className="text-sm text-slate-500">{'—'}</p> : (
+          <div className="flex flex-wrap gap-2">
+            {onlineUsers.map(u => (
+              <div key={u.id} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-green-500/10 border border-green-500/30 hover:bg-green-500/20 transition-colors">
+                <div className="relative">
+                  <Avatar sx={{ width: 30, height: 30, fontSize: '0.8rem', bgcolor: avatarColor(u.email) }}>{initial(u.name)}</Avatar>
+                  <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-slate-900 dark:border-slate-800" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">{u.name}{u.is_admin === 1 && <span className="ml-1 px-1 py-0.5 rounded bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-[9px]">ADMIN</span>}</p>
+                  <p className="text-[10px] text-green-600 dark:text-green-400 flex items-center gap-1"><Timer size={9} />{formatHours(u.online_seconds)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: 2, mb: 3 }}>
         <Card className="glass-panel card-hover" elevation={0} sx={{ borderRadius: '1rem', p: 2 }}>
@@ -213,7 +264,10 @@ export default function AdminPanel() {
 
       <div className="grid lg:grid-cols-3 gap-6 mb-6">
         <div className="lg:col-span-2 glass-panel panel-hover rounded-2xl p-6">
-          <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><Users size={18} className="text-indigo-500 dark:text-indigo-400" />{t.visitorLogs}</h3>
+          <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+            <Radio size={16} className="text-green-500 animate-pulse" />{t.visitorLogs}
+            <span className="px-2 py-0.5 rounded-full bg-green-500/15 text-green-600 dark:text-green-400 text-xs font-bold">{live.liveCount ?? 0} LIVE</span>
+          </h3>
           <VisitorTable visitors={visitors} t={t} onBlock={blockSession} />
         </div>
         <div className="glass-panel panel-hover rounded-2xl p-6">
@@ -233,26 +287,7 @@ export default function AdminPanel() {
 
       <div className="glass-panel panel-hover rounded-2xl p-6 mb-6">
         <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><UserPlus size={18} className="text-sky-500 dark:text-sky-400" />{t.userListTitle}</h3>
-        <div className="overflow-x-auto max-h-80">
-          <table className="w-full text-xs">
-            <thead><tr className="text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-white/10 text-left">
-              <th className="py-2 pr-3">{t.visitorIP}</th><th className="py-2 pr-3">{t.nameLabel}</th><th className="py-2 pr-3">{t.emailLabel}</th><th className="py-2 pr-3">⭐</th><th className="py-2 pr-3">{t.visitorTime}</th><th className="py-2 pr-3">{t.lastSeen}</th>
-            </tr></thead>
-            <tbody>
-              {(users || []).map(u => (
-                <tr key={u.id} className="border-b border-slate-100 dark:border-white/5 hover:bg-slate-200/50 dark:hover:bg-white/5">
-                  <td className="py-2 pr-3 font-mono text-slate-700 dark:text-slate-300">#{u.id}</td>
-                  <td className="py-2 pr-3 text-slate-700 dark:text-slate-300">{u.name}{u.is_admin === 1 && <span className="ml-1 px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-[9px]">ADMIN</span>}</td>
-                  <td className="py-2 pr-3 text-slate-500 dark:text-slate-400">{u.email}</td>
-                  <td className="py-2 pr-3 text-slate-700 dark:text-slate-300">{u.stars}</td>
-                  <td className="py-2 pr-3 text-slate-500 dark:text-slate-400">{new Date(u.created_at).toLocaleString()}</td>
-                  <td className="py-2 pr-3 text-slate-500 dark:text-slate-400">{new Date(u.last_seen).toLocaleString()}</td>
-                </tr>
-              ))}
-              {(!users || users.length === 0) && <tr><td colSpan={6} className="py-8 text-center text-slate-500">{t.savedEmpty}</td></tr>}
-            </tbody>
-          </table>
-        </div>
+        <UsersTable users={users} t={t} />
       </div>
 
       <div className="glass-panel panel-hover rounded-2xl p-6">
@@ -388,11 +423,15 @@ function Breakdown({ title, data, color }) {
     <div className="glass-panel card-hover rounded-2xl p-5">
       <h3 className="font-bold text-slate-900 dark:text-white mb-4 text-sm">{title}</h3>
       {safeData.length === 0 ? <p className="text-xs text-slate-500">{'—'}</p> : (
-        <div className="space-y-2">
+        <div className="space-y-3">
           {safeData.map(d => (
             <div key={d.name}>
               <div className="flex justify-between text-xs mb-1"><span className="text-slate-600 dark:text-slate-300 truncate pr-2">{d.name}</span><span className="text-slate-500 dark:text-slate-400">{d.count}</span></div>
-              <div className="h-2 rounded bg-slate-200 dark:bg-white/10"><div className="h-2 rounded" style={{ width: `${((d.count || 0) / max) * 100}%`, background: color }} /></div>
+              <LinearProgress
+                variant="determinate"
+                value={Math.round(((d.count || 0) / max) * 100)}
+                sx={{ height: 6, borderRadius: 999, bgcolor: 'rgba(100,116,139,0.18)', '& .MuiLinearProgress-bar': { borderRadius: 999, backgroundColor: color } }}
+              />
             </div>
           ))}
         </div>
@@ -403,27 +442,79 @@ function Breakdown({ title, data, color }) {
 
 function VisitorTable({ visitors, t, onBlock }) {
   const safeVisitors = visitors || [];
+  const cell = (extra = '') => ({ borderColor: 'rgba(100,116,139,0.15)', paddingTop: '0.5rem', paddingBottom: '0.5rem', whiteSpace: 'nowrap', ...(extra || {}) });
   return (
-    <div className="overflow-x-auto max-h-80">
-      <table className="w-full text-xs">
-        <thead><tr className="text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-white/10 text-left">
-          {[t.visitorIP, t.visitorDevice, t.visitorLocation, t.visitorTime, t.visitorPage, t.visitorDuration, ''].map((h, i) => <th key={i} className="py-2 pr-3">{h}</th>)}
-        </tr></thead>
-        <tbody>
-          {safeVisitors.slice(0, 30).map(v => (
-            <tr key={v.id} className="border-b border-slate-100 dark:border-white/5 hover:bg-slate-200/50 dark:hover:bg-white/5">
-              <td className="py-2 pr-3 font-mono text-slate-700 dark:text-slate-300">{v.ip}</td>
-              <td className="py-2 pr-3 text-slate-700 dark:text-slate-300">{v.device} · {v.browser}</td>
-              <td className="py-2 pr-3 text-slate-500 dark:text-slate-400">{v.location}</td>
-              <td className="py-2 pr-3 text-slate-500 dark:text-slate-400">{v.timestamp ? new Date(v.timestamp).toLocaleString() : '—'}</td>
-              <td className="py-2 pr-3"><span className="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-700 dark:text-purple-300">{v.page}</span></td>
-              <td className="py-2 pr-3 text-slate-500 dark:text-slate-400">{v.duration}s</td>
-              <td className="py-2"><button onClick={() => onBlock(v.sessionId)} className="px-2 py-1 rounded bg-red-500/15 hover:bg-red-500 text-red-600 dark:text-red-400 hover:text-white text-[10px] transition-all active:scale-95"><Ban size={10} className="inline mr-1" />{t.blockVisitor}</button></td>
-            </tr>
+    <TableContainer sx={{ maxHeight: 320 }}>
+      <Table size="small" stickyHeader sx={{ minWidth: 720 }}>
+        <TableHead>
+          <TableRow>
+            {[t.visitorIP, t.visitorDevice, t.visitorLocation, t.visitorTime, t.visitorPage, t.visitorDuration, t.blockVisitor].map((h, i) => (
+              <TableCell key={i} className="text-slate-500 dark:text-slate-400 font-bold" sx={cell()}>{h}</TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {safeVisitors.slice(0, 50).map(v => (
+            <TableRow key={v.id} hover>
+              <TableCell className="font-mono text-slate-700 dark:text-slate-300" sx={cell()}>{v.ip}</TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300" sx={cell()}>{v.device} · {v.browser}</TableCell>
+              <TableCell className="text-slate-500 dark:text-slate-400" sx={cell()}>{v.location}</TableCell>
+              <TableCell className="text-slate-500 dark:text-slate-400" sx={cell()}>{v.timestamp ? new Date(v.timestamp).toLocaleString() : '—'}</TableCell>
+              <TableCell sx={cell()}><span className="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-700 dark:text-purple-300 text-[10px]">{v.page}</span></TableCell>
+              <TableCell className="text-slate-500 dark:text-slate-400" sx={cell()}>{v.duration}s</TableCell>
+              <TableCell sx={cell()}>
+                <button onClick={() => onBlock(v.sessionId)} className="px-2 py-1 rounded bg-red-500/15 hover:bg-red-500 text-red-600 dark:text-red-400 hover:text-white text-[10px] transition-all active:scale-95"><Ban size={10} className="inline mr-1" />{t.blockVisitor}</button>
+              </TableCell>
+            </TableRow>
           ))}
-          {safeVisitors.length === 0 && <tr><td colSpan={7} className="py-8 text-center text-slate-500">{t.savedEmpty}</td></tr>}
-        </tbody>
-      </table>
-    </div>
+          {safeVisitors.length === 0 && <TableRow><TableCell colSpan={7} className="py-8 text-center text-slate-500">{t.savedEmpty}</TableCell></TableRow>}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
+function UsersTable({ users, t }) {
+  const safeUsers = users || [];
+  const cell = (extra = '') => ({ borderColor: 'rgba(100,116,139,0.15)', paddingTop: '0.55rem', paddingBottom: '0.55rem', whiteSpace: 'nowrap', ...(extra || {}) });
+  return (
+    <TableContainer sx={{ maxHeight: 320 }}>
+      <Table size="small" stickyHeader sx={{ minWidth: 760 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell className="text-slate-500 dark:text-slate-400 font-bold" sx={cell()}>
+              <span className="inline-flex items-center gap-1"><UserCircle size={14} />{t.nameLabel}</span>
+            </TableCell>
+            <TableCell className="text-slate-500 dark:text-slate-400 font-bold" sx={cell()}>{t.emailLabel}</TableCell>
+            <TableCell className="text-slate-500 dark:text-slate-400 font-bold" sx={cell()}>
+              <span className="inline-flex items-center gap-1"><Calendar size={14} />{t.lastLogin}</span>
+            </TableCell>
+            <TableCell className="text-slate-500 dark:text-slate-400 font-bold" sx={cell()}>
+              <span className="inline-flex items-center gap-1"><Timer size={14} />{t.hoursOnSite}</span>
+            </TableCell>
+            <TableCell className="text-slate-500 dark:text-slate-400 font-bold" sx={cell()}>{t.lastSeen}</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {safeUsers.filter(u => u.is_admin !== 1).map(u => (
+            <TableRow key={u.id} hover>
+              <TableCell sx={cell()}>
+                <div className="flex items-center gap-2">
+                  <Avatar sx={{ width: 30, height: 30, fontSize: '0.75rem', bgcolor: avatarColor(u.email) }}>{initial(u.name)}</Avatar>
+                  <span className="font-semibold text-slate-800 dark:text-slate-200">{u.name}</span>
+                </div>
+              </TableCell>
+              <TableCell className="text-slate-500 dark:text-slate-400" sx={cell()}>{u.email}</TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300" sx={cell()}>{u.last_login ? new Date(u.last_login).toLocaleString() : '—'}</TableCell>
+              <TableCell sx={cell()}>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold"><Star size={10} className="text-amber-500" />{formatHours(u.online_seconds)}</span>
+              </TableCell>
+              <TableCell className="text-slate-500 dark:text-slate-400" sx={cell()}>{u.last_seen ? new Date(u.last_seen).toLocaleString() : '—'}</TableCell>
+            </TableRow>
+          ))}
+          {safeUsers.filter(u => u.is_admin !== 1).length === 0 && <TableRow><TableCell colSpan={5} className="py-8 text-center text-slate-500">{t.savedEmpty}</TableCell></TableRow>}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

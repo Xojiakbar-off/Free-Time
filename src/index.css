@@ -61,6 +61,27 @@ html:not(.dark) .glass-panel {
   background-color: transparent !important;
 }
 
+/* MUI tables — glass theme friendly */
+.MuiPaper-root {
+  background: transparent;
+}
+.MuiTableCell-root {
+  background: transparent !important;
+  color: inherit;
+}
+.MuiTableHead-root .MuiTableCell-root {
+  background-color: rgba(30, 41, 59, 0.92) !important;
+}
+html:not(.dark) .MuiTableHead-root .MuiTableCell-root {
+  background-color: rgba(255, 255, 255, 0.94) !important;
+}
+.MuiTableRow-root:hover .MuiTableCell-root {
+  background-color: rgba(99, 102, 241, 0.08) !important;
+}
+html:not(.dark) .MuiTableRow-root:hover .MuiTableCell-root {
+  background-color: rgba(99, 102, 241, 0.05) !important;
+}
+
 /* Card hover lift & glow */
 .card-hover {
   cursor: pointer;

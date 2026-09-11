@@ -527,6 +527,7 @@ app.post('/api/auth/register', async (req, res) => {
   if (existing) return res.status(409).json({ error: 'Bu email allaqachon ro\'yxatdan o\'tgan' });
   const info = db.prepare('INSERT INTO users (name, email, password_hash, created_at, last_seen, stars) VALUES (?,?,?,?,?,5)')
     .run(cleanName, cleanEmail, hashPassword(password), now(), now());
+  db.prepare('UPDATE users SET last_login = ? WHERE id = ?').run(now(), info.lastInsertRowid);
   db.prepare('INSERT INTO stars_log (user_id, amount, reason, timestamp) VALUES (?,?,?,?)')
     .run(info.lastInsertRowid, 5, 'Ro\'yxatdan o\'tish', now());
   const token = createSession(info.lastInsertRowid);
@@ -543,7 +544,7 @@ app.post('/api/auth/login', (req, res) => {
     return res.status(401).json({ error: 'Email yoki parol noto\'g\'ri' });
   }
   const token = createSession(u.id);
-  db.prepare('UPDATE users SET last_seen = ? WHERE id = ?').run(now(), u.id);
+  db.prepare('UPDATE users SET last_seen = ?, last_login = ?, last_heartbeat = ? WHERE id = ?').run(now(), now(), now(), u.id);
   res.json({ token, user: publicUser(u) });
 });
 
@@ -559,13 +560,14 @@ app.post('/api/auth/google', async (req, res) => {
     const googlePassword = `google_${sub || crypto.randomBytes(16).toString('hex')}`;
     const info = db.prepare('INSERT INTO users (name, email, password_hash, created_at, last_seen, stars) VALUES (?,?,?,?,?,5)')
       .run(cleanName, cleanEmail, hashPassword(googlePassword), now(), now());
+    db.prepare('UPDATE users SET last_login = ? WHERE id = ?').run(now(), info.lastInsertRowid);
     db.prepare('INSERT INTO stars_log (user_id, amount, reason, timestamp) VALUES (?,?,?,?)')
       .run(info.lastInsertRowid, 5, 'Google orqali ro\'yxatdan o\'tish', now());
     u = db.prepare('SELECT * FROM users WHERE id = ?').get(info.lastInsertRowid);
     await notifyAdmin(`🆕 Yangi foydalanuvchi Google orqali ro'yxatdan o'tdi:\n👤 ${cleanName}\n📧 ${cleanEmail}`);
   }
   const token = createSession(u.id);
-  db.prepare('UPDATE users SET last_seen = ? WHERE id = ?').run(now(), u.id);
+  db.prepare('UPDATE users SET last_seen = ?, last_login = ?, last_heartbeat = ? WHERE id = ?').run(now(), now(), now(), u.id);
   res.json({ token, user: publicUser(u) });
 });
 
@@ -579,6 +581,22 @@ app.get('/api/auth/me', (req, res) => {
   const u = sessionUser(bearer(req));
   if (u) db.prepare('UPDATE users SET last_seen = ? WHERE id = ?').run(now(), u.id);
   res.json({ user: u ? publicUser(u) : null });
+});
+
+// Heartbeat — accumulate real time spent on the site for each user.
+app.post('/api/auth/heartbeat', (req, res) => {
+  const u = sessionUser(bearer(req));
+  if (!u) return res.status(401).json({ error: 'Avval kirish kerak' });
+  const fresh = now();
+  const row = db.prepare('SELECT last_heartbeat FROM users WHERE id = ?').get(u.id);
+  if (row && row.last_heartbeat) {
+    const delta = Math.max(0, Math.min((Date.now() - new Date(row.last_heartbeat).getTime()) / 1000, 300));
+    db.prepare('UPDATE users SET online_seconds = online_seconds + ?, last_heartbeat = ?, last_seen = ? WHERE id = ?')
+      .run(Math.round(delta), fresh, fresh, u.id);
+  } else {
+    db.prepare('UPDATE users SET last_heartbeat = ?, last_seen = ? WHERE id = ?').run(fresh, fresh, u.id);
+  }
+  res.json({ ok: true });
 });
 
 // ---------- Stars ----------
@@ -732,6 +750,14 @@ app.get('/api/admin/visitors', (req, res) => {
 app.get('/api/admin/users', (req, res) => {
   if (!adminAuthed(req)) return res.status(403).json({ error: 'Ruxsat yo\'q' });
   res.json(db.prepare('SELECT * FROM users ORDER BY id DESC').all());
+});
+
+app.get('/api/admin/online', (req, res) => {
+  if (!adminAuthed(req)) return res.status(403).json({ error: 'Ruxsat yo\'q' });
+  const since = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+  res.json(db.prepare(
+    'SELECT id, name, email, last_seen, last_login, last_heartbeat, online_seconds, is_admin FROM users WHERE last_seen > ? OR last_heartbeat > ? ORDER BY last_seen DESC LIMIT 30'
+  ).all(since, since));
 });
 
 app.get('/api/admin/messages', (req, res) => {
