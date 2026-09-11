@@ -56,6 +56,60 @@ html:not(.dark) .glass-panel {
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
+/* MUI overrides — admin cards follow the glass theme (no default white bg) */
+.MuiCard-root {
+  background-color: transparent !important;
+}
+
+/* Card hover lift & glow */
+.card-hover {
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-5px);
+  border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
+}
+html:not(.dark) .card-hover:hover {
+  box-shadow: 0 20px 44px rgba(99, 102, 241, 0.25);
+}
+
+/* Large admin panels — subtle glow on hover only */
+.panel-hover {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.panel-hover:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+html:not(.dark) .panel-hover:hover {
+  box-shadow: 0 16px 38px rgba(99, 102, 241, 0.16);
+}
+
+/* Stat card accent bar */
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 18px 18px 0 0;
+  background: var(--accent, #6366f1);
+  opacity: 0.85;
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+.card-hover:hover::before {
+  opacity: 1;
+  height: 6px;
+}
+
 @keyframes pulse-slow {
   0%, 100% { opacity: 0.3; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(1.05); }

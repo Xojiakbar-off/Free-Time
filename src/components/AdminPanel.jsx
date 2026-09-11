@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
@@ -123,7 +122,7 @@ export default function AdminPanel() {
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={t.passwordLabel} required
               className="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white mb-3 outline-none focus:border-indigo-400" />
             {error && <p className="text-sm text-red-600 dark:text-red-400 mb-3">{error}</p>}
-            <button type="submit" disabled={loading} className="w-full py-3 rounded-xl bg-indigo-500 text-white font-semibold disabled:opacity-60">{loading ? '...' : t.adminLoginBtn}</button>
+            <button type="submit" disabled={loading} className="w-full py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-white font-semibold disabled:opacity-60 transition-all active:scale-[0.98] shadow-md shadow-indigo-500/30">{loading ? '...' : t.adminLoginBtn}</button>
           </form>
         </div>
       </section>
@@ -135,14 +134,14 @@ export default function AdminPanel() {
       <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
         <div><h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2"><ShieldCheck className="text-indigo-500 dark:text-indigo-400" />{t.adminTitle}</h2><p className="text-slate-500 dark:text-slate-400">{t.adminSub}</p></div>
         <div className="flex gap-2 flex-wrap">
-          <button onClick={simulate} className="px-3 py-2 rounded-lg bg-indigo-500 text-white text-xs flex items-center gap-1"><RefreshCw size={12} />{t.simulateVisitor}</button>
-          <button onClick={exportJSON} className="px-3 py-2 rounded-lg bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-slate-300 text-xs flex items-center gap-1"><Download size={12} />{t.exportData}</button>
-          <button onClick={() => setTick(t => t + 1)} className="px-3 py-2 rounded-lg bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-slate-300 text-xs flex items-center gap-1"><RefreshCw size={12} />{t.refreshBtn}</button>
-          <button onClick={doLogout} className="px-3 py-2 rounded-lg bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-slate-300 text-xs flex items-center gap-1"><LogOut size={12} />{t.adminLogout}</button>
+          <button onClick={simulate} className="px-3 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white text-xs flex items-center gap-1 transition-all active:scale-95 shadow-sm shadow-indigo-500/30"><RefreshCw size={12} />{t.simulateVisitor}</button>
+          <button onClick={exportJSON} className="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-300 text-xs flex items-center gap-1 transition-all active:scale-95"><Download size={12} />{t.exportData}</button>
+          <button onClick={() => setTick(t => t + 1)} className="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-300 text-xs flex items-center gap-1 transition-all active:scale-95"><RefreshCw size={12} />{t.refreshBtn}</button>
+          <button onClick={doLogout} className="px-3 py-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 text-xs flex items-center gap-1 transition-all active:scale-95"><LogOut size={12} />{t.adminLogout}</button>
         </div>
       </div>
 
-      <Card className="glass-panel" elevation={0} sx={{ borderRadius: '1rem', p: 2, mb: 3 }}>
+      <Card className="glass-panel card-hover" elevation={0} sx={{ borderRadius: '1rem', p: 2, mb: 3 }}>
         <CardContent sx={{ p: '20px !important', '&:last-child': { pb: '20px !important' } }}>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
             <Stack direction="row" alignItems="center" spacing={1}>
@@ -154,29 +153,29 @@ export default function AdminPanel() {
           <Typography className="text-slate-500 dark:text-slate-400" variant="body2" sx={{ mb: 2 }}>{t.adminSub}</Typography>
           <Divider sx={{ mb: 2, borderColor: 'divider' }} />
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', lg: 'repeat(4, 1fr)' }, gap: 2 }}>
-            <MuiStatCard icon={<Activity sx={{ color: '#22c55e' }} />} label={t.liveOnline} value={live.liveCount ?? 0} />
-            <MuiStatCard icon={<Eye sx={{ color: '#6366f1' }} />} label={t.visitsToday} value={live.visitsToday ?? 0} />
-            <MuiStatCard icon={<Users sx={{ color: '#a855f7' }} />} label={t.members} value={live.members ?? 0} />
-            <MuiStatCard icon={<BookOpen sx={{ color: '#f59e0b' }} />} label={t.readBooks} value={live.booksCompleted ?? 0} />
+            <MuiStatCard accent="#22c55e" icon={<Activity sx={{ color: '#22c55e' }} />} label={t.liveOnline} value={live.liveCount ?? 0} />
+            <MuiStatCard accent="#6366f1" icon={<Eye sx={{ color: '#6366f1' }} />} label={t.visitsToday} value={live.visitsToday ?? 0} />
+            <MuiStatCard accent="#a855f7" icon={<Users sx={{ color: '#a855f7' }} />} label={t.members} value={live.members ?? 0} />
+            <MuiStatCard accent="#f59e0b" icon={<BookOpen sx={{ color: '#f59e0b' }} />} label={t.readBooks} value={live.booksCompleted ?? 0} />
           </Box>
         </CardContent>
       </Card>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: 'repeat(4, 1fr)' }, gap: 2, mb: 3 }}>
-        <MuiStatCard icon={<Activity sx={{ color: '#22c55e' }} />} label={t.liveVisitors} value={stats?.liveCount ?? '—'} />
-        <MuiStatCard icon={<Eye sx={{ color: '#6366f1' }} />} label={t.totalVisits} value={stats?.totalVisits ?? '—'} />
-        <MuiStatCard icon={<Users sx={{ color: '#a855f7' }} />} label={t.uniqueVisitors} value={stats?.uniqueVisitors ?? '—'} />
-        <MuiStatCard icon={<UserPlus sx={{ color: '#0ea5e9' }} />} label={t.registeredUsers} value={stats?.users ?? '—'} />
+        <MuiStatCard accent="#22c55e" icon={<Activity sx={{ color: '#22c55e' }} />} label={t.liveVisitors} value={stats?.liveCount ?? '—'} />
+        <MuiStatCard accent="#6366f1" icon={<Eye sx={{ color: '#6366f1' }} />} label={t.totalVisits} value={stats?.totalVisits ?? '—'} />
+        <MuiStatCard accent="#a855f7" icon={<Users sx={{ color: '#a855f7' }} />} label={t.uniqueVisitors} value={stats?.uniqueVisitors ?? '—'} />
+        <MuiStatCard accent="#0ea5e9" icon={<UserPlus sx={{ color: '#0ea5e9' }} />} label={t.registeredUsers} value={stats?.users ?? '—'} />
       </Box>
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: 'repeat(4, 1fr)' }, gap: 2, mb: 3 }}>
-        <MuiStatCard icon={<UserPlus sx={{ color: '#f59e0b' }} />} label={t.newUsers7d} value={stats?.newUsers7d ?? '—'} />
-        <MuiStatCard icon={<Clock sx={{ color: '#06b6d4' }} />} label={t.avgSessionDuration} value={stats?.avgDuration != null ? `${stats.avgDuration}s` : '—'} />
-        <MuiStatCard icon={<MessageSquare sx={{ color: '#f43f5e' }} />} label={t.messagesCount} value={stats?.messages ?? '—'} />
-        <MuiStatCard icon={<BarChart3 sx={{ color: '#ef4444' }} />} label={t.blockedCountLabel} value={stats?.blockedCount ?? '—'} />
+        <MuiStatCard accent="#f59e0b" icon={<UserPlus sx={{ color: '#f59e0b' }} />} label={t.newUsers7d} value={stats?.newUsers7d ?? '—'} />
+        <MuiStatCard accent="#06b6d4" icon={<Clock sx={{ color: '#06b6d4' }} />} label={t.avgSessionDuration} value={stats?.avgDuration != null ? `${stats.avgDuration}s` : '—'} />
+        <MuiStatCard accent="#f43f5e" icon={<MessageSquare sx={{ color: '#f43f5e' }} />} label={t.messagesCount} value={stats?.messages ?? '—'} />
+        <MuiStatCard accent="#ef4444" icon={<BarChart3 sx={{ color: '#ef4444' }} />} label={t.blockedCountLabel} value={stats?.blockedCount ?? '—'} />
       </Box>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: 2, mb: 3 }}>
-        <Card className="glass-panel" elevation={0} sx={{ borderRadius: '1rem', p: 2 }}>
+        <Card className="glass-panel card-hover" elevation={0} sx={{ borderRadius: '1rem', p: 2 }}>
           <CardContent>
             <Typography variant="subtitle1" fontWeight={700} mb={2} sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 1 }}>
               <BarChart3 size={18} className="text-indigo-500 dark:text-indigo-400" />{t.visitorStats}
@@ -184,7 +183,7 @@ export default function AdminPanel() {
             <MuiVisitorChart analytics={analytics} />
           </CardContent>
         </Card>
-        <Card className="glass-panel" elevation={0} sx={{ borderRadius: '1rem', p: 2 }}>
+        <Card className="glass-panel card-hover" elevation={0} sx={{ borderRadius: '1rem', p: 2 }}>
           <CardContent>
             <Typography variant="subtitle1" fontWeight={700} mb={2} sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 1 }}>
               <UserPlus size={18} className="text-amber-500 dark:text-amber-400" />{t.visitorsTrend}
@@ -195,11 +194,11 @@ export default function AdminPanel() {
       </Box>
 
       <div className="grid lg:grid-cols-3 gap-6 mb-6">
-        <div className="lg:col-span-2 glass-panel rounded-2xl p-6">
+        <div className="lg:col-span-2 glass-panel panel-hover rounded-2xl p-6">
           <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><BarChart3 size={18} className="text-indigo-500 dark:text-indigo-400" />{t.dailyVisits}</h3>
           <DailyChart days={analytics?.visitsByDay || []} />
         </div>
-        <div className="glass-panel rounded-2xl p-6">
+        <div className="glass-panel panel-hover rounded-2xl p-6">
           <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><UserPlus size={18} className="text-amber-500 dark:text-amber-400" />{t.newRegistrations}</h3>
           <DailyChart days={(analytics?.newUsersByDay || []).map(d => ({ ...d, uniqueVisitors: d.count }))} accent="bg-amber-500 dark:bg-amber-400" />
         </div>
@@ -213,18 +212,18 @@ export default function AdminPanel() {
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6 mb-6">
-        <div className="lg:col-span-2 glass-panel rounded-2xl p-6">
+        <div className="lg:col-span-2 glass-panel panel-hover rounded-2xl p-6">
           <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><Users size={18} className="text-indigo-500 dark:text-indigo-400" />{t.visitorLogs}</h3>
           <VisitorTable visitors={visitors} t={t} onBlock={blockSession} />
         </div>
-        <div className="glass-panel rounded-2xl p-6">
+        <div className="glass-panel panel-hover rounded-2xl p-6">
           <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><Ban size={18} className="text-red-500 dark:text-red-400" />{t.blockedVisitors}</h3>
           {blocked.length === 0 ? <p className="text-sm text-slate-500">{t.noBlocked}</p> : (
             <div className="flex flex-wrap gap-2">
               {blocked.map(b => (
-                <div key={b.id} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500/15 border border-red-500/30 text-xs text-red-600 dark:text-red-300 font-mono">
+                <div key={b.id} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-xs text-red-600 dark:text-red-300 font-mono transition-colors">
                   {b.sessionId}
-                  <button onClick={() => unblockSession(b.sessionId)} className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"><Unlock size={12} /></button>
+                  <button onClick={() => unblockSession(b.sessionId)} className="p-1 rounded-md text-slate-500 hover:text-white hover:bg-indigo-500 dark:text-slate-400 transition-all"><Unlock size={12} /></button>
                 </div>
               ))}
             </div>
@@ -232,7 +231,7 @@ export default function AdminPanel() {
         </div>
       </div>
 
-      <div className="glass-panel rounded-2xl p-6 mb-6">
+      <div className="glass-panel panel-hover rounded-2xl p-6 mb-6">
         <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><UserPlus size={18} className="text-sky-500 dark:text-sky-400" />{t.userListTitle}</h3>
         <div className="overflow-x-auto max-h-80">
           <table className="w-full text-xs">
@@ -256,12 +255,12 @@ export default function AdminPanel() {
         </div>
       </div>
 
-      <div className="glass-panel rounded-2xl p-6">
+      <div className="glass-panel panel-hover rounded-2xl p-6">
         <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><MessageSquare size={18} className="text-rose-500 dark:text-rose-400" />{t.msgListTitle}</h3>
         {(!messages || messages.length === 0) ? <p className="text-sm text-slate-500">{t.noMessages}</p> : (
           <div className="space-y-3 max-h-80 overflow-y-auto">
             {messages.map(m => (
-              <div key={m.id} className="p-3 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5">
+              <div key={m.id} className="p-3 rounded-lg bg-slate-100 hover:bg-slate-200/70 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-200 dark:border-white/5 transition-colors">
                 <div className="flex items-center justify-between mb-1 flex-wrap gap-1">
                   <span className="font-semibold text-slate-800 dark:text-slate-200 text-sm flex items-center gap-1"><Mail size={12} className="text-slate-400" />{m.name} · {m.contact}</span>
                   <span className="text-[10px] text-slate-500">{new Date(m.created_at).toLocaleString()}</span>
@@ -276,12 +275,12 @@ export default function AdminPanel() {
   );
 }
 
-function MuiStatCard({ icon, label, value }) {
+function MuiStatCard({ icon, label, value, accent = '#6366f1' }) {
   return (
-    <Card className="glass-panel" sx={{ borderRadius: '16px' }}>
-      <CardContent sx={{ p: '20px !important', '&:last-child': { pb: '20px !important' } }}>
+    <Card className="glass-panel card-hover stat-card" elevation={0} sx={{ borderRadius: '18px' }} style={{ ['--accent']: accent }}>
+      <CardContent sx={{ p: '18px 20px !important', '&:last-child': { pb: '18px !important' } }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-          <Avatar sx={{ width: 36, height: 36, bgcolor: 'transparent' }}>{icon}</Avatar>
+          <Box sx={{ width: 40, height: 40, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: `${accent}22` }}>{icon}</Box>
           <Typography className="text-slate-500 dark:text-slate-400" variant="caption" sx={{ textAlign: 'right', fontSize: '0.7rem' }}>{label}</Typography>
         </Box>
         <Typography className="text-slate-900 dark:text-white" variant="h4" sx={{ fontWeight: 800 }}>{value}</Typography>
@@ -304,8 +303,10 @@ function MuiVisitorChart({ analytics }) {
               width: '100%',
               borderRadius: '6px 6px 0 0',
               background: 'linear-gradient(180deg, #6366f1, #4f46e5)',
-              transition: 'height 400ms ease',
+              transition: 'height 400ms ease, filter 200ms ease',
               minHeight: 4,
+              cursor: 'pointer',
+              '&:hover': { filter: 'brightness(1.25)' },
             }} style={{ height: `${h}%` }} />
             <Typography className="text-slate-500 dark:text-slate-400" sx={{ fontSize: '9px', lineHeight: 1 }}>
               {(d.date || '').slice(8)}
@@ -370,8 +371,8 @@ function DailyChart({ days, accent = 'bg-indigo-500 dark:bg-indigo-400' }) {
       {days.map(d => {
         const h = d.visits ? Math.max((d.visits / max) * 100, 4) : 0;
         return (
-          <div key={d.date} className="flex-1 flex flex-col items-center justify-end gap-1 h-full" title={`${d.date}: ${d.visits}`}>
-            <div className={`w-full rounded-t ${accent}`} style={{ height: `${h}%` }} />
+          <div key={d.date} className="flex-1 flex flex-col items-center justify-end gap-1 h-full group" title={`${d.date}: ${d.visits}`}>
+            <div className={`w-full rounded-t ${accent} transition-all duration-300 cursor-pointer group-hover:brightness-125 group-hover:scale-x-105`} style={{ height: `${h}%` }} />
             <span className="text-[8px] text-slate-500">{(d.date || '').slice(8)}</span>
           </div>
         );
@@ -384,7 +385,7 @@ function Breakdown({ title, data, color }) {
   const safeData = data || [];
   const max = Math.max(...safeData.map(d => d.count || 0), 1);
   return (
-    <div className="glass-panel rounded-2xl p-5">
+    <div className="glass-panel card-hover rounded-2xl p-5">
       <h3 className="font-bold text-slate-900 dark:text-white mb-4 text-sm">{title}</h3>
       {safeData.length === 0 ? <p className="text-xs text-slate-500">{'—'}</p> : (
         <div className="space-y-2">
@@ -417,7 +418,7 @@ function VisitorTable({ visitors, t, onBlock }) {
               <td className="py-2 pr-3 text-slate-500 dark:text-slate-400">{v.timestamp ? new Date(v.timestamp).toLocaleString() : '—'}</td>
               <td className="py-2 pr-3"><span className="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-700 dark:text-purple-300">{v.page}</span></td>
               <td className="py-2 pr-3 text-slate-500 dark:text-slate-400">{v.duration}s</td>
-              <td className="py-2"><button onClick={() => onBlock(v.sessionId)} className="px-2 py-1 rounded bg-red-500/20 text-red-600 dark:text-red-400 text-[10px]"><Ban size={10} className="inline mr-1" />{t.blockVisitor}</button></td>
+              <td className="py-2"><button onClick={() => onBlock(v.sessionId)} className="px-2 py-1 rounded bg-red-500/15 hover:bg-red-500 text-red-600 dark:text-red-400 hover:text-white text-[10px] transition-all active:scale-95"><Ban size={10} className="inline mr-1" />{t.blockVisitor}</button></td>
             </tr>
           ))}
           {safeVisitors.length === 0 && <tr><td colSpan={7} className="py-8 text-center text-slate-500">{t.savedEmpty}</td></tr>}
