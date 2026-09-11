@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://freetime-server.up.railway.app/api/:path*"
+      "destination": "https://free-time-ne42.onrender.com/api/:path*"
     }
   ]
 }

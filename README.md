@@ -51,6 +51,19 @@ cd server && npm start
 - `vercel.json` builds the frontend (`vite build` → `dist`) as a static site. Import the repo or run `vercel --prod`.
 - Configure the secrets via Vercel's environment variables if you mirror `.env.example`.
 - Note: on Vercel only the static frontend is served. The Express API (SQLite file storage + Telegram polling) cannot run in a serverless function, so `/api/*` endpoints need the Node server on a persistent host (e.g. Render, Railway, Fly.io, or a VPS) with the `VITE_API_URL`/proxy pointed at it.
+- `vercel.json` rewrites `/api/*` to the backend host. After deploying the backend, update the `destination` URL if your service name/domain differs.
+
+### Render (free Node host for the backend)
+1. Push this repo to GitHub (or use `vercel` for the frontend, Render for the API).
+2. In the Render dashboard click **New → Blueprint** and select the repo, or create a **Web Service** pointing at it with:
+   - **Root Directory:** `server`
+   - **Build Command:** `npm install`
+   - **Start Command:** `npm start`
+   - **Instance Type:** Free
+3. Add the env vars (same keys as `server/../.env`): `BOT_TOKEN`, `BOT_USERNAME`, `ADMIN_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `FRONTEND_URL` (your Vercel URL).
+4. The service gets a URL like `https://freetime-server.onrender.com`. Make sure `vercel.json` rewrites `/api/*` to that host.
+5. Health check: `GET /api/public/stats` should return JSON.
+   - Note: the free plan uses an ephemeral filesystem — the SQLite DB resets on every deploy. Add a **Persistent Disk** (paid) mounted at the `server/` directory for permanent storage.
 
 ### Full stack on one host (recommended)
 ```bash
