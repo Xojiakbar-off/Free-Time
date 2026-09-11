@@ -12,7 +12,11 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
-app.use(cors());
+const FRONTEND_URL = (process.env.FRONTEND_URL || '').trim();
+app.use(cors({
+  origin: FRONTEND_URL ? [FRONTEND_URL, 'http://localhost:5173'] : true,
+  credentials: true,
+}));
 app.use(express.json());
 
 const BOT_TOKEN = (process.env.BOT_TOKEN || '').trim();
