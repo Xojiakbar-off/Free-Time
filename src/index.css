@@ -88,28 +88,6 @@ html:not(.dark) .panel-hover:hover {
   box-shadow: 0 16px 38px rgba(99, 102, 241, 0.16);
 }
 
-/* Stat card accent bar */
-.stat-card {
-  position: relative;
-  overflow: hidden;
-}
-.stat-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  border-radius: 18px 18px 0 0;
-  background: var(--accent, #6366f1);
-  opacity: 0.85;
-  transition: opacity 0.3s ease, height 0.3s ease;
-}
-.card-hover:hover::before {
-  opacity: 1;
-  height: 6px;
-}
-
 @keyframes pulse-slow {
   0%, 100% { opacity: 0.3; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(1.05); }

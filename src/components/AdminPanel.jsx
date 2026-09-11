@@ -153,25 +153,25 @@ export default function AdminPanel() {
           <Typography className="text-slate-500 dark:text-slate-400" variant="body2" sx={{ mb: 2 }}>{t.adminSub}</Typography>
           <Divider sx={{ mb: 2, borderColor: 'divider' }} />
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', lg: 'repeat(4, 1fr)' }, gap: 2 }}>
-            <MuiStatCard accent="#22c55e" icon={<Activity sx={{ color: '#22c55e' }} />} label={t.liveOnline} value={live.liveCount ?? 0} />
-            <MuiStatCard accent="#6366f1" icon={<Eye sx={{ color: '#6366f1' }} />} label={t.visitsToday} value={live.visitsToday ?? 0} />
-            <MuiStatCard accent="#a855f7" icon={<Users sx={{ color: '#a855f7' }} />} label={t.members} value={live.members ?? 0} />
-            <MuiStatCard accent="#f59e0b" icon={<BookOpen sx={{ color: '#f59e0b' }} />} label={t.readBooks} value={live.booksCompleted ?? 0} />
+            <MuiStatCard icon={<Activity sx={{ color: '#22c55e' }} />} label={t.liveOnline} value={live.liveCount ?? 0} />
+            <MuiStatCard icon={<Eye sx={{ color: '#6366f1' }} />} label={t.visitsToday} value={live.visitsToday ?? 0} />
+            <MuiStatCard icon={<Users sx={{ color: '#a855f7' }} />} label={t.members} value={live.members ?? 0} />
+            <MuiStatCard icon={<BookOpen sx={{ color: '#f59e0b' }} />} label={t.readBooks} value={live.booksCompleted ?? 0} />
           </Box>
         </CardContent>
       </Card>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: 'repeat(4, 1fr)' }, gap: 2, mb: 3 }}>
-        <MuiStatCard accent="#22c55e" icon={<Activity sx={{ color: '#22c55e' }} />} label={t.liveVisitors} value={stats?.liveCount ?? '—'} />
-        <MuiStatCard accent="#6366f1" icon={<Eye sx={{ color: '#6366f1' }} />} label={t.totalVisits} value={stats?.totalVisits ?? '—'} />
-        <MuiStatCard accent="#a855f7" icon={<Users sx={{ color: '#a855f7' }} />} label={t.uniqueVisitors} value={stats?.uniqueVisitors ?? '—'} />
-        <MuiStatCard accent="#0ea5e9" icon={<UserPlus sx={{ color: '#0ea5e9' }} />} label={t.registeredUsers} value={stats?.users ?? '—'} />
+        <MuiStatCard icon={<Activity sx={{ color: '#22c55e' }} />} label={t.liveVisitors} value={stats?.liveCount ?? '—'} />
+        <MuiStatCard icon={<Eye sx={{ color: '#6366f1' }} />} label={t.totalVisits} value={stats?.totalVisits ?? '—'} />
+        <MuiStatCard icon={<Users sx={{ color: '#a855f7' }} />} label={t.uniqueVisitors} value={stats?.uniqueVisitors ?? '—'} />
+        <MuiStatCard icon={<UserPlus sx={{ color: '#0ea5e9' }} />} label={t.registeredUsers} value={stats?.users ?? '—'} />
       </Box>
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: 'repeat(4, 1fr)' }, gap: 2, mb: 3 }}>
-        <MuiStatCard accent="#f59e0b" icon={<UserPlus sx={{ color: '#f59e0b' }} />} label={t.newUsers7d} value={stats?.newUsers7d ?? '—'} />
-        <MuiStatCard accent="#06b6d4" icon={<Clock sx={{ color: '#06b6d4' }} />} label={t.avgSessionDuration} value={stats?.avgDuration != null ? `${stats.avgDuration}s` : '—'} />
-        <MuiStatCard accent="#f43f5e" icon={<MessageSquare sx={{ color: '#f43f5e' }} />} label={t.messagesCount} value={stats?.messages ?? '—'} />
-        <MuiStatCard accent="#ef4444" icon={<BarChart3 sx={{ color: '#ef4444' }} />} label={t.blockedCountLabel} value={stats?.blockedCount ?? '—'} />
+        <MuiStatCard icon={<UserPlus sx={{ color: '#f59e0b' }} />} label={t.newUsers7d} value={stats?.newUsers7d ?? '—'} />
+        <MuiStatCard icon={<Clock sx={{ color: '#06b6d4' }} />} label={t.avgSessionDuration} value={stats?.avgDuration != null ? `${stats.avgDuration}s` : '—'} />
+        <MuiStatCard icon={<MessageSquare sx={{ color: '#f43f5e' }} />} label={t.messagesCount} value={stats?.messages ?? '—'} />
+        <MuiStatCard icon={<BarChart3 sx={{ color: '#ef4444' }} />} label={t.blockedCountLabel} value={stats?.blockedCount ?? '—'} />
       </Box>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: 2, mb: 3 }}>
@@ -275,13 +275,13 @@ export default function AdminPanel() {
   );
 }
 
-function MuiStatCard({ icon, label, value, accent = '#6366f1' }) {
+function MuiStatCard({ icon, label, value }) {
   return (
-    <Card className="glass-panel card-hover stat-card" elevation={0} sx={{ borderRadius: '18px' }} style={{ ['--accent']: accent }}>
+    <Card className="glass-panel card-hover" elevation={0} sx={{ borderRadius: '16px' }}>
       <CardContent sx={{ p: '18px 20px !important', '&:last-child': { pb: '18px !important' } }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-          <Box sx={{ width: 40, height: 40, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: `${accent}22` }}>{icon}</Box>
-          <Typography className="text-slate-500 dark:text-slate-400" variant="caption" sx={{ textAlign: 'right', fontSize: '0.7rem' }}>{label}</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
+          {icon}
+          <Typography className="text-slate-500 dark:text-slate-400" variant="subtitle2" sx={{ fontWeight: 600, lineHeight: 1.2 }}>{label}</Typography>
         </Box>
         <Typography className="text-slate-900 dark:text-white" variant="h4" sx={{ fontWeight: 800 }}>{value}</Typography>
       </CardContent>
