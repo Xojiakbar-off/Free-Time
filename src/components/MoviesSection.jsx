@@ -39,80 +39,51 @@ export default function MoviesSection() {
         onClose={() => setConfirmMovie(null)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{
-          sx: {
-            borderRadius: '10px',
-            overflow: 'hidden',
-            backgroundImage: 'none',
-            bgcolor: 'rgb(0, 16, 60)',
-            border: '1px solid rgba(101, 66, 255, 0.45)',
-            boxShadow: '0 30px 70px -18px rgba(0, 0, 0, 0.65)',
-            transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
-            '&:hover': { borderColor: '#6542ff', boxShadow: '0 34px 80px -18px rgba(101, 66, 255, 0.35)' },
-          },
-        }}
+        PaperProps={{ sx: { borderRadius: '1.25rem', overflow: 'hidden', backgroundImage: 'none' } }}
       >
         {confirmMovie && (
-          <>
-            <div className="relative h-40">
-              <img src={confirmMovie.cover} alt="" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[rgb(0,16,60)] via-[rgb(0,16,60)]/60 to-[rgb(0,16,60)]/15" />
-              <div className="absolute bottom-3 left-5 right-5 flex items-end justify-between">
-                <div>
-                  <p className="text-[#b3a0ff] text-[11px] font-semibold uppercase tracking-wide mb-0.5">{t.confirmWatchTitle}</p>
-                  <h4 className="text-white font-bold text-lg leading-tight">{confirmMovie.title[lang] || confirmMovie.title.en}</h4>
-                </div>
-                <div className="flex items-center gap-1 bg-[#6542ff]/25 border border-[#6542ff]/50 text-[#b3a0ff] rounded-[10px] px-3 py-1 text-sm font-extrabold shadow-[0_6px_16px_-6px_rgba(101,66,255,0.6)]">
-                  <Star size={14} className="fill-yellow-400 text-yellow-400" /> {confirmMovie.cost ?? MOVIE_COST}
-                </div>
+          <div className="relative h-36">
+            <img src={confirmMovie.cover} alt="" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent" />
+            <div className="absolute bottom-3 left-5 right-5 flex items-end justify-between">
+              <div>
+                <p className="text-white/70 text-[11px] font-semibold uppercase tracking-wide mb-0.5">{t.confirmWatchTitle}</p>
+                <h4 className="text-white font-bold text-lg leading-tight">{confirmMovie.title[lang] || confirmMovie.title.en}</h4>
+              </div>
+              <div className="flex items-center gap-1 bg-yellow-400/20 border border-yellow-400/40 text-yellow-300 rounded-full px-3 py-1 text-sm font-extrabold">
+                <Star size={14} className="fill-yellow-400" /> {confirmMovie.cost ?? MOVIE_COST}
               </div>
             </div>
-            <DialogContent sx={{ pt: { xs: '24px !important' }, pb: 0 }}>
-              <div className="flex items-center justify-center gap-2 mb-3 py-4 rounded-[10px] bg-[#6542ff]/15 border border-[#6542ff]/40 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(101,66,255,0.5)]">
-                <Star size={16} className="fill-yellow-400 text-yellow-400" />
-                <span>{t.confirmWatchBody.replace('{cost}', String(confirmMovie?.cost ?? MOVIE_COST)).replace('{balance}', String(stars))}</span>
-              </div>
-              <p className="text-xs text-center text-slate-400 mb-1">{t.notEnoughStarsBody.split('.')[0] + '.'}</p>
-            </DialogContent>
-            <DialogActions sx={{ p: { xs: '14px 24px 22px', sm: '14px 24px 22px' } }}>
-              <Button
-                fullWidth
-                onClick={() => setConfirmMovie(null)}
-                sx={{
-                  borderRadius: '10px',
-                  py: 1.35,
-                  minHeight: 48,
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  color: '#b3a0ff',
-                  border: '1px solid rgba(101, 66, 255, 0.4)',
-                  '&:hover': { borderColor: '#6542ff', background: 'rgba(101, 66, 255, 0.1)' },
-                }}
-              >
-                {t.close}
-              </Button>
-              <Button
-                fullWidth
-                variant="contained"
-                onClick={confirmWatch}
-                disabled={spending}
-                sx={{
-                  borderRadius: '10px',
-                  py: 1.35,
-                  minHeight: 48,
-                  textTransform: 'none',
-                  fontWeight: 700,
-                  background: '#6542ff',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  boxShadow: '0 12px 28px -8px rgba(101, 66, 255, 0.55)',
-                  '&:hover': { background: '#5435e0', borderColor: '#6542ff', boxShadow: '0 14px 32px -8px rgba(101, 66, 255, 0.7)' },
-                }}
-              >
-                {spending ? '...' : <><Star size={16} className="fill-yellow-400 mr-1.5 inline text-yellow-400" />{t.confirmAction}</>}
-              </Button>
-            </DialogActions>
-          </>
+          </div>
         )}
+        <DialogContent sx={{ pt: { xs: '24px !important' }, pb: 0 }}>
+          <div className="flex items-center justify-center gap-2 mb-3 py-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-sm font-semibold text-indigo-700 dark:text-indigo-300">
+            <Star size={16} className="fill-yellow-400 text-yellow-400" />
+            <span>{t.confirmWatchBody.replace('{cost}', String(confirmMovie?.cost ?? MOVIE_COST)).replace('{balance}', String(stars))}</span>
+          </div>
+          <p className="text-xs text-center text-slate-500 dark:text-slate-400 mb-1">{t.notEnoughStarsBody.split('.')[0] + '.'}</p>
+        </DialogContent>
+        <DialogActions sx={{ p: { xs: '12px 24px 20px', sm: '12px 24px 20px' } }}>
+          <Button fullWidth onClick={() => setConfirmMovie(null)} sx={{ borderRadius: '0.75rem', py: 1.25, textTransform: 'none', fontWeight: 600 }}>
+            {t.close}
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={confirmWatch}
+            disabled={spending}
+            sx={{
+              borderRadius: '0.75rem',
+              py: 1.25,
+              textTransform: 'none',
+              fontWeight: 700,
+              background: 'linear-gradient(90deg, #6366f1, #a855f7)',
+              '&:hover': { background: 'linear-gradient(90deg, #4f46e5, #9333ea)' },
+            }}
+          >
+            {spending ? '...' : <><Star size={16} className="fill-yellow-400 mr-1.5 inline text-yellow-400" />{t.confirmAction}</>}
+          </Button>
+        </DialogActions>
       </Dialog>
       <Dialog
         open={!!warnMovie}
