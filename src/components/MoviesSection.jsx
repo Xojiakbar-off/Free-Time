@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { Bookmark, Star, PlayCircle, Copy, ChevronLeft, ArrowDownRight, Clock, Calendar, User, ShieldCheck } from 'lucide-react';
+import { Bookmark, Star, PlayCircle, Copy, ChevronLeft, ArrowDownRight, Clock, Calendar, User, ShieldCheck, Lock, Sparkles, GraduationCap, Clapperboard, CheckCircle2, Timer, FileQuestion } from 'lucide-react';
 
 export default function MoviesSection() {
   const { t, lang, stars, spendStars, toggleBookmark, isBookmarked } = useApp();
@@ -90,33 +90,96 @@ export default function MoviesSection() {
         onClose={() => setWarnMovie(null)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: '1.25rem', overflow: 'hidden', backgroundImage: 'none' } }}
+        PaperProps={{ sx: { borderRadius: '1.4rem', overflow: 'hidden', backgroundImage: 'none', boxShadow: 'none', bgcolor: 'transparent' } }}
       >
-        <div className="bg-gradient-to-r from-rose-500 to-orange-500 p-6 text-center">
-          <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-white/20 flex items-center justify-center text-3xl">⚠️</div>
-          <h4 className="text-white font-bold text-xl">{t.notEnoughStars}</h4>
-        </div>
-        <DialogContent sx={{ pt: { xs: '24px !important' }, pb: 1 }}>
-          <p className="text-sm text-center text-slate-600 dark:text-slate-300 mb-3">
-            {t.notEnoughStarsBody.replace('{cost}', String(warnMovie?.cost ?? MOVIE_COST))}
-          </p>
-          <div className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-100 dark:bg-white/5 text-sm">
-            <span className="text-slate-500 dark:text-slate-400">{t.totalStars}:</span>
-            <span className="flex items-center gap-1 font-extrabold text-yellow-500"><Star size={15} className="fill-yellow-400" />{stars}</span>
-            <span className="text-slate-400 mx-1">/</span>
-            <span className="flex items-center gap-1 font-extrabold text-rose-500"><Star size={15} />{warnMovie?.cost ?? MOVIE_COST}</span>
-          </div>
-          <p className="text-[11px] text-center text-slate-400 dark:text-slate-500 mt-2">⭐ {t.movieEarnHint}</p>
-        </DialogContent>
-        <DialogActions sx={{ p: { xs: '12px 24px 20px', sm: '12px 24px 20px' }, justifyContent: 'center' }}>
-          <Button
-            variant="contained"
-            onClick={() => setWarnMovie(null)}
-            sx={{ borderRadius: '0.75rem', px: 5, py: 1.25, textTransform: 'none', fontWeight: 700, background: 'linear-gradient(90deg, #6366f1, #a855f7)' }}
-          >
-            {t.close}
-          </Button>
-        </DialogActions>
+        {warnMovie && (() => {
+          const cost = warnMovie.cost ?? MOVIE_COST;
+          const missing = Math.max(0, cost - stars);
+          const pct = Math.min(100, Math.round((stars / cost) * 100));
+          const earnWays = [
+            { icon: Clapperboard, label: t.earnVideos, reward: '+50', color: 'bg-rose-500/15 text-rose-600 dark:text-rose-300', ring: 'border-rose-500/20' },
+            { icon: GraduationCap, label: t.earnLessons, reward: '+10/15', color: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-300', ring: 'border-indigo-500/20' },
+            { icon: Bookmark, label: t.earnBooks, reward: '+50', color: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-300', ring: 'border-emerald-500/20' },
+            { icon: FileQuestion, label: t.earnQuiz, reward: '+2/+5', color: 'bg-amber-500/15 text-amber-600 dark:text-amber-300', ring: 'border-amber-500/20' },
+            { icon: Timer, label: t.earnFocus, reward: '+5', color: 'bg-purple-500/15 text-purple-600 dark:text-purple-300', ring: 'border-purple-500/20' },
+          ];
+          return (
+            <div className="glass-panel rounded-[1.4rem] overflow-hidden border border-slate-200/70 dark:border-white/10">
+              <div className="relative bg-gradient-to-br from-rose-500 via-red-500 to-orange-500 px-6 pb-6 pt-7 text-center overflow-hidden">
+                <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-white/10 blur-2xl" />
+                <div className="absolute -bottom-14 -left-8 w-32 h-32 rounded-full bg-slate-950/10 blur-2xl" />
+                <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/20 ring-1 ring-white/30 backdrop-blur shadow-lg mb-3">
+                  <Lock size={28} className="text-white" />
+                </div>
+                <h4 className="relative text-white text-xl font-extrabold tracking-tight">{t.notEnoughStars}</h4>
+                <p className="relative text-white/85 text-xs font-medium mt-1">{warnMovie.title[lang] || warnMovie.title.en}</p>
+                <span className="relative inline-flex items-center gap-1.5 mt-3 px-4 py-1.5 rounded-full bg-rose-950/40 ring-1 ring-white/25 text-white text-sm font-extrabold">
+                  <Star size={14} className="fill-yellow-300 text-yellow-300" /> {t.requiredStars}: {cost}
+                </span>
+              </div>
+
+              <div className="p-6">
+                <div className="mb-5">
+                  <div className="flex items-center justify-between text-sm mb-2.5">
+                    <span className="text-slate-500 dark:text-slate-400 font-medium">{t.totalStars}</span>
+                    <span className="flex items-center gap-1 font-extrabold text-slate-900 dark:text-white">
+                      <Star size={15} className="fill-yellow-400 text-yellow-400" />{stars}
+                    </span>
+                  </div>
+                  <div className="h-3 rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-rose-500 to-orange-400 transition-all duration-500"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between text-xs mt-2.5">
+                    <span className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400">
+                      <CheckCircle2 size={13} /> {t.yourBalance}: {stars} ⭐
+                    </span>
+                    <span className="inline-flex items-center gap-1 font-extrabold text-rose-500">
+                      {t.missingStars}: {missing} ⭐
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3">
+                  <Sparkles size={14} className="text-indigo-500 dark:text-indigo-400" /> {t.earnStarsTitle}
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                  {earnWays.map(w => (
+                    <div key={w.label} className={`flex items-center justify-between rounded-xl border ${w.ring} px-3.5 py-2.5`}>
+                      <span className={`flex items-center gap-2.5 text-sm font-semibold ${w.color}`}>
+                        <w.icon size={16} /> {w.label}
+                      </span>
+                      <span className="text-xs font-extrabold text-yellow-500 dark:text-yellow-400">{w.reward} ⭐</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[11px] text-center text-slate-400 dark:text-slate-500 mt-4 leading-relaxed">⭐ {t.movieEarnHint}</p>
+              </div>
+
+              <div className="px-6 pb-6">
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() => setWarnMovie(null)}
+                  sx={{
+                    borderRadius: '0.9rem',
+                    py: 1.4,
+                    textTransform: 'none',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    background: 'linear-gradient(90deg, #6366f1, #a855f7)',
+                    boxShadow: '0 10px 24px rgba(99,102,241,0.35)',
+                    '&:hover': { background: 'linear-gradient(90deg, #4f46e5, #9333ea)' },
+                  }}
+                >
+                  <CheckCircle2 size={18} className="mr-2" /> {t.close}
+                </Button>
+              </div>
+            </div>
+          );
+        })()}
       </Dialog>
     </>
   );
