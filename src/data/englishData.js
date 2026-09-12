@@ -6,141 +6,141 @@ export const englishVideos = [
       en: "How to Speak English Fluently and Confidently",
       ru: "Как бегло и уверенно говорить по-английски"
     },
-    channel: "Learn English with Emma (mmmEnglish)",
+    channel: "Teacher Azam",
     level: "A2-B2",
-    duration: "14:20",
-    embedId: "d6i8Kz54YxM",
-    thumbnail: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+    duration: "12:20",
+    embedId: "0RLmW0Ti7GI",
+    thumbnail: "https://i.ytimg.com/vi/0RLmW0Ti7GI/hqdefault.jpg",
     description: {
-      uz: "Kundalik nutqda qo'llaniladigan eng muhim frazalar va so'zlashuvdagi qo'rquvni yengish usullari.",
-      en: "Essential techniques to build fluency, connect sentences naturally, and stop translating in your head.",
-      ru: "Ключевые техники для беглой разговорной речи без языкового барьера."
+      uz: "Teacher Azam bilan uyda turib speaking mahoratini oshirish sirlari — ravon va erkin gapirish.",
+      en: "Teacher Azam's secrets to improving your speaking at home — speak fluently and confidently.",
+      ru: "Секреты Teacher Azam по улучшению разговорной речи дома — говорите бегло и уверенно."
     }
   },
   {
     id: "eng-vid-2",
     title: {
-      uz: "Ingliz tili zamonlari 20 daqiqada (Barcha 12 zamon)",
-      en: "Master All 12 English Tenses in 20 Minutes",
-      ru: "Все 12 времен английского языка за 20 минут"
+      uz: "Ingliz tili zamonlari 14 daqiqada (5 ta zamon)",
+      en: "Master 5 English Tenses in 14 Minutes",
+      ru: "5 времён английского языка за 14 минут"
     },
-    channel: "English with Lucy",
-    level: "A1-C1",
-    duration: "19:45",
-    embedId: "84JQuP4RFek",
-    thumbnail: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80",
+    channel: "Englify School",
+    level: "A1-B1",
+    duration: "14:00",
+    embedId: "QrZna-ZqEJ0",
+    thumbnail: "https://i.ytimg.com/vi/QrZna-ZqEJ0/hqdefault.jpg",
     description: {
-      uz: "Past, Present, Future zamonlarining sodda va tushunarli jadvali va misollar.",
-      en: "A comprehensive breakdown of all 12 verb tenses with real-world sentence examples.",
-      ru: "Полный разбор временных форм с понятными примерами."
+      uz: "Eng ko'p ishlatiladigan 5 zamon bilan ingliz tilining 90% ini egallang.",
+      en: "Master the 5 most-used tenses and cover 90% of everyday English.",
+      ru: "Освойте 5 самых употребляемых времён и покройте 90% повседневного английского."
     }
   },
   {
     id: "eng-vid-3",
     title: {
-      uz: "Inglizcha eshitishni (Listening) rivojlantirish: Shadowing",
-      en: "Improve Your English Listening: Shadowing Technique",
-      ru: "Развитие аудирования и акцента: Shadowing"
+      uz: "Uyda Listening kuchaytirishning eng samarali 4 usuli",
+      en: "4 Best Ways to Improve English Listening at Home",
+      ru: "4 эффективных способа улучшить аудирование дома"
     },
-    channel: "BBC Learning English",
-    level: "B1-C1",
-    duration: "11:15",
-    embedId: "1-SBCe_Wj5Y",
-    thumbnail: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=600&q=80",
+    channel: "Englify School",
+    level: "A2-B2",
+    duration: "11:00",
+    embedId: "sEK0K-q0zr8",
+    thumbnail: "https://i.ytimg.com/vi/sEK0K-q0zr8/hqdefault.jpg",
     description: {
-      uz: "Ona tilisi ingliz tili bo'lganlar nutqini tez tushunish va to'g'ri talaffuz qilish usuli.",
-      en: "How to train your ears to understand native fast speech using shadow imitation.",
-      ru: "Как научиться понимать быструю речь носителей языка."
+      uz: "Eshitish (listening) mahoratini uyda oshirish uchun eng samarali 4 ta usul.",
+      en: "Four proven methods to boost your listening skills without leaving your home.",
+      ru: "Четыре проверенных способа прокачать навык аудирования, не выходя из дома."
     }
   },
   {
     id: "eng-vid-4",
     title: {
-      uz: "Amerika aksenti: Should, Would, Could talaffuzi",
-      en: "How to Pronounce Should, Would, Could - Reduce & Link",
-      ru: "Произношение Should, Would, Could - редукция"
+      uz: "Grammatika sizga kerak emas — yaxshiroq yo'l",
+      en: "You Don't Need Grammar — Here's a Better Way",
+      ru: "Грамматика вам не нужна — есть способ лучше"
     },
-    channel: "Rachel's English",
+    channel: "Englify School",
     level: "B1-C1",
-    duration: "04:41",
-    embedId: "uKipWMfmIr8",
-    thumbnail: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80",
+    duration: "11:30",
+    embedId: "JZQmay_kUkY",
+    thumbnail: "https://i.ytimg.com/vi/JZQmay_kUkY/hqdefault.jpg",
     description: {
-      uz: "Aqlli amerikaliklar so'zlarni qanday qisqartirib va bog'lab gapirishini o'rganing.",
-      en: "Learn how Americans reduce and link SHOULD, WOULD and COULD in real sentences.",
-      ru: "Узнайте, как американцы сокращают и связывают SHOULD, WOULD и COULD в живой речи."
+      uz: "Grammatikani yodlamasdan ham ingliz tilida gapirishning amaliy yo'li.",
+      en: "A practical way to speak English without memorizing grammar rules.",
+      ru: "Практический способ говорить по-английски, не заучивая грамматику."
     }
   },
   {
     id: "eng-vid-5",
     title: {
-      uz: "Uyda ingliz tilida so'zlashishning 5 zamonaviy usuli",
-      en: "Can I Learn English Alone? 5 Ways to Speak at Home",
-      ru: "Можно ли выучить английский самому? 5 способов"
+      uz: "Bu mashq bilan Speaking va Listening tez kuchayadi",
+      en: "This Exercise Quickly Boosts Speaking & Listening",
+      ru: "Это упражнение быстро прокачает речь и аудирование"
     },
-    channel: "Speak English with Vanessa",
+    channel: "Englify School",
     level: "A2-B2",
-    duration: "13:11",
-    embedId: "rfSKLpYMcwU",
-    thumbnail: "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=600&q=80",
+    duration: "13:45",
+    embedId: "NlAHyLHof4U",
+    thumbnail: "https://i.ytimg.com/vi/NlAHyLHof4U/hqdefault.jpg",
     description: {
-      uz: "O'qituvchisi Vanessa bilan chet elga bormasdan ingliz tilini mustaqil o'rganish sirlari.",
-      en: "Master teacher Vanessa's proven methods to practice speaking English without leaving your home.",
-      ru: "Проверенные методы преподавателя Ванессы для практики английской речи, не выходя из дома."
+      uz: "Shadowing mashqi bilan speaking va listening mahoratini birga kuchaytiring.",
+      en: "Use the shadowing technique to strengthen speaking and listening together.",
+      ru: "Техника shadowing для одновременного развития речи и аудирования."
     }
   },
   {
     id: "eng-vid-6",
     title: {
-      uz: "30 daqiqada ilg'or ingliz tili darsi",
-      en: "Speak English in 30 Minutes: Advanced Lesson",
-      ru: "Продвинутый урок английского за 30 минут"
+      uz: "Listeningni kuchaytirish uchun 3 ta oddiy usul",
+      en: "3 Simple Ways to Strengthen English Listening",
+      ru: "3 простых способа улучшить аудирование"
     },
-    channel: "Speak English with Vanessa",
-    level: "B2-C1",
-    duration: "30:00",
-    embedId: "Iv4F-YV0TxY",
-    thumbnail: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&w=600&q=80",
+    channel: "Englify School",
+    level: "A2-B1",
+    duration: "10:00",
+    embedId: "2sdTuX7pAVw",
+    thumbnail: "https://i.ytimg.com/vi/2sdTuX7pAVw/hqdefault.jpg",
     description: {
-      uz: "Chuqur lug'at boyligi, savollarga javob berish va 30 daqiqada ravon suhbatlashish.",
-      en: "Immerse yourself in clear English: advanced vocabulary, phrasal verbs, and confident conversation.",
-      ru: "Полное погружение в ясный английский: продвинутая лексика, фразовые глаголы и уверенная беседа."
+      uz: "Bitta kuchli usulni tanlab, doimiy mashq qilish — listeningni rivojlantirish siri.",
+      en: "Pick one powerful method and practice it consistently — the secret to better listening.",
+      ru: "Выберите один сильный метод и практикуйтесь регулярно — секрет хорошего аудирования."
     }
   },
   {
     id: "eng-vid-7",
     title: {
-      uz: "ED tugallanishlari (1/3): Amerikancha aksent mashqi",
-      en: "ED Endings (1/3): Perfect American Pronunciation",
-      ru: "Окончания ED (1/3): идеальное американское произношение"
+      uz: "Nega Garvard talabalari oson eslab qoladi? (Spaced repetition)",
+      en: "Why Harvard Students Remember Easily (Spaced Repetition)",
+      ru: "Почему студенты Гарварда легко запоминают?"
     },
-    channel: "Rachel's English",
-    level: "B1-C1",
-    duration: "19:34",
-    embedId: "gftHWQ6CLu8",
-    thumbnail: "https://images.unsplash.com/photo-1530099486328-e021101a494a?auto=format&fit=crop&w=600&q=80",
+    channel: "Englify School",
+    level: "A1-C1",
+    duration: "08:00",
+    embedId: "XFnuNHUsyNU",
+    thumbnail: "https://i.ytimg.com/vi/XFnuNHUsyNU/hqdefault.jpg",
     description: {
-      uz: "O'tgan zamon fe'llaridagi -ed tugallanishini tabiiy va to'g'ri talaffuz qilish qoidalari.",
-      en: "Master the rules of -ed endings in past tense verbs and sound more natural in American English.",
-      ru: "Правила произношения окончания -ed и более естественное звучание в американском английском."
+      uz: "Spaced repetition metodi bilan inglizcha so'zlarni bir umrga eslab qolish usullari.",
+      en: "Learn the spaced repetition method to memorize English words for life.",
+      ru: "Освойте интервальное повторение, чтобы запоминать английские слова навсегда."
     }
   },
   {
     id: "eng-vid-8",
     title: {
-      uz: "Tez ingliz nutqini tushunish va Linking",
-      en: "How to Speak Fast & Understand Native Speakers: Linking",
-      ru: "Быстрая речь и связки звуков (linking)"
+      uz: "2x tezroq o'rganing — hech kim o'rgatmagan usul",
+      en: "Learn English 2x Faster — a Technique Nobody Taught You",
+      ru: "Учите английский в 2 раза быстрее — уникальный метод"
     },
-    channel: "Rachel's English",
-    level: "B1-C2",
-    duration: "22:35",
-    embedId: "AVljpAQzzH4",
-    thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
+    channel: "Englify School",
+    level: "A1-C1",
+    duration: "09:00",
+    embedId: "tqEPLHzlrKU",
+    thumbnail: "https://i.ytimg.com/vi/tqEPLHzlrKU/hqdefault.jpg",
     description: {
-      uz: "Native talaffuzning eng katta siri - so'zlarni bog'lash (linking) texnikasi.",
-      en: "The biggest secret of native speech: how linking sounds together makes English sound fast and natural.",
-      ru: "Самый большой секрет живой речи: как связывание звуков делает английский быстрым и естественным."
+      uz: "0 dan o'rganishda ham, davom ettirishda ham kuchli ishlaydigan noyob usul.",
+      en: "A powerful technique that works whether you start from zero or keep improving.",
+      ru: "Мощный метод, который работает и для начинающих, и для продолжающих."
     }
   }
 ];

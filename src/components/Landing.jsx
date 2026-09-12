@@ -73,12 +73,12 @@ function AuthCard() {
   }, []);
 
   return (
-    <div className="glass-panel rounded-3xl p-8">
-      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-5">
-        <Gift size={28} className="text-white" />
+    <div className="glass-panel rounded-2xl sm:rounded-3xl p-6 sm:p-7">
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-5">
+        <Gift size={26} className="text-white" />
       </div>
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-white text-center mb-1">{t.authTitle}</h2>
-      <p className="text-slate-500 dark:text-slate-400 text-sm text-center mb-5">{t.authSub} +5⭐</p>
+      <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white text-center mb-1">{t.authTitle}</h2>
+      <p className="text-slate-500 dark:text-slate-400 text-sm text-center mb-6">{t.authSub} +5⭐</p>
 
       <div className="flex bg-slate-100 dark:bg-white/10 rounded-xl p-1 mb-6">
         {['register', 'login'].map(m => (
@@ -201,7 +201,7 @@ export default function Landing({ onEnterGuest }) {
             {/* Features */}
             <div className="grid sm:grid-cols-2 gap-4">
               {features.map(f => (
-                <div key={f.title} className="glass-panel rounded-2xl p-5 hover:border-indigo-400/40 transition-colors">
+                <div key={f.title} className="glass-panel rounded-2xl p-5 card-hover">
                   <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${f.color} flex items-center justify-center text-white mb-3`}>
                     <f.icon size={18} />
                   </div>

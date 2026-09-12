@@ -56,24 +56,24 @@ export default function Hero({ onNavigate }) {
             {t.visitorBadge}: <span className="font-bold">{stats.liveCount}</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-tight mb-4">
+          <h1 className="text-4xl sm:text-5xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight mb-4">
             {t.heroGreeting}
           </h1>
-          <p className="text-slate-600 dark:text-slate-300 text-lg sm:text-xl max-w-2xl mx-auto mb-8">
+          <p className="text-slate-600 dark:text-slate-300 text-lg sm:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
             {t.heroSub}
           </p>
 
-          <div className="flex flex-wrap justify-center gap-3">
-            <button onClick={() => onNavigate('books')} className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold hover:opacity-90 transition-opacity">
+          <div className="flex flex-wrap justify-center gap-2.5">
+            <button onClick={() => onNavigate('books')} className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold text-sm hover:opacity-90 transition-opacity">
               {t.booksTitle}
             </button>
-            <button onClick={() => onNavigate('english')} className="px-6 py-3 rounded-xl bg-slate-900/5 border border-slate-300 text-slate-700 font-semibold hover:bg-slate-900/10 dark:bg-white/10 dark:border-white/20 dark:text-white dark:hover:bg-white/20 transition-colors">
+            <button onClick={() => onNavigate('english')} className="px-5 py-2.5 rounded-xl bg-slate-900/5 border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-900/10 dark:bg-white/10 dark:border-white/20 dark:text-white dark:hover:bg-white/20 transition-colors">
               {t.englishTitle}
             </button>
-            <button onClick={() => onNavigate('focus')} className="px-6 py-3 rounded-xl bg-slate-900/5 border border-slate-300 text-slate-700 font-semibold hover:bg-slate-900/10 dark:bg-white/10 dark:border-white/20 dark:text-white dark:hover:bg-white/20 transition-colors">
+            <button onClick={() => onNavigate('focus')} className="px-5 py-2.5 rounded-xl bg-slate-900/5 border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-900/10 dark:bg-white/10 dark:border-white/20 dark:text-white dark:hover:bg-white/20 transition-colors">
               {t.focusTitle}
             </button>
-            <button onClick={() => onNavigate('movies')} className="px-6 py-3 rounded-xl bg-slate-900/5 border border-slate-300 text-slate-700 font-semibold hover:bg-slate-900/10 dark:bg-white/10 dark:border-white/20 dark:text-white dark:hover:bg-white/20 transition-colors">
+            <button onClick={() => onNavigate('movies')} className="px-5 py-2.5 rounded-xl bg-slate-900/5 border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-900/10 dark:bg-white/10 dark:border-white/20 dark:text-white dark:hover:bg-white/20 transition-colors">
               {t.moviesTitle}
             </button>
           </div>
@@ -93,7 +93,7 @@ export default function Hero({ onNavigate }) {
           <SectionHead icon={BookMarked} title={t.booksTitle} sub={t.booksSub} action={() => onNavigate('books')} extra={readMoreLabel} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredBooks.map(b => (
-              <div key={b.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col hover:border-indigo-400/40 transition-colors">
+              <div key={b.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col card-hover">
                 <div className="relative h-40">
                   <img src={b.cover} alt={b.title[lang] || b.title.en} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent" />
@@ -117,7 +117,7 @@ export default function Hero({ onNavigate }) {
           <SectionHead icon={Clapperboard} title={t.moviesTitle} sub={t.moviesSub} action={() => onNavigate('movies')} extra={readMoreLabel} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredMovies.map(m => (
-              <div key={m.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col hover:border-indigo-400/40 transition-colors">
+              <div key={m.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col card-hover">
                 <div className="relative h-40 group">
                   <img src={m.cover} alt={m.title[lang] || m.title.en} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><PlayCircle size={44} className="text-white/90" /></div>
@@ -141,7 +141,7 @@ export default function Hero({ onNavigate }) {
           <SectionHead icon={Headphones} title={t.podcastsTitle} sub={t.podcastsSub} action={() => onNavigate('podcasts')} extra={readMoreLabel} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredPodcasts.map(p => (
-              <div key={p.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col hover:border-indigo-400/40 transition-colors">
+              <div key={p.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col card-hover">
                 <div className="relative h-40">
                   <img src={p.cover} alt={p.title[lang] || p.title.en} className="w-full h-full object-cover" />
                   <span className="absolute top-2 left-2 px-2 py-1 rounded-lg bg-purple-500 text-white text-xs font-semibold">{p.category}</span>
@@ -164,7 +164,7 @@ export default function Hero({ onNavigate }) {
           <SectionHead icon={GraduationCap} title={t.englishTitle} sub={t.englishSub} action={() => onNavigate('english')} extra={readMoreLabel} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredVideos.map(v => (
-              <div key={v.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col hover:border-indigo-400/40 transition-colors">
+              <div key={v.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col card-hover">
                 <div className="relative h-40">
                   <img src={v.thumbnail} alt={v.title[lang] || v.title.en} className="w-full h-full object-cover" />
                   <span className="absolute top-2 left-2 px-2 py-1 rounded bg-indigo-500 text-white text-xs font-bold">{v.level}</span>

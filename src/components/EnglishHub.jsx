@@ -40,7 +40,7 @@ export default function EnglishHub({ onNavigate }) {
 }
 
 function VideoTab({lang}) {
-  return (<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">{englishVideos.map(v=>(<div key={v.id} className="glass-panel rounded-2xl overflow-hidden"><div className="aspect-video relative"><iframe src={`https://www.youtube.com/embed/${v.embedId}`} className="w-full h-full" title={v.title.en} allowFullScreen/><div className="absolute top-2 left-2 px-2 py-1 rounded bg-indigo-500 text-white text-xs font-bold">{v.level}</div></div><div className="p-5"><h3 className="font-bold text-slate-900 dark:text-white mb-1">{v.title[lang]||v.title.en}</h3><p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{v.channel} · {v.duration}</p><p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{v.description[lang]||v.description.en}</p></div></div>))}</div>);
+  return (<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">{englishVideos.map(v=>(<div key={v.id} className="glass-panel rounded-2xl overflow-hidden card-hover"><div className="aspect-video relative"><iframe src={`https://www.youtube.com/embed/${v.embedId}`} className="w-full h-full" title={v.title.en} allowFullScreen/><div className="absolute top-2 left-2 px-2 py-1 rounded bg-indigo-500 text-white text-xs font-bold">{v.level}</div></div><div className="p-5"><h3 className="font-bold text-slate-900 dark:text-white mb-1">{v.title[lang]||v.title.en}</h3><p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{v.channel} · {v.duration}</p><p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{v.description[lang]||v.description.en}</p></div></div>))}</div>);
 }
 function FlashcardTab({t,lang}) {
   const [idx,setIdx] = useState(0);

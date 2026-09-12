@@ -66,7 +66,7 @@ function PodcastCard({ pod, lang, t, toggleBookmark, isBookmarked }) {
   };
 
   return (
-    <div className="glass-panel rounded-2xl overflow-hidden flex flex-col">
+    <div className="glass-panel rounded-2xl overflow-hidden flex flex-col card-hover">
       <div className="relative h-44">
         <img src={pod.cover} alt={pod.title[lang] || pod.title.en} className="w-full h-full object-cover" />
         <span className="absolute top-2 left-2 px-2 py-1 rounded-lg bg-purple-500 text-white text-xs font-semibold">{pod.category}</span>

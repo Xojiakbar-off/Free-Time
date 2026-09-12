@@ -312,7 +312,7 @@ export default function AdminPanel() {
 
 function MuiStatCard({ icon, label, value }) {
   return (
-    <Card className="glass-panel card-hover" elevation={0} sx={{ borderRadius: '16px' }}>
+    <Card className="admin-stat-card glass-panel" elevation={0} sx={{ borderRadius: '16px' }}>
       <CardContent sx={{ p: '18px 20px !important', '&:last-child': { pb: '18px !important' } }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
           {icon}

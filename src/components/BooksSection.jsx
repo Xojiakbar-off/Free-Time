@@ -43,7 +43,7 @@ export default function BooksSection({ onOpenBook }) {
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map(book => (
-          <div key={book.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col hover:border-indigo-400/40 transition-colors">
+          <div key={book.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col card-hover">
             <div className="h-48 overflow-hidden">
               <img src={book.cover} alt={book.title[lang] || book.title.en} className="w-full h-full object-cover" />
             </div>

@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { Bookmark, Star, PlayCircle, Copy, ChevronLeft, ArrowDownRight, Clock, Calendar, User } from 'lucide-react';
+import { Bookmark, Star, PlayCircle, Copy, ChevronLeft, ArrowDownRight, Clock, Calendar, User, ShieldCheck } from 'lucide-react';
 
 export default function MoviesSection() {
   const { t, lang, stars, spendStars, toggleBookmark, isBookmarked } = useApp();
@@ -137,7 +137,7 @@ export default function MoviesSection() {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {moviesData.map(movie => (
-            <div key={movie.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col hover:border-indigo-400/40 transition-colors">
+            <div key={movie.id} className="glass-panel rounded-2xl overflow-hidden flex flex-col card-hover">
               <button onClick={() => tryWatch(movie)} className="relative h-48 overflow-hidden group text-left">
                 <img src={movie.cover} alt={movie.title[lang] || movie.title.en} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -190,15 +190,44 @@ export default function MoviesSection() {
         {/* Main player + details */}
         <div className="flex-1 min-w-0">
           <div className="rounded-2xl overflow-hidden bg-black aspect-video relative">
-            <iframe
-              src={`https://www.youtube.com/embed/${selected.embedVideoId}?autoplay=1&rel=0`}
-              title={selected.title.en}
-              allowFullScreen
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              className="w-full h-full"
-            />
+            {selected.videoUrl ? (
+              <video
+                key={selected.videoUrl}
+                className="w-full h-full outline-none bg-black"
+                controls
+                playsInline
+                preload="metadata"
+                poster={selected.cover}
+                title={selected.title.en}
+              >
+                <source src={selected.videoUrl} type="video/webm" />
+                {lang === 'uz'
+                  ? 'Brauzeringiz videoni qo\'llab-quvvatlamaydi.'
+                  : lang === 'ru'
+                    ? 'Ваш браузер не поддерживает видео.'
+                    : 'Your browser does not support the video tag.'}
+              </video>
+            ) : (
+              <iframe
+                src={`https://www.youtube.com/embed/${selected.embedVideoId}?autoplay=1&rel=0`}
+                title={selected.title.en}
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                className="w-full h-full"
+              />
+            )}
           </div>
+          {selected.videoUrl && (
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 inline-flex items-center gap-1.5">
+              <ShieldCheck size={14} className="text-emerald-500" />
+              {lang === 'uz'
+                ? `Bepul va qonuniy manba: ${selected.videoSource || 'Wikimedia Commons'} — to'liq film, hech qanday reklamasiz.`
+                : lang === 'ru'
+                  ? `Бесплатный легальный источник: ${selected.videoSource || 'Wikimedia Commons'} — полный фильм, без рекламы.`
+                  : `Free legal source: ${selected.videoSource || 'Wikimedia Commons'} — full movie, no ads.`}
+            </p>
+          )}
 
           {/* Back button */}
           <button onClick={() => setSelected(null)} className="mt-4 inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">

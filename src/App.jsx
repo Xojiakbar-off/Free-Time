@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useApp } from './context/AppContext.jsx';
-import Header from './components/Header.jsx';
+import Sidebar from './components/Sidebar.jsx';
 import Landing from './components/Landing.jsx';
 import Hero from './components/Hero.jsx';
 import BooksSection from './components/BooksSection.jsx';
@@ -10,7 +10,6 @@ import LessonPage from './components/LessonPage.jsx';
 import MindGym from './components/MindGym.jsx';
 import FocusAmbience from './components/FocusAmbience.jsx';
 import Podcasts from './components/Podcasts.jsx';
-import SavedItems from './components/SavedItems.jsx';
 import AdminPanel from './components/AdminPanel.jsx';
 import StarsSection from './components/StarsSection.jsx';
 import UserProfile from './components/UserProfile.jsx';
@@ -20,7 +19,7 @@ import { analyticsService } from './services/analyticsService.js';
 
 function LoadingScreen({ leaving }) {
   return (
-    <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center gap-5 transition-opacity duration-500 ${leaving ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ background: 'linear-gradient(180deg,#0f172a 0%,#1e1b4b 50%,#0f172a 100%)' }}>
+    <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center gap-5 transition-opacity duration-500 ${leaving ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ background: 'radial-gradient(900px 500px at 85% -10%, rgba(124, 58, 237, 0.18) 0%, transparent 62%), linear-gradient(180deg, #080d1e 0%, #0f1730 48%, #080d1e 100%)' }}>
       <div className="relative">
         <div className="w-20 h-20 rounded-3xl overflow-hidden shadow-2xl shadow-indigo-600/40 animate-pulse ring-2 ring-indigo-500/30">
           <img src="/logo.jpg" alt="FreeTime" className="w-full h-full object-cover" />
@@ -37,7 +36,10 @@ function LoadingScreen({ leaving }) {
 }
 
 function App() {
-  const [section, setSection] = useState(() => localStorage.getItem('ft_section') || 'home');
+  const [section, setSection] = useState(() => {
+    const s = localStorage.getItem('ft_section');
+    return s === 'saved' ? 'profile' : (s || 'home');
+  });
   const [fullBook, setFullBook] = useState(null);
   const [guest, setGuest] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -60,8 +62,8 @@ function App() {
     if (theme === 'dark') document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
     document.body.style.background = theme === 'dark'
-      ? 'linear-gradient(180deg,#0f172a 0%,#1e1b4b 50%,#0f172a 100%)'
-      : 'radial-gradient(1200px 600px at 15% -10%, #e0e7ff 0%, rgba(224,231,255,0) 60%), radial-gradient(1000px 500px at 90% 0%, #f3e8ff 0%, rgba(243,232,255,0) 55%), linear-gradient(180deg,#f8fafc 0%,#eef2ff 50%,#f8fafc 100%)';
+      ? 'radial-gradient(1200px 560px at 88% -8%, rgba(109, 40, 217, 0.16) 0%, rgba(109, 40, 217, 0) 60%), radial-gradient(1000px 500px at 8% 102%, rgba(79, 70, 229, 0.14) 0%, rgba(79, 70, 229, 0) 60%), linear-gradient(180deg, #080d1e 0%, #0f1730 46%, #080d1e 100%)'
+      : 'radial-gradient(1200px 600px at 15% -10%, #d9e2ff 0%, rgba(217, 226, 255, 0) 60%), radial-gradient(1000px 500px at 90% 0%, #f2e5ff 0%, rgba(242, 229, 255, 0) 55%), linear-gradient(180deg, #f3f5fb 0%, #e8ecf8 50%, #f3f5fb 100%)';
     document.body.className = theme;
   }, [theme]);
 
@@ -133,8 +135,8 @@ function App() {
 
   if (fullBook) {
     return (
-      <div className="flex-1">
-        <Header currentSection={section} onNavigate={navigate} />
+      <div className="flex-1 app-shell">
+        <Sidebar currentSection={section} onNavigate={navigate} />
         <FullBookReader book={fullBook} onBack={() => setFullBook(null)} />
         <Footer onNavigate={navigate} />
       </div>
@@ -142,8 +144,8 @@ function App() {
   }
 
   return (
-    <div className="flex-1">
-      <Header currentSection={section} onNavigate={navigate} />
+    <div className="flex-1 app-shell">
+      <Sidebar currentSection={section} onNavigate={navigate} />
       <main>
         <div className={section === 'home' ? '' : 'hidden'}>
           <Hero onNavigate={navigate} />
@@ -155,7 +157,6 @@ function App() {
         <div className={section === 'mindGym' ? '' : 'hidden'}><MindGym /></div>
         <div className={section === 'focus' ? '' : 'hidden'}><FocusAmbience /></div>
         <div className={section === 'podcasts' ? '' : 'hidden'}><Podcasts /></div>
-        <div className={section === 'saved' ? '' : 'hidden'}><SavedItems /></div>
         <div className={section === 'admin' ? '' : 'hidden'}><AdminPanel /></div>
         <div className={section === 'stars' ? '' : 'hidden'}><StarsSection /></div>
         <div className={section === 'profile' ? '' : 'hidden'}><UserProfile /></div>

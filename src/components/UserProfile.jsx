@@ -3,7 +3,8 @@ import { useApp } from '../context/AppContext.jsx';
 import { api } from '../services/api.js';
 import { siteConfig } from '../config.js';
 import Leaderboard from './Leaderboard.jsx';
-import { User, Mail, Lock, LogOut, ShieldCheck, ArrowRight, Star, Award, BookOpen, Brain, Trophy } from 'lucide-react';
+import { User, Mail, Lock, LogOut, ShieldCheck, ArrowRight, Star, Award, BookOpen, Brain, Trophy, Bookmark } from 'lucide-react';
+import SavedItems from './SavedItems.jsx';
 
 export default function UserProfile() {
   const { t, user, login, register, logout, setSession, stars, completedBooks, gamesPlayed } = useApp();
@@ -144,6 +145,11 @@ export default function UserProfile() {
             </button>
           </p>
         </div>
+
+        <div className="glass-panel rounded-2xl p-6 mt-6">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><Bookmark size={18} className="text-indigo-500 dark:text-indigo-400" />{t.savedTitle}</h3>
+          <SavedItems embedded />
+        </div>
       </section>
     );
   }
@@ -175,9 +181,14 @@ export default function UserProfile() {
             <p className="text-sm text-slate-500 dark:text-slate-400">{user.email}</p>
           </div>
         </div>
-        <button onClick={logout} className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-slate-300 text-sm flex items-center gap-2">
+        <button onClick={logout} className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-slate-300 text-sm flex items-center gap-2 hover:bg-slate-200 dark:hover:bg-white/15 transition-colors">
           <LogOut size={14} />{t.logoutBtn}
         </button>
+      </div>
+
+      <div className="glass-panel rounded-2xl p-6 mb-6 animate-fade-in">
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><Bookmark size={18} className="text-indigo-500 dark:text-indigo-400" />{t.savedTitle}</h3>
+        <SavedItems embedded />
       </div>
 
       <div className="glass-panel rounded-2xl p-6 mb-6">

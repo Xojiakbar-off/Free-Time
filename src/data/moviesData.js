@@ -2,6 +2,270 @@ export const MOVIE_COST = 100;
 
 export const moviesData = [
   {
+    id: "uch-qahramon",
+    title: {
+      uz: "Uch Qahramon",
+      en: "Uch Qahramon (Three Heroes)",
+      ru: "Три героя"
+    },
+    director: "Shohrux Rasulov",
+    year: 2024,
+    genre: "Jangari / Action",
+    rating: 8.0,
+    duration: "120 min",
+    language: "uz",
+    audioLang: "O'zbek tili (Original)",
+    subtitles: "O'zbek tili",
+    cover: "https://i.ytimg.com/vi/FoqISWH_9sk/hqdefault.jpg",
+    embedVideoId: "FoqISWH_9sk",
+    description: {
+      uz: "Korrupsiya va jinoyatchilikka qarshi kurashda o'z hissasini qo'shgan uch nafar ichki ishlar xodimi haqidagi ta'sirchan jangari film. Jasorat, burch va haqiqiy hamkorlik hikoyasi.",
+      en: "An exciting action film about three interior ministry officers fighting corruption and crime. A story of courage, duty and true brotherhood.",
+      ru: "Захватывающий боевик о трёх сотрудниках органов внутренних дел, борющихся с коррупцией и преступностью."
+    },
+    takeaways: {
+      uz: "Burch va jasorat qo'rquvni yengadi — halollik har qanday tuzumdan kuchli.",
+      en: "Duty and courage conquer fear — honesty is stronger than any system.",
+      ru: "Долг и мужество побеждают страх. Честность сильнее любой системы."
+    },
+    vocabulary: [
+      { word: "Courage", phonetic: "/ˈkɜːrɪdʒ/", meaning: "Jasorat, mardlik" },
+      { word: "Justice", phonetic: "/ˈdʒʌstɪs/", meaning: "Adolat" },
+      { word: "Dedication", phonetic: "/ˌdedɪˈkeɪʃn/", meaning: "Burchga sadoqat, fidoyilik" }
+    ]
+  },
+  {
+    id: "farz-2026",
+    title: {
+      uz: "Farz",
+      en: "Farz (Duty)",
+      ru: "Фарз (Долг)"
+    },
+    director: "Sarvar Karimov",
+    year: 2026,
+    genre: "Drama",
+    rating: 8.5,
+    duration: "75 min",
+    language: "uz",
+    audioLang: "O'zbek tili (Original)",
+    subtitles: "O'zbek tili",
+    cover: "https://i.ytimg.com/vi/wYr2Vf4xHWM/hqdefault.jpg",
+    embedVideoId: "wYr2Vf4xHWM",
+    description: {
+      uz: "Haqqoniy hunarmand yillar davomida Haj ziyorati uchun to'plagan jamg'armasini o'lgan do'stining uysiz qolgan oilasiga ehson qiladi. Bu fidoyilik esa atrofdagilarga hasad va yolg'on ayblovlarni keltirib chiqaradi.",
+      en: "An honest craftsman gives away years of savings meant for the Hajj pilgrimage to help his late friend's homeless family — an act of selflessness that stirs envy and false accusations.",
+      ru: "Честный ремесленник отдаёт накопленные на Хадж деньги семье погибшего друга — поступок, вызывающий зависть и ложные обвинения."
+    },
+    takeaways: {
+      uz: "Haqiqiy saxovat va odamiylik moddiy boylikdan ustun — ezgulik nurni sochmasdan tura olmaydi.",
+      en: "True generosity and humanity outshine wealth — kindness always finds the light.",
+      ru: "Истинная щедрость и человечность выше богатства."
+    },
+    vocabulary: [
+      { word: "Sacrifice", phonetic: "/ˈsækrɪfaɪs/", meaning: "Fidoyilik, qurbonlik" },
+      { word: "Envy", phonetic: "/ˈenvi/", meaning: "Hasad, rashk" },
+      { word: "Craftsman", phonetic: "/ˈkræftsmən/", meaning: "Hunarmand, usta" }
+    ]
+  },
+  {
+    id: "yashil-maskan",
+    title: {
+      uz: "Yashil Maskan",
+      en: "Yashil Maskan (Green Zone)",
+      ru: "Яшил маскан"
+    },
+    director: "Yashil Maskan loyihasi",
+    year: 2023,
+    genre: "Animation / Ekologiya",
+    rating: 8.0,
+    duration: "60 min",
+    language: "uz",
+    audioLang: "O'zbek tili",
+    subtitles: "O'zbek tili",
+    cover: "https://i.ytimg.com/vi/k9rddYHTPGo/hqdefault.jpg",
+    embedVideoId: "k9rddYHTPGo",
+    description: {
+      uz: "Tabiatni asrash, yashil hududlar va ekologik madaniyat haqidagi bolalar uchun o'zbek animatsiyasi. Kichkintoylar tabiatga mehr va g'amxo'rlikni o'rganadi.",
+      en: "An Uzbek animation for children about protecting nature, green spaces and ecological culture — teaching kids to love and care for the environment.",
+      ru: "Узбекская анимация для детей о защите природы, зелёных зон и экологической культуре."
+    },
+    takeaways: {
+      uz: "Tabiatni asrash eng kichik ishdan boshlanadi — har bir ekilgan daraxt kelajak uchun hissa.",
+      en: "Caring for nature starts with the smallest deeds — every planted tree is a gift to the future.",
+      ru: "Забота о природе начинается с малого — каждое посаженное дерево это вклад в будущее."
+    },
+    vocabulary: [
+      { word: "Ecology", phonetic: "/ɪˈkɑːlədʒi/", meaning: "Ekologiya, tabiatni asrash haqidagi fan" },
+      { word: "Greenery", phonetic: "/ˈɡriːnəri/", meaning: "Ko'katlar, yashil hudud" },
+      { word: "Protect", phonetic: "/prəˈtekt/", meaning: "Himoya qilmoq, asramoq" }
+    ]
+  },
+  {
+    id: "101-reys",
+    title: {
+      uz: "101 Reys",
+      en: "101 Flight",
+      ru: "Рейс 101"
+    },
+    director: "Akrom Shahnazarov",
+    year: 2022,
+    genre: "Drama / Biografiya / Tarixiy",
+    rating: 8.2,
+    duration: "110 min",
+    language: "uz",
+    audioLang: "O'zbek tili (Original)",
+    subtitles: "O'zbek tili",
+    cover: "https://i.ytimg.com/vi/uD2L0CmWwnM/hqdefault.jpg",
+    embedVideoId: "uD2L0CmWwnM",
+    description: {
+      uz: "Tajribali uchuvchi Zarif Saidazimovning nafaqaga chiqishidan oldingi so'nggi parvozi — HY101 reysi. Real voqealarga asoslangan ta'sirchan biografik drama: samolyot 11-sentabr hodisalari fonida AQSh osmonida favqulodda vaziyatga tushib qoladi.",
+      en: "The final flight of veteran pilot Zarif Saidazimov before retirement — HY101. A gripping biographical drama based on true events, when the plane faces an emergency over US skies during the events of September 11.",
+      ru: "Последний рейс опытного пилота Зарифа Саидазимова перед выходом на пенсию. Драма по реальным событиям о рейсе HY101 в дни событий 11 сентября."
+    },
+    takeaways: {
+      uz: "Burch va xotirjamlik eng og'ir sinovda ham inson hayotini saqlab qoladi — haqiqiy qahramonlik vaziyatga qanday munosabat bildirish bilan o'lchanadi.",
+      en: "Duty and calm save lives in the hardest tests — true heroism is measured by how we react.",
+      ru: "Долг и хладнокровие спасают жизни в самых тяжёлых испытаниях."
+    },
+    vocabulary: [
+      { word: "Pilot", phonetic: "/ˈpaɪlət/", meaning: "Uchuvchi" },
+      { word: "Diversion", phonetic: "/daɪˈvɜːrʃn/", meaning: "Yo'nalishni o'zgartirish (boshqa aeroportga qo'nish)" },
+      { word: "Emergency", phonetic: "/ɪˈmɜːrdʒənsi/", meaning: "Favqulodda vaziyat" }
+    ]
+  },
+  {
+    id: "baron-2016",
+    title: {
+      uz: "Baron",
+      en: "Baron",
+      ru: "Барон"
+    },
+    director: "Rustam Sa'diyev",
+    year: 2016,
+    genre: "Jangari / Kriminal / Drama",
+    rating: 8.3,
+    duration: "151 min",
+    language: "uz",
+    audioLang: "O'zbek tili (Original)",
+    subtitles: "O'zbek tili",
+    cover: "https://i.ytimg.com/vi/bnX6-P85bxg/hqdefault.jpg",
+    embedVideoId: "bnX6-P85bxg",
+    description: {
+      uz: "Boks bo'yicha jahon chempioni Botir Saidov ko'cha janjali tufayli qamoqqa olinadi. Uni ozod etishga urinayotgan xotini esa giyohvand modda kontrabandasiga jalb etilib, Toshkent aeroportida halok bo'ladi. Botir o'zbek maxsus xizmatlari bilan Afg'onistondan kelayotgan narkotranzit tarmog'ini yo'q qilish bo'yicha murakkab operatsiyada qatnashishga majbur bo'ladi.",
+      en: "World boxing champion Botir Saidov is jailed after a street brawl. His wife, trying to free him, is drawn into drug smuggling and dies at Tashkent airport. Botir must cooperate with Uzbek special services to dismantle the drug transit network.",
+      ru: "Чемпион мира по боксу Ботир Саидов попадает в тюрьму. Жена, пытаясь его освободить, погибает, втянутая в контрабанду наркотиков. Ботир вынужден помогать спецслужбам уничтожить сеть наркотрафика."
+    },
+    takeaways: {
+      uz: "Oilangiz uchun kurash sizni sindirishi mumkin, lekin o'z qadringiz va adolatni tanlash har doim sizning qo'lingizda.",
+      en: "The fight for your family may break you, but choosing dignity and justice is always yours.",
+      ru: "Борьба за семью может сломать вас, но выбор чести и справедливости всегда за вами."
+    },
+    vocabulary: [
+      { word: "Smuggling", phonetic: "/ˈsmʌɡlɪŋ/", meaning: "Kontrabanda" },
+      { word: "Undercover", phonetic: "/ˌʌndərˈkʌvər/", meaning: "Maxfiy (tergov ostida ishlaydigan)" },
+      { word: "Syndicate", phonetic: "/ˈsɪndɪkət/", meaning: "Jinoiy guruh, sindikat" }
+    ]
+  },
+  {
+    id: "avf-2022",
+    title: {
+      uz: "Avf",
+      en: "Avf (Amnesty)",
+      ru: "Авф (Амнистия)"
+    },
+    director: "Zilola Jurayeva",
+    year: 2022,
+    genre: "Drama",
+    rating: 8.1,
+    duration: "90 min",
+    language: "uz",
+    audioLang: "O'zbek tili (Original)",
+    subtitles: "O'zbek tili",
+    cover: "https://i.ytimg.com/vi/YPYq4sT7xVg/hqdefault.jpg",
+    embedVideoId: "YPYq4sT7xVg",
+    description: {
+      uz: "Turli jinoyatlarda ayblanib, afv etilgan odamlarning hayoti va taqdiri haqida real voqealarga asoslangan drama. Qamoqxona devorlari ortida ularni muqaddas kutib turadiganning oilalari ham bor.",
+      en: "A true-story drama about people convicted of various crimes and those granted amnesty — and the families waiting for them outside the prison walls.",
+      ru: "Основанная на реальных событиях драма о людях, осуждённых за различные преступления, и о семьях, ждущих их за тюремными стенами."
+    },
+    takeaways: {
+      uz: "Ikkinchi imkoniyat har bir insonga beriladi — kechirim va yangi hayot uchun jasorat topish muhim.",
+      en: "Everyone deserves a second chance — finding the courage for forgiveness and a new life matters most.",
+      ru: "Второй шанс даётся каждому — важно найти мужество для прощения и новой жизни."
+    },
+    vocabulary: [
+      { word: "Amnesty", phonetic: "/ˈæmnəsti/", meaning: "Afv, amnistiya" },
+      { word: "Redemption", phonetic: "/rɪˈdempʃn/", meaning: "Poklanish, qayta tug'ilish" },
+      { word: "Forgiveness", phonetic: "/fərˈɡɪvnəs/", meaning: "Kechirim" }
+    ]
+  },
+  {
+    id: "xudo-asrasin",
+    title: {
+      uz: "Xudo Asrasin",
+      en: "Xudo Asrasin (God Forbid)",
+      ru: "Худо асрасин"
+    },
+    director: "Qirg'iz kinostudiyasi",
+    year: 2025,
+    genre: "Komediya / Kriminal",
+    rating: 8.0,
+    duration: "90 min",
+    language: "uz",
+    audioLang: "O'zbek tili (Dublyaj)",
+    subtitles: "O'zbek tili",
+    cover: "https://i.ytimg.com/vi/jWx229Fz_gc/hqdefault.jpg",
+    embedVideoId: "jWx229Fz_gc",
+    description: {
+      uz: "Jumabek va Ramazon navbatdagi jinoyatdan keyin o'g'irlangan pullarni boshlig'idan yashirib olishadi. Qochish chog'ida ular qishloq masjidiga kirib qolishadi va mahalliy bolalarga dars berishi kerak bo'lgan ustozlar deb adashib qolishadi.",
+      en: "Two crooks, Jumabek and Ramazon, hide stolen money from their boss. During their escape they end up in a village mosque, mistaken for the teachers everyone was expecting.",
+      ru: "Двое жуликов, спрятавших украденные деньги, по ошибке попадают в мечеть кишлака, где их принимают за приехавших учителей."
+    },
+    takeaways: {
+      uz: "Rostgo'ylik eng katta boylik — yolg'on va firibgarlik har doim fosh bo'ladi.",
+      en: "Honesty is the greatest wealth — lies and trickery always come to light.",
+      ru: "Честность — величайшее богатство: ложь всегда раскрывается."
+    },
+    vocabulary: [
+      { word: "Ruse", phonetic: "/ruːz/", meaning: "Hiyla, ayyorlik" },
+      { word: "Impostor", phonetic: "/ɪmˈpɑːstər/", meaning: "Soxta shaxs, boshqa bo'lib ko'ringan" },
+      { word: "Mistaken", phonetic: "/mɪˈsteɪkən/", meaning: "Adashilgan, xato ishonch" }
+    ]
+  },
+  {
+    id: "jannat-onalar-oyogi-ostida",
+    title: {
+      uz: "Jannat Onalar Oyog'i Ostida",
+      en: "Paradise Lies Under Mothers' Feet",
+      ru: "Рай под ногами матерей"
+    },
+    director: "Qozog'iston kinosi (o'zbek dublyaji)",
+    year: 2025,
+    genre: "Drama",
+    rating: 8.6,
+    duration: "100 min",
+    language: "uz",
+    audioLang: "O'zbek tili (Dublyaj)",
+    subtitles: "O'zbek tili",
+    cover: "https://i.ytimg.com/vi/Vl9DOfjOEtE/hqdefault.jpg",
+    embedVideoId: "Vl9DOfjOEtE",
+    description: {
+      uz: "35 yoshda, ammo aqliy rivojlanishi 8 yoshli bola darajasida bo'lgan Odil 75 yoshli onasi Rayhon opa bilan kichik qishloqda yashaydi. Onasi uni — o'g'lini — Yaratganning sevimli bandasi deb biladi. Odil esa onasi ham jannatga xoli kirmasligi uchun uni muqaddas Makkaga piyoda olib borishga bel bog'laydi.",
+      en: "Odil, a 35-year-old with the mind of an 8-year-old, lives in a small village with his 75-year-old mother Rayhon. He is certain that to bring his mother to paradise, he must carry her on foot to holy Mecca.",
+      ru: "Одил, мужчина 35 лет с детским сознанием, живёт с 75-летней матерью и решает, чтобы она попала в рай, пешком донести её до священной Мекки."
+    },
+    takeaways: {
+      uz: "Onalar jannatga olib boruvchi eng ishonchli yo'ldir — onaga bo'lgan muhabbat va g'amxo'rlik ajr-mukofotning eng ulug'idir.",
+      en: "Mothers are the truest path to paradise — love and care for your mother is the greatest reward of all.",
+      ru: "Матери — самый верный путь к раю: любовь и забота о матери — величайшая награда."
+    },
+    vocabulary: [
+      { word: "Bliss", phonetic: "/blɪs/", meaning: "Baxt, jannat saodati" },
+      { word: "Pilgrimage", phonetic: "/ˈpɪlɡrɪmɪdʒ/", meaning: "Ziyorat, haj safari" },
+      { word: "Devotion", phonetic: "/dɪˈvoʊʃn/", meaning: "Sadoqat, bag'ishlash" }
+    ]
+  },
+  {
     id: "interstellar",
     title: {
       uz: "Oyninig qulashi",
@@ -89,7 +353,7 @@ export const moviesData = [
       ru: "Грандиозный документальный фильм о первозданной красоте Земли и ее экосистемах."
     },
     takeaways: {
-      uz: "Tabiat va biosferani asrash har bir insonning shaxsiy burchagidir.",
+      uz: "Tabiat va biosferani asrash har bir insonning shaxsiy burchidir.",
       en: "Preserving biodiversity is crucial for our survival. Every action counts.",
       ru: "Сохранение биоразнообразия — жизненная необходимость."
     },
@@ -181,7 +445,7 @@ export const moviesData = [
     cover: "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?auto=format&fit=crop&w=600&q=80",
     embedVideoId: "Ew9ngL1GZvs",
     description: {
-      uz: "Korleone oilasining qudratli boshlig'i Vito va uning kichik o'g'li Maykl haqidagi mafiya epsidavoyasi — jahon kinosining eng mashhur va ta'sirli asarlaridan biri.",
+      uz: "Korleone oilasining qudratli boshlig'i Vito va uning kichik o'g'li Maykl haqidagi mafiya epissalarii — jahon kinosining eng mashhur va ta'sirli asarlaridan biri.",
       en: "The legendary saga of the Corleone family — aged patriarch Vito and his reluctant heir Michael — widely regarded as a masterpiece of cinema.",
       ru: "Легендарная сага о семье Корлеоне — старшем доне Вито и его неохотном наследнике Майкле, признанный шедевр мирового кино."
     },
@@ -295,39 +559,6 @@ export const moviesData = [
     ]
   },
   {
-    id: "toylar-muborak",
-    title: {
-      uz: "To'ylar Muborak",
-      en: "To'ylar Muborak",
-      ru: "Тойлар муборак"
-    },
-    director: "Eduard Xachaturov",
-    year: 1978,
-    genre: "Comedy / Musical",
-    rating: 8.2,
-    duration: "65 min",
-    language: "uz",
-    audioLang: "O'zbek tili (Original)",
-    subtitles: "English, Russian",
-    cover: "https://i.ytimg.com/vi/mQYjGFcx1aA/hqdefault.jpg",
-    embedVideoId: "mQYjGFcx1aA",
-    description: {
-      uz: "O'zbek xalqining to'y urf-odatlari va musiqasi atrofida qurilgan quvnoq komediya — kuyovning kelin izlash, yigitlar va qizlar o'rtasidagi kulgili musobaqalar haqida.",
-      en: "A cheerful comedy built around Uzbek wedding traditions and music, full of humorous contests between young men and women.",
-      ru: "Весёлая комедия об узбекских свадебных традициях и музыке, полная забавных состязаний парней и девушек."
-    },
-    takeaways: {
-      uz: "An'ana va o'zbekona quvnoqlik avloddan-avlodga uzatiladigan eng qimmatli boylikdir.",
-      en: "Traditions and festive joy are the most valuable heritage passed from generation to generation.",
-      ru: "Традиции и праздничное веселье — самое ценное наследие народа."
-    },
-    vocabulary: [
-      { word: "Wedding", phonetic: "/ˈwedɪŋ/", meaning: "To'y" },
-      { word: "Tradition", phonetic: "/trəˈdɪʃn/", meaning: "An'ana" },
-      { word: "Festive", phonetic: "/ˈfestɪv/", meaning: "Bayramona, quvnoq" }
-    ]
-  },
-  {
     id: "shum-bola",
     title: {
       uz: "Shum Bola",
@@ -394,72 +625,6 @@ export const moviesData = [
     ]
   },
   {
-    id: "yor-yor",
-    title: {
-      uz: "Yor-yor",
-      en: "Yor-yor",
-      ru: "Ёр-ёр (Где ты, моя Зульфия?)"
-    },
-    director: "Ali Hamroyev",
-    year: 1964,
-    genre: "Comedy / Musical",
-    rating: 8.0,
-    duration: "68 min",
-    language: "uz",
-    audioLang: "O'zbek tili (Original)",
-    subtitles: "English, Russian",
-    cover: "https://i.ytimg.com/vi/sNALTa1aEO8/hqdefault.jpg",
-    embedVideoId: "sNALTa1aEO8",
-    description: {
-      uz: "Teleekranda ko'rgan qizni qidirib respublika bo'ylab yo'lga chiqqan yigit va uning otasi haqidagi musiqiy kinokomediya — o'zbek komediyasining durdonalaridan biri.",
-      en: "A musical comedy about a young man and his father who travel across the country in search of a girl he once saw on TV — a national classic.",
-      ru: "Музыкальная комедия о парне и его отце, исколесивших всю республику в поисках девушки с экрана телевизора."
-    },
-    takeaways: {
-      uz: "Maqsad sari intilishda qat'iyat va musiqa — yo'lda ko'proq quvvat baxsh etuvchi hamrohlardir.",
-      en: "Perseverance and music are the best companions on the road to your goal.",
-      ru: "Целеустремлённость и музыка — лучшие спутники на пути к цели."
-    },
-    vocabulary: [
-      { word: "Search", phonetic: "/sɜːrtʃ/", meaning: "Qidirmoq, izlamoq" },
-      { word: "Serenade", phonetic: "/ˌserəˈneɪd/", meaning: "Kuy, so'z qo'shig'i" },
-      { word: "Comedic", phonetic: "/kəˈmiːdɪk/", meaning: "Komedik, kulgili" }
-    ]
-  },
-  {
-    id: "tohir-va-zuhra",
-    title: {
-      uz: "Tohir va Zuhra",
-      en: "Tohir va Zuhra (Tohir and Zuhra)",
-      ru: "Тохир и Зухра"
-    },
-    director: "Nigora Nazarova",
-    year: 1999,
-    genre: "Musical / Romance / Comedy",
-    rating: 8.1,
-    duration: "113 min",
-    language: "uz",
-    audioLang: "O'zbek tili (Original)",
-    subtitles: "English, Russian",
-    cover: "https://i.ytimg.com/vi/VQVRg2oIj_U/hqdefault.jpg",
-    embedVideoId: "VQVRg2oIj_U",
-    description: {
-      uz: "Sharq ertaklaridagi abadiy sevgi qissasi — Tohir va Zuhraning sadoqat va sabrga to'la yangi talqindagi musiqiy filmini ijro etgan mashhur o'zbek yulduzlari.",
-      en: "A musical retelling of the eternal Eastern tale — the devotion and trials of Tohir and Zuhra, performed by beloved Uzbek pop stars.",
-      ru: "Мюзикл по мотивам вечной восточной легенды о любви Тохира и Зухры с участием звезд узбекской эстрады."
-    },
-    takeaways: {
-      uz: "Haqiqiy sevgi masofani, zamonani va har qanday sinovni yengadi — sabr barcha eshiklarni ochadi.",
-      en: "True love overcomes distance, time and every trial — patience opens all doors.",
-      ru: "Настоящая любовь преодолевает любые расстояния и испытания."
-    },
-    vocabulary: [
-      { word: "Devotion", phonetic: "/dɪˈvoʊʃn/", meaning: "Sadoqat, fidoyilik" },
-      { word: "Endure", phonetic: "/ɪnˈdjʊr/", meaning: "Sabr qilmoq, bardosh berish" },
-      { word: "Unite", phonetic: "/juˈnaɪt/", meaning: "Birlashtirmoq, qo'shmoq" }
-    ]
-  },
-  {
     id: "kelinlar-qozgoloni",
     title: {
       uz: "Kelinlar Qo'zg'oloni",
@@ -490,39 +655,6 @@ export const moviesData = [
       { word: "Revolt", phonetic: "/rɪˈvoʊlt/", meaning: "Qo'zg'olon, isyon" },
       { word: "Authority", phonetic: "/əˈθɔːrəti/", meaning: "Hokimiyat, obro'" },
       { word: "Friction", phonetic: "/ˈfrɪkʃn/", meaning: "Jiddiy kelishmovchilik, ziddiyat" }
-    ]
-  },
-  {
-    id: "maftuningman",
-    title: {
-      uz: "Maftuningman",
-      en: "Maftuningman (Delighted by You)",
-      ru: "Очарован тобой"
-    },
-    director: "Yo'ldosh A'zamov",
-    year: 1958,
-    genre: "Comedy / Musical",
-    rating: 8.4,
-    duration: "81 min",
-    language: "uz",
-    audioLang: "O'zbek tili (Original)",
-    subtitles: "English, Russian",
-    cover: "https://i.ytimg.com/vi/KQqVQIk1Hyc/hqdefault.jpg",
-    embedVideoId: "KQqVQIk1Hyc",
-    description: {
-      uz: "O'zbek kinosining birinchi komediyasi — ikki kinematografchi iste'dodli aktyorlarni izlab butun respublika bo'ylab safar qiladi va har yerga qo'shiq-kulgu bilan borishadi.",
-      en: "The very first Uzbek comedy — two filmmakers travel across the country searching for talented actors, with songs and laughter at every stop.",
-      ru: "Первая узбекская кинокомедия — двое режиссёров ищут таланты по всей республике."
-    },
-    takeaways: {
-      uz: "Iste'dod har qishloqda, har dilda bor — uni ko'ra bilish va qadrlash kerak.",
-      en: "Talent lives everywhere — you just need to see it and give it a stage.",
-      ru: "Талант есть повсюду — нужно лишь уметь его разглядеть."
-    },
-    vocabulary: [
-      { word: "Talent", phonetic: "/ˈtælənt/", meaning: "Iste'dod" },
-      { word: "Enchant", phonetic: "/ɪnˈtʃænt/", meaning: "Maftun etmoq, sevdirib qo'ymoq" },
-      { word: "Audition", phonetic: "/ɔːˈdɪʃn/", meaning: "Sinov, saralash" }
     ]
   },
   {
@@ -589,6 +721,40 @@ export const moviesData = [
       { word: "Courage", phonetic: "/ˈkɜːrɪdʒ/", meaning: "Jasorat, mardlik" },
       { word: "Endurance", phonetic: "/ɪnˈdʊrəns/", meaning: "Matonat, chidamlilik" },
       { word: "Truth", phonetic: "/truːθ/", meaning: "Haqiqat, haqqoniylik" }
+    ]
+  },
+  {
+    id: "why-we-fight-prelude-1942",
+    title: {
+      uz: "Nima Uchun Urushamiz: Urushga Muqaddima (1942)",
+      en: "Why We Fight: Prelude to War",
+      ru: "Почему мы воюем: Прелюдия к войне"
+    },
+    director: "Frank Capra",
+    year: 1942,
+    genre: "Documentary / History",
+    rating: 7.8,
+    duration: "52 min",
+    language: "en",
+    audioLang: "Ingliz tili (hujjatli film sharhi)",
+    subtitles: "English narration",
+    videoUrl: "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b0/Why_We_Fight.1.Prelude_to_War.webm/Why_We_Fight.1.Prelude_to_War.webm.480p.vp9.webm",
+    videoSource: "Wikimedia Commons (Public Domain — US Government)",
+    cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Why_We_Fight_title.jpg/960px-Why_We_Fight_title.jpg",
+    description: {
+      uz: "Frank Kapraning afsonaviy 'Why We Fight' hujjatli to'plamining birinchi qismi — fashistik diktaturalarning kuchga kelishi va Ikkinchi jahon urushi sabablarini tushuntiruvchi tarixiy lenta.",
+      en: "The first chapter of Frank Capra's legendary wartime series — how fascist dictatorships rose and why World War II began, told with striking historical footage.",
+      ru: "Первая часть легендарного цикла Фрэнка Капры — о приходе фашистских диктатур и причинах Второй мировой войны."
+    },
+    takeaways: {
+      uz: "Tarixdan saboq olish va haqiqatni bilish — urushlar va zulmning oldini olishning yagona ishonchli yo'li.",
+      en: "Learning from history and knowing the truth is the only sure way to prevent wars and tyranny.",
+      ru: "Учиться у истории и знать правду — единственный надёжный способ предотвратить войну и тиранию."
+    },
+    vocabulary: [
+      { word: "Democracy", phonetic: "/dɪˈmɑːkrəsi/", meaning: "Demokratiya, xalq hokimiyati" },
+      { word: "Totalitarian", phonetic: "/toʊˌtæləˈteriən/", meaning: "Totalitar, mustabid" },
+      { word: "Propaganda", phonetic: "/ˌprɒpəˈɡændə/", meaning: "Tashviqot, targ'ibot" }
     ]
   }
 ];

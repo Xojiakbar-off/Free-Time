@@ -10,6 +10,7 @@ export default function Footer({ onNavigate }) {
   const [contact, setContact] = useState('');
   const [message, setMessage] = useState('');
   const [sent, setSent] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -53,7 +54,13 @@ export default function Footer({ onNavigate }) {
           {/* Brand + About */}
           <div className="max-w-sm">
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">FT</span>
+              {logoError ? (
+                <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                  {t.siteName.slice(0, 2).toUpperCase()}
+                </span>
+              ) : (
+                <img src="/logo.jpg" alt={t.siteName} className="w-8 h-8 rounded-lg object-cover shrink-0" onError={() => setLogoError(true)} />
+              )}
               <span className="font-bold text-slate-900 dark:text-white text-lg">{t.siteName}</span>
             </div>
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.footerDesc}</p>
