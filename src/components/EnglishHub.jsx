@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { englishVideos, englishFlashcards, englishQuizQuestions, grammarTips } from '../data/englishData.js';
-import { Volume2, BookOpen, Lightbulb, BookMarked } from 'lucide-react';
+import { Volume2, BookOpen, Lightbulb, BookMarked, Star } from 'lucide-react';
 import LevelsSection from './LevelsSection.jsx';
+import confetti from 'canvas-confetti';
 
 const TABS = ['videos', 'levels', 'flashcards', 'quiz', 'grammar'];
 export default function EnglishHub({ onNavigate }) {
@@ -39,8 +40,121 @@ export default function EnglishHub({ onNavigate }) {
   );
 }
 
+let ytApiPromise = null;
+function loadYouTubeApi() {
+  if (window.YT && window.YT.Player) return Promise.resolve();
+  if (ytApiPromise) return ytApiPromise;
+  ytApiPromise = new Promise((resolve) => {
+    if (document.getElementById('yt-iframe-api')) {
+      const check = setInterval(() => {
+        if (window.YT && window.YT.Player) { clearInterval(check); resolve(); }
+      }, 100);
+    } else {
+      window.onYouTubeIframeAPIReady = () => resolve();
+      const tag = document.createElement('script');
+      tag.id = 'yt-iframe-api';
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.body.appendChild(tag);
+    }
+  });
+  return ytApiPromise;
+}
+
+function VideoPlayer({ video, onEnded }) {
+  const containerRef = useRef(null);
+  const playerRef = useRef(null);
+  const endedHandledRef = useRef(false);
+  const onEndedRef = useRef(onEnded);
+  useEffect(() => { onEndedRef.current = onEnded; }, [onEnded]);
+  const videoRef = useRef(video);
+  useEffect(() => { videoRef.current = video; }, [video]);
+  const embedId = video.embedId;
+
+  useEffect(() => {
+    let cancelled = false;
+    loadYouTubeApi().then(() => {
+      if (cancelled || !window.YT || !window.YT.Player) return;
+      playerRef.current = new window.YT.Player(containerRef.current, {
+        videoId: embedId,
+        width: '100%',
+        height: '100%',
+        playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
+        events: {
+          onStateChange: (e) => {
+            if (e.data === window.YT.PlayerState.ENDED && !endedHandledRef.current) {
+              endedHandledRef.current = true;
+              onEndedRef.current(videoRef.current);
+            }
+          }
+        }
+      });
+    });
+    return () => {
+      cancelled = true;
+      if (playerRef.current && playerRef.current.destroy) {
+        try { playerRef.current.destroy(); } catch {}
+      }
+    };
+  }, [embedId]);
+
+  return <div ref={containerRef} className="w-full h-full" />;
+}
+
 function VideoTab({lang}) {
-  return (<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">{englishVideos.map(v=>(<div key={v.id} className="glass-panel rounded-2xl overflow-hidden card-hover"><div className="aspect-video relative"><iframe src={`https://www.youtube.com/embed/${v.embedId}`} className="w-full h-full" title={v.title.en} allowFullScreen/><div className="absolute top-2 left-2 px-2 py-1 rounded bg-indigo-500 text-white text-xs font-bold">{v.level}</div></div><div className="p-5"><h3 className="font-bold text-slate-900 dark:text-white mb-1">{v.title[lang]||v.title.en}</h3><p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{v.channel} · {v.duration}</p><p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{v.description[lang]||v.description.en}</p></div></div>))}</div>);
+  const { t, watchedVideos, watchVideo } = useApp();
+  const [rewarded, setRewarded] = useState(null);
+  const rewardedTimerRef = useRef(null);
+
+  const handleEnded = (video) => {
+    const ok = watchVideo(video.id, video.title.en);
+    if (ok) {
+      setRewarded(video);
+      confetti({ particleCount: 160, spread: 90, origin: { y: 0.6 } });
+      if (rewardedTimerRef.current) clearTimeout(rewardedTimerRef.current);
+      rewardedTimerRef.current = setTimeout(() => setRewarded(null), 8000);
+    }
+  };
+
+  return (
+    <div>
+      {rewarded && (
+        <div className="mb-6 glass-panel rounded-2xl p-5 text-center border border-yellow-500/40 bg-gradient-to-r from-yellow-500/20 via-amber-500/15 to-orange-500/20 animate-pulse">
+          <div className="text-4xl mb-2">🎉</div>
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">{t.videoCongrats}</h3>
+          <p className="text-sm text-yellow-600 dark:text-yellow-300 font-semibold">⭐ +50</p>
+        </div>
+      )}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {englishVideos.map(v => {
+          const isDone = !!watchedVideos[v.id];
+          return (
+            <div key={v.id} className="glass-panel rounded-2xl overflow-hidden card-hover">
+              <div className="aspect-video relative bg-slate-900/60">
+                <VideoPlayer key={`${v.id}-${v.embedId}`} video={v} onEnded={handleEnded} />
+                <div className="absolute top-2 left-2 px-2 py-1 rounded bg-indigo-500 text-white text-xs font-bold pointer-events-none">{v.level}</div>
+                {isDone && <div className="absolute top-2 right-2 px-2 py-1 rounded bg-green-500 text-white text-xs font-bold pointer-events-none">✓ {t.videoCompleted}</div>}
+              </div>
+              <div className="p-5">
+                <h3 className="font-bold text-slate-900 dark:text-white mb-1">{v.title[lang] || v.title.en}</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{v.channel} · {v.duration}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2 mb-3">{v.description[lang] || v.description.en}</p>
+                <div className="flex items-center justify-between text-xs">
+                  <span className={`inline-flex items-center gap-1 font-semibold ${isDone ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'}`}>
+                    <Star size={14} className="text-yellow-500" /> +50 ⭐
+                  </span>
+                  {isDone ? (
+                    <span className="inline-flex items-center gap-1 text-green-600 dark:text-green-400 font-semibold">✓ +50 ⭐</span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400">{t.videoRewardHint}</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 function FlashcardTab({t,lang}) {
   const [idx,setIdx] = useState(0);

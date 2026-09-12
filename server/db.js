@@ -62,6 +62,15 @@ CREATE TABLE IF NOT EXISTS completed_books (
   UNIQUE(user_id, book_id)
 );
 
+CREATE TABLE IF NOT EXISTS watched_videos (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER,
+  video_id TEXT,
+  title TEXT,
+  watched_at TEXT,
+  UNIQUE(user_id, video_id)
+);
+
 CREATE TABLE IF NOT EXISTS bookmarks (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER,

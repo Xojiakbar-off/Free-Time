@@ -26,7 +26,7 @@ function SectionHead({ icon: Icon, title, sub, action, extra }) {
 }
 
 export default function Hero({ onNavigate }) {
-  const { t, lang } = useApp();
+  const { t, lang, user } = useApp();
   const [stats, setStats] = useState(() => analyticsService.getStats());
   const quote = quotesData[new Date().getDate() % quotesData.length];
 
@@ -34,6 +34,15 @@ export default function Hero({ onNavigate }) {
     const interval = setInterval(() => setStats(analyticsService.getStats()), 5000);
     return () => clearInterval(interval);
   }, []);
+
+  const name = user?.name || '';
+  const greetings = Array.isArray(t.heroGreetings) && t.heroGreetings.length ? t.heroGreetings : [t.heroGreeting];
+  const [greeting] = useState(() => {
+    const idx = parseInt(localStorage.getItem('ft_hero_greet_idx') || '0', 10) % greetings.length;
+    localStorage.setItem('ft_hero_greet_idx', String(idx + 1));
+    const text = greetings[idx] || t.heroGreeting;
+    return name ? text.replace(/\{name\}/g, name) : t.heroGreeting;
+  });
 
   const quoteText = quote.text[lang] || quote.text.en;
   const featuredBooks = booksData.slice(0, 3);
@@ -57,7 +66,7 @@ export default function Hero({ onNavigate }) {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight mb-4">
-            {t.heroGreeting}
+            {greeting}
           </h1>
           <p className="text-slate-600 dark:text-slate-300 text-lg sm:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
             {t.heroSub}

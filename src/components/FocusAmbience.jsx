@@ -59,7 +59,7 @@ export default function FocusAmbience() {
           </div>
           <div className="flex justify-center gap-3">
             <button onClick={()=>setRunning(!running)} className="w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white flex items-center justify-center">{running?<Pause size={22}/>:<Play size={22}/>}</button>
-            <button onClick={()=>{setRunning(false);awardedRef.current=false;const m=MODES.find(x=>x.id===mode);setSeconds(m.time);}} className="w-14 h-14 rounded-full bg-slate-900/5 text-slate-700 dark:bg-white/10 dark:text-slate-300"><RotateCcw size={20}/></button>
+            <button onClick={()=>{setRunning(false);awardedRef.current=false;const m=MODES.find(x=>x.id===mode);setSeconds(m.time);}} className="w-14 h-14 rounded-full bg-slate-900/5 text-slate-700 dark:bg-white/10 dark:text-slate-300 flex items-center justify-center"><RotateCcw size={20}/></button>
           </div>
         </div>
         <div className="glass-panel rounded-2xl p-8">

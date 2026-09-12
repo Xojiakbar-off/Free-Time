@@ -15,6 +15,7 @@ export function AppProvider({ children }) {
   const [bookProgress, setBookProgress] = useState(() => JSON.parse(localStorage.getItem('ft_book_progress') || '{}'));
   const [completedBooks, setCompletedBooks] = useState(() => JSON.parse(localStorage.getItem('ft_completed_books') || '[]'));
   const [gamesPlayed, setGamesPlayed] = useState(() => JSON.parse(localStorage.getItem('ft_games_played') || '{}'));
+  const [watchedVideos, setWatchedVideos] = useState(() => JSON.parse(localStorage.getItem('ft_watched_videos') || '{}'));
   const [authReady, setAuthReady] = useState(() => !getToken());
 
   const userRef = useRef(user);
@@ -31,6 +32,7 @@ export function AppProvider({ children }) {
   useEffect(() => { localStorage.setItem('ft_book_progress', JSON.stringify(bookProgress)); }, [bookProgress]);
   useEffect(() => { localStorage.setItem('ft_completed_books', JSON.stringify(completedBooks)); }, [completedBooks]);
   useEffect(() => { localStorage.setItem('ft_games_played', JSON.stringify(gamesPlayed)); }, [gamesPlayed]);
+  useEffect(() => { localStorage.setItem('ft_watched_videos', JSON.stringify(watchedVideos)); }, [watchedVideos]);
 
   const t = translations[lang] || translations.uz;
 
@@ -132,6 +134,19 @@ export function AppProvider({ children }) {
     setGamesPlayed(prev => ({ ...prev, [gameType]: (prev[gameType] || 0) + 1 }));
   }, [addStars]);
 
+  const watchVideo = useCallback((videoId, videoTitle) => {
+    if (watchedVideos[videoId]) return false;
+    const now = new Date().toISOString();
+    setWatchedVideos(prev => ({ ...prev, [videoId]: { watched: true, watchedAt: now } }));
+    logActivity('video', videoTitle);
+    addStars(50, `Video: ${videoTitle}`);
+    const u = userRef.current;
+    if (u) {
+      api('/videos/complete', { method: 'POST', body: { email: u.email, videoId, title: videoTitle } }).catch(() => {});
+    }
+    return true;
+  }, [watchedVideos, addStars]);
+
   const login = useCallback(async (email, password) => {
     clearAdminToken();
     const data = await api('/auth/login', { method: 'POST', body: { email, password } });
@@ -170,7 +185,7 @@ export function AppProvider({ children }) {
       bookmarks, toggleBookmark, isBookmarked,
       notes, addNote, deleteNote,
       stars, addStars, spendStars, completeBook, bookProgress, updateBookProgress, completedBooks,
-      addGameStars, gamesPlayed,
+      addGameStars, gamesPlayed, watchedVideos, watchVideo,
       user, login, register, logout, setSession, authReady,
       todayActivity: getTodayActivity(),
     }}>

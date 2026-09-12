@@ -651,6 +651,20 @@ app.get('/api/books/completed', (req, res) => {
   res.json(rows.map(r => r.book_id));
 });
 
+app.post('/api/videos/complete', (req, res) => {
+  const { email, videoId, title } = req.body || {};
+  if (!email || !videoId) return res.status(400).json({ error: 'email va videoId kerak' });
+  const u = db.prepare('SELECT * FROM users WHERE email = ?').get(email.toLowerCase());
+  if (!u) return res.status(404).json({ error: 'foydalanuvchi topilmadi' });
+  const existing = db.prepare('SELECT * FROM watched_videos WHERE user_id = ? AND video_id = ?').get(u.id, videoId);
+  if (existing) return res.json({ ok: true, already: true, newStars: 0 });
+  db.prepare('INSERT INTO watched_videos (user_id, video_id, title, watched_at) VALUES (?,?,?,?)').run(u.id, videoId, title || '', now());
+  db.prepare('UPDATE users SET stars = stars + 50 WHERE id = ?').run(u.id);
+  db.prepare('INSERT INTO stars_log (user_id, amount, reason, timestamp) VALUES (?,?,?,?)').run(u.id, 50, `Video: ${title || videoId}`, now());
+  const updated = db.prepare('SELECT stars FROM users WHERE id = ?').get(u.id);
+  res.json({ ok: true, already: false, newStars: 50, stars: updated.stars });
+});
+
 // ---------- Messages / contact ----------
 app.post('/api/contact', async (req, res) => {
   const { name, contact, text } = req.body || {};
