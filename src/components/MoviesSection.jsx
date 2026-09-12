@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { Bookmark, Star, PlayCircle, Copy, ChevronLeft, ArrowDownRight, Clock, Calendar, User, ShieldCheck, Lock, Sparkles, GraduationCap, Clapperboard, CheckCircle2, Timer, FileQuestion } from 'lucide-react';
+import { Bookmark, Star, PlayCircle, Copy, ChevronLeft, ArrowDownRight, Clock, Calendar, User, ShieldCheck, TriangleAlert, CheckCircle2 } from 'lucide-react';
 
 export default function MoviesSection() {
   const { t, lang, stars, spendStars, toggleBookmark, isBookmarked } = useApp();
@@ -90,70 +90,53 @@ export default function MoviesSection() {
         onClose={() => setWarnMovie(null)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: '1.4rem', overflow: 'hidden', backgroundImage: 'none', boxShadow: 'none', bgcolor: 'transparent' } }}
+        PaperProps={{ sx: { borderRadius: '1.25rem', overflow: 'hidden', backgroundImage: 'none', boxShadow: 'none', bgcolor: 'transparent' } }}
       >
         {warnMovie && (() => {
           const cost = warnMovie.cost ?? MOVIE_COST;
           const missing = Math.max(0, cost - stars);
           const pct = Math.min(100, Math.round((stars / cost) * 100));
-          const earnWays = [
-            { icon: Clapperboard, label: t.earnVideos, reward: '+50', color: 'bg-rose-500/15 text-rose-600 dark:text-rose-300', ring: 'border-rose-500/20' },
-            { icon: GraduationCap, label: t.earnLessons, reward: '+10/15', color: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-300', ring: 'border-indigo-500/20' },
-            { icon: Bookmark, label: t.earnBooks, reward: '+50', color: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-300', ring: 'border-emerald-500/20' },
-            { icon: FileQuestion, label: t.earnQuiz, reward: '+2/+5', color: 'bg-amber-500/15 text-amber-600 dark:text-amber-300', ring: 'border-amber-500/20' },
-            { icon: Timer, label: t.earnFocus, reward: '+5', color: 'bg-purple-500/15 text-purple-600 dark:text-purple-300', ring: 'border-purple-500/20' },
-          ];
           return (
-            <div className="glass-panel rounded-[1.4rem] overflow-hidden border border-slate-200/70 dark:border-white/10">
-              <div className="relative bg-gradient-to-br from-rose-500 via-red-500 to-orange-500 px-6 pb-6 pt-7 text-center overflow-hidden">
-                <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-white/10 blur-2xl" />
-                <div className="absolute -bottom-14 -left-8 w-32 h-32 rounded-full bg-slate-950/10 blur-2xl" />
-                <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/20 ring-1 ring-white/30 backdrop-blur shadow-lg mb-3">
-                  <Lock size={28} className="text-white" />
+            <div className="glass-panel rounded-[1.25rem] overflow-hidden border border-slate-200/80 dark:border-white/10 shadow-[0_25px_60px_-15px_rgba(2,6,23,0.5),0_0_0_1px_rgba(226,232,240,0.6)]">
+              <div className="px-6 pt-7 pb-5 text-center border-b border-slate-100 dark:border-white/5">
+                <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-rose-100 dark:bg-rose-500/15 shadow-[0_10px_30px_-8px_rgba(244,63,94,0.45)] ring-1 ring-rose-200/70 dark:ring-rose-500/25 mb-3.5">
+                  <TriangleAlert size={28} className="text-rose-500 dark:text-rose-400" />
                 </div>
-                <h4 className="relative text-white text-xl font-extrabold tracking-tight">{t.notEnoughStars}</h4>
-                <p className="relative text-white/85 text-xs font-medium mt-1">{warnMovie.title[lang] || warnMovie.title.en}</p>
-                <span className="relative inline-flex items-center gap-1.5 mt-3 px-4 py-1.5 rounded-full bg-rose-950/40 ring-1 ring-white/25 text-white text-sm font-extrabold">
-                  <Star size={14} className="fill-yellow-300 text-yellow-300" /> {t.requiredStars}: {cost}
-                </span>
+                <h4 className="text-slate-900 dark:text-white text-lg font-extrabold tracking-tight">{t.notEnoughStars}</h4>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                  {t.notEnoughStarsBody.replace('{cost}', String(cost))}
+                </p>
               </div>
 
               <div className="p-6">
-                <div className="mb-5">
-                  <div className="flex items-center justify-between text-sm mb-2.5">
-                    <span className="text-slate-500 dark:text-slate-400 font-medium">{t.totalStars}</span>
-                    <span className="flex items-center gap-1 font-extrabold text-slate-900 dark:text-white">
-                      <Star size={15} className="fill-yellow-400 text-yellow-400" />{stars}
-                    </span>
+                <div className="grid grid-cols-2 gap-3 mb-5">
+                  <div className="rounded-2xl p-4 bg-white/80 dark:bg-white/[0.04] border border-slate-100 dark:border-white/10 shadow-[0_8px_20px_-8px_rgba(15,23,42,0.25)] dark:shadow-none text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-semibold mb-1.5">{t.totalStars}</p>
+                    <p className="flex items-center justify-center gap-1.5 font-extrabold text-slate-900 dark:text-white text-lg">
+                      <Star size={16} className="fill-yellow-400 text-yellow-500" />{stars}
+                    </p>
                   </div>
-                  <div className="h-3 rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-rose-500 to-orange-400 transition-all duration-500"
-                      style={{ width: `${pct}%` }}
-                    />
-                  </div>
-                  <div className="flex items-center justify-between text-xs mt-2.5">
-                    <span className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400">
-                      <CheckCircle2 size={13} /> {t.yourBalance}: {stars} ⭐
-                    </span>
-                    <span className="inline-flex items-center gap-1 font-extrabold text-rose-500">
-                      {t.missingStars}: {missing} ⭐
-                    </span>
+                  <div className="rounded-2xl p-4 bg-rose-50/80 dark:bg-rose-500/[0.07] border border-rose-100 dark:border-rose-500/20 shadow-[0_8px_20px_-8px_rgba(244,63,94,0.3)] dark:shadow-none text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-rose-400 dark:text-rose-400/80 font-semibold mb-1.5">{t.requiredStars}</p>
+                    <p className="flex items-center justify-center gap-1.5 font-extrabold text-rose-500 dark:text-rose-400 text-lg">
+                      <Star size={16} className="text-rose-300 dark:text-rose-500/50" />{cost}
+                    </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3">
-                  <Sparkles size={14} className="text-indigo-500 dark:text-indigo-400" /> {t.earnStarsTitle}
+                <div className="h-2.5 rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden shadow-inner">
+                  <div
+                    className="h-full rounded-full bg-rose-400 dark:bg-rose-500 transition-all duration-500"
+                    style={{ width: `${pct}%` }}
+                  />
                 </div>
-                <div className="grid grid-cols-1 gap-2">
-                  {earnWays.map(w => (
-                    <div key={w.label} className={`flex items-center justify-between rounded-xl border ${w.ring} px-3.5 py-2.5`}>
-                      <span className={`flex items-center gap-2.5 text-sm font-semibold ${w.color}`}>
-                        <w.icon size={16} /> {w.label}
-                      </span>
-                      <span className="text-xs font-extrabold text-yellow-500 dark:text-yellow-400">{w.reward} ⭐</span>
-                    </div>
-                  ))}
+                <div className="flex items-center justify-between text-xs mt-2.5 text-slate-500 dark:text-slate-400">
+                  <span className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400">
+                    <CheckCircle2 size={13} /> {t.yourBalance}: {stars} ⭐
+                  </span>
+                  <span className="inline-flex items-center gap-1 font-extrabold text-rose-500 dark:text-rose-400">
+                    {t.missingStars}: {missing} ⭐
+                  </span>
                 </div>
                 <p className="text-[11px] text-center text-slate-400 dark:text-slate-500 mt-4 leading-relaxed">⭐ {t.movieEarnHint}</p>
               </div>
@@ -165,13 +148,12 @@ export default function MoviesSection() {
                   onClick={() => setWarnMovie(null)}
                   sx={{
                     borderRadius: '0.9rem',
-                    py: 1.4,
+                    py: 1.3,
                     textTransform: 'none',
                     fontWeight: 700,
-                    fontSize: '0.95rem',
-                    background: 'linear-gradient(90deg, #6366f1, #a855f7)',
-                    boxShadow: '0 10px 24px rgba(99,102,241,0.35)',
-                    '&:hover': { background: 'linear-gradient(90deg, #4f46e5, #9333ea)' },
+                    background: '#6366f1',
+                    boxShadow: '0 12px 24px -8px rgba(99,102,241,0.5)',
+                    '&:hover': { background: '#4f46e5', boxShadow: '0 14px 28px -8px rgba(79,70,229,0.55)' },
                   }}
                 >
                   <CheckCircle2 size={18} className="mr-2" /> {t.close}
