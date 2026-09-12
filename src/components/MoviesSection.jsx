@@ -109,8 +109,8 @@ export default function MoviesSection() {
           const pct = Math.min(100, Math.round((stars / cost) * 100));
           return (
             <div className="bg-[rgb(0,16,60)] rounded-[10px] overflow-hidden">
-              <div className="px-6 pt-8 pb-6 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-[10px] bg-[#6542ff]/15 ring-1 ring-[#6542ff]/40 shadow-[0_10px_28px_-8px_rgba(101,66,255,0.6)] mb-3.5">
+              <div className="px-6 pt-9 pb-7 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-[10px] bg-[#6542ff]/15 ring-1 ring-[#6542ff]/40 shadow-[0_10px_28px_-8px_rgba(101,66,255,0.6)] mb-4">
                   <TriangleAlert size={28} className="text-[#b3a0ff]" />
                 </div>
                 <h4 className="text-white text-lg font-extrabold tracking-tight">{t.notEnoughStars}</h4>
@@ -119,7 +119,7 @@ export default function MoviesSection() {
                 </p>
               </div>
 
-              <div className="px-6 pb-7">
+              <div className="px-6 pb-8">
                 <div className="grid grid-cols-2 gap-3 mb-5">
                   <div className="rounded-[10px] p-4 bg-white/[0.06] ring-1 ring-white/10 text-center">
                     <p className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold mb-1.5">{t.totalStars}</p>
@@ -152,14 +152,14 @@ export default function MoviesSection() {
                 <p className="text-[11px] text-center text-slate-500 mt-4 leading-relaxed">⭐ {t.movieEarnHint}</p>
               </div>
 
-              <div className="px-6 pb-6">
+              <div className="px-6 pb-7">
                 <Button
                   fullWidth
                   variant="contained"
                   onClick={() => setWarnMovie(null)}
                   sx={{
                     borderRadius: '10px',
-                    minHeight: 56,
+                    minHeight: 60,
                     textTransform: 'none',
                     fontWeight: 700,
                     fontSize: '0.95rem',
