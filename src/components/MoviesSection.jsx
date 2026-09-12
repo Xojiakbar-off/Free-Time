@@ -90,55 +90,66 @@ export default function MoviesSection() {
         onClose={() => setWarnMovie(null)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: '1.25rem', overflow: 'hidden', backgroundImage: 'none', boxShadow: 'none', bgcolor: 'transparent' } }}
+        PaperProps={{
+          sx: {
+            borderRadius: '10px',
+            overflow: 'hidden',
+            backgroundImage: 'none',
+            bgcolor: 'rgb(0, 16, 60)',
+            border: '1px solid rgba(101, 66, 255, 0.45)',
+            boxShadow: '0 30px 70px -18px rgba(0, 0, 0, 0.65)',
+            transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
+            '&:hover': { borderColor: '#6542ff', boxShadow: '0 34px 80px -18px rgba(101, 66, 255, 0.35)' },
+          },
+        }}
       >
         {warnMovie && (() => {
           const cost = warnMovie.cost ?? MOVIE_COST;
           const missing = Math.max(0, cost - stars);
           const pct = Math.min(100, Math.round((stars / cost) * 100));
           return (
-            <div className="glass-panel rounded-[1.25rem] overflow-hidden border border-slate-200/80 dark:border-white/10 shadow-[0_25px_60px_-15px_rgba(2,6,23,0.5),0_0_0_1px_rgba(226,232,240,0.6)]">
-              <div className="px-6 pt-7 pb-5 text-center border-b border-slate-100 dark:border-white/5">
-                <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-rose-100 dark:bg-rose-500/15 shadow-[0_10px_30px_-8px_rgba(244,63,94,0.45)] ring-1 ring-rose-200/70 dark:ring-rose-500/25 mb-3.5">
-                  <TriangleAlert size={28} className="text-rose-500 dark:text-rose-400" />
+            <div className="bg-[rgb(0,16,60)] rounded-[10px] overflow-hidden">
+              <div className="px-6 pt-8 pb-6 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-[10px] bg-[#6542ff]/15 ring-1 ring-[#6542ff]/40 shadow-[0_10px_28px_-8px_rgba(101,66,255,0.6)] mb-3.5">
+                  <TriangleAlert size={28} className="text-[#b3a0ff]" />
                 </div>
-                <h4 className="text-slate-900 dark:text-white text-lg font-extrabold tracking-tight">{t.notEnoughStars}</h4>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                <h4 className="text-white text-lg font-extrabold tracking-tight">{t.notEnoughStars}</h4>
+                <p className="text-slate-400 text-sm mt-1.5 leading-relaxed">
                   {t.notEnoughStarsBody.replace('{cost}', String(cost))}
                 </p>
               </div>
 
-              <div className="p-6">
+              <div className="px-6 pb-7">
                 <div className="grid grid-cols-2 gap-3 mb-5">
-                  <div className="rounded-2xl p-4 bg-white/80 dark:bg-white/[0.04] border border-slate-100 dark:border-white/10 shadow-[0_8px_20px_-8px_rgba(15,23,42,0.25)] dark:shadow-none text-center">
-                    <p className="text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-semibold mb-1.5">{t.totalStars}</p>
-                    <p className="flex items-center justify-center gap-1.5 font-extrabold text-slate-900 dark:text-white text-lg">
+                  <div className="rounded-[10px] p-4 bg-white/[0.06] ring-1 ring-white/10 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold mb-1.5">{t.totalStars}</p>
+                    <p className="flex items-center justify-center gap-1.5 font-extrabold text-white text-lg">
                       <Star size={16} className="fill-yellow-400 text-yellow-500" />{stars}
                     </p>
                   </div>
-                  <div className="rounded-2xl p-4 bg-rose-50/80 dark:bg-rose-500/[0.07] border border-rose-100 dark:border-rose-500/20 shadow-[0_8px_20px_-8px_rgba(244,63,94,0.3)] dark:shadow-none text-center">
-                    <p className="text-[11px] uppercase tracking-wider text-rose-400 dark:text-rose-400/80 font-semibold mb-1.5">{t.requiredStars}</p>
-                    <p className="flex items-center justify-center gap-1.5 font-extrabold text-rose-500 dark:text-rose-400 text-lg">
-                      <Star size={16} className="text-rose-300 dark:text-rose-500/50" />{cost}
+                  <div className="rounded-[10px] p-4 bg-[#6542ff]/15 ring-1 ring-[#6542ff]/40 text-center">
+                    <p className="text-[11px] uppercase tracking-wider text-[#b3a0ff] font-semibold mb-1.5">{t.requiredStars}</p>
+                    <p className="flex items-center justify-center gap-1.5 font-extrabold text-[#a78bfa] text-lg">
+                      <Star size={16} className="text-[#6542ff]" />{cost}
                     </p>
                   </div>
                 </div>
 
-                <div className="h-2.5 rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden shadow-inner">
+                <div className="h-2.5 rounded-[10px] bg-white/10 overflow-hidden shadow-inner">
                   <div
-                    className="h-full rounded-full bg-rose-400 dark:bg-rose-500 transition-all duration-500"
+                    className="h-full rounded-[10px] bg-[#6542ff] transition-all duration-500"
                     style={{ width: `${pct}%` }}
                   />
                 </div>
-                <div className="flex items-center justify-between text-xs mt-2.5 text-slate-500 dark:text-slate-400">
-                  <span className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400">
+                <div className="flex items-center justify-between text-xs mt-2.5 text-slate-400">
+                  <span className="inline-flex items-center gap-1 font-semibold text-emerald-400">
                     <CheckCircle2 size={13} /> {t.yourBalance}: {stars} ⭐
                   </span>
-                  <span className="inline-flex items-center gap-1 font-extrabold text-rose-500 dark:text-rose-400">
+                  <span className="inline-flex items-center gap-1 font-extrabold text-[#b3a0ff]">
                     {t.missingStars}: {missing} ⭐
                   </span>
                 </div>
-                <p className="text-[11px] text-center text-slate-400 dark:text-slate-500 mt-4 leading-relaxed">⭐ {t.movieEarnHint}</p>
+                <p className="text-[11px] text-center text-slate-500 mt-4 leading-relaxed">⭐ {t.movieEarnHint}</p>
               </div>
 
               <div className="px-6 pb-6">
@@ -147,13 +158,15 @@ export default function MoviesSection() {
                   variant="contained"
                   onClick={() => setWarnMovie(null)}
                   sx={{
-                    borderRadius: '0.9rem',
-                    py: 1.3,
+                    borderRadius: '10px',
+                    minHeight: 56,
                     textTransform: 'none',
                     fontWeight: 700,
-                    background: '#6366f1',
-                    boxShadow: '0 12px 24px -8px rgba(99,102,241,0.5)',
-                    '&:hover': { background: '#4f46e5', boxShadow: '0 14px 28px -8px rgba(79,70,229,0.55)' },
+                    fontSize: '0.95rem',
+                    background: '#6542ff',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    boxShadow: '0 12px 28px -8px rgba(101, 66, 255, 0.55)',
+                    '&:hover': { background: '#5435e0', borderColor: '#6542ff', boxShadow: '0 14px 32px -8px rgba(101, 66, 255, 0.7)' },
                   }}
                 >
                   <CheckCircle2 size={18} className="mr-2" /> {t.close}
