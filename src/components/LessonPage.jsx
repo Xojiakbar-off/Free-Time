@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { lessons } from '../data/lessonsData.js';
-import { BookOpen, Star, Award, CheckCircle } from 'lucide-react';
+import { BookOpen, Star, Award, CheckCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { logActivity } from '../services/activityService.js';
 import confetti from 'canvas-confetti';
 
@@ -46,26 +46,28 @@ export default function LessonPage({ openLessonId }) {
         <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto">{t.lessonsSub}</p>
       </div>
 
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between gap-3 mb-6">
         <button
           onClick={() => { if (page > 0) setPage(page - 1); setJustCompleted(false); }}
           disabled={page === 0}
-          className="flex items-center justify-center w-12 h-12 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 text-xl font-bold disabled:opacity-40 hover:bg-slate-200 dark:hover:bg-white/20 transition-colors"
+          className="shrink-0 flex items-center justify-center w-11 h-11 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 disabled:opacity-40 hover:bg-slate-200 dark:hover:bg-white/20 transition-colors"
           title={t.lessonPrev}
+          aria-label={t.lessonPrev}
         >
-          &lt;
+          <ChevronLeft size={20} />
         </button>
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+        <div className="flex items-center justify-center gap-3 min-w-0">
+          <span className="text-sm text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">
             {t.lessonPage} {page + 1} {t.lessonOf} {totalPages}
           </span>
-          <div className="flex gap-1">
+          <div className="hidden sm:flex gap-1">
             {lessons.map((l, i) => (
               <button
                 key={l.id}
                 onClick={() => { setPage(i); setJustCompleted(false); }}
                 className={`w-2 h-2 rounded-full transition-colors ${i === page ? 'bg-indigo-500' : completedLessons.includes(l.id) ? 'bg-green-500' : 'bg-slate-300 dark:bg-white/20'}`}
                 title={l.title[lang] || l.title.en}
+                aria-label={l.title[lang] || l.title.en}
               />
             ))}
           </div>
@@ -73,10 +75,11 @@ export default function LessonPage({ openLessonId }) {
         <button
           onClick={() => { if (page < totalPages - 1) setPage(page + 1); setJustCompleted(false); }}
           disabled={page === totalPages - 1}
-          className="flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-500 text-white text-xl font-bold disabled:opacity-40 hover:bg-indigo-600 transition-colors"
+          className="shrink-0 flex items-center justify-center w-11 h-11 rounded-xl bg-indigo-500 text-white disabled:opacity-40 hover:bg-indigo-600 transition-colors"
           title={t.lessonNext}
+          aria-label={t.lessonNext}
         >
-          &gt;
+          <ChevronRight size={20} />
         </button>
       </div>
 
