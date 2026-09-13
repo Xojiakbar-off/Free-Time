@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { lessons } from '../data/lessonsData.js';
 import { BookOpen, Star, Award, CheckCircle, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -13,6 +13,10 @@ export default function LessonPage({ openLessonId }) {
   const [page, setPage] = useState(initialIndex);
   const [completedLessons, setCompletedLessons] = useState(() => JSON.parse(localStorage.getItem('ft_completed_lessons') || '[]'));
   const [justCompleted, setJustCompleted] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [page]);
 
   const lesson = lessons[page];
   const totalPages = lessons.length;
