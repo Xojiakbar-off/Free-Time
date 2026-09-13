@@ -251,7 +251,7 @@ export default function AdminPanel() {
         </div>
         <div className="glass-panel panel-hover rounded-2xl p-6">
           <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><UserPlus size={18} className="text-amber-500 dark:text-amber-400" />{t.newRegistrations}</h3>
-          <DailyChart days={(analytics?.newUsersByDay || []).map(d => ({ ...d, uniqueVisitors: d.count }))} accent="bg-amber-300" />
+          <DailyChart days={(analytics?.newUsersByDay || []).map(d => ({ ...d, visits: d.count }))} accent="bg-amber-400/80 dark:bg-amber-400/80" />
         </div>
       </div>
 
@@ -398,17 +398,18 @@ function MuiVisitorTrend({ analytics }) {
 }
 
 function DailyChart({ days, accent = 'bg-indigo-500/70 dark:bg-indigo-300/70' }) {
-  const max = Math.max(...(days || []).map(d => d.visits || 0), 1);
+  const max = Math.max(...(days || []).map(d => d.visits || d.count || 0), 1);
   if (!days || days.length === 0) return <p className="text-sm text-slate-500">{'—'}</p>;
   return (
     <div className="flex items-end gap-1 h-32 px-1">
       {days.map(d => {
-        const h = d.visits ? Math.max((d.visits / max) * 100, 4) : 0;
+        const v = d.visits || d.count || 0;
+        const h = v ? Math.max((v / max) * 100, 4) : 0;
         return (
           <div key={d.date} className="flex-1 flex flex-col items-center justify-end gap-1 h-full group relative" title="">
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 z-10 mb-1 px-2 py-1 rounded-md bg-slate-900 text-white text-[9px] font-semibold text-center whitespace-nowrap opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all pointer-events-none shadow-lg">
               <span className="block text-slate-300">{d.date}</span>
-              <span className="block">{d.visits} ta</span>
+              <span className="block">{v} ta</span>
             </div>
             <div className={`w-full rounded-t ${accent} transition-all duration-300 cursor-pointer group-hover:brightness-110`} style={{ height: `${h}%` }} />
             <span className="text-[8px] text-slate-400 leading-none">{(d.date || '').slice(8)}</span>
