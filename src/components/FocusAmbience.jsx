@@ -55,7 +55,7 @@ export default function FocusAmbience() {
               <circle cx="60" cy="60" r="52" fill="none" stroke="url(#grad)" strokeWidth="8" strokeLinecap="round" strokeDasharray={`${prog*326.7} 326.7`}/>
               <defs><linearGradient id="grad"><stop offset="0%" stopColor="#6366f1"/><stop offset="100%" stopColor="#a855f7"/></linearGradient></defs>
             </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center"><span className="text-5xl font-extrabold text-slate-900 dark:text-white tabular-nums">{fmt(seconds)}</span><span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Focus</span></div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center"><span className="text-5xl font-extrabold text-slate-900 dark:text-white tabular-nums">{fmt(seconds)}</span><span className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t.focusCenter}</span></div>
           </div>
           <div className="flex justify-center gap-3">
             <button onClick={()=>setRunning(!running)} className="w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white flex items-center justify-center">{running?<Pause size={22}/>:<Play size={22}/>}</button>
@@ -74,7 +74,7 @@ export default function FocusAmbience() {
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-slate-500 dark:text-slate-400">Volume</span>
+            <span className="text-sm text-slate-500 dark:text-slate-400">{t.volumeLabel}</span>
             <input type="range" min={0} max={1} step={0.05} value={volume} onChange={e=>{const v=Number(e.target.value);setVolume(v);if(activeSound){soundService.stopAmbient(activeSound);soundService.playAmbient(activeSound,v);}}} className="flex-1"/>
             <span className={`text-xs px-2 py-1 rounded ${activeSound?'bg-green-500/20 text-green-700 dark:text-green-400':'bg-slate-100 dark:bg-white/10 text-slate-500'}`}>{activeSound?'●':'○'}</span>
           </div>

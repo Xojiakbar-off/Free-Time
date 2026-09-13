@@ -17,7 +17,7 @@ import FullBookReader from './components/FullBookReader.jsx';
 import Footer from './components/Footer.jsx';
 import { analyticsService } from './services/analyticsService.js';
 
-function LoadingScreen({ leaving }) {
+function LoadingScreen({ leaving, t }) {
   return (
     <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center gap-5 transition-opacity duration-500 ${leaving ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ background: 'radial-gradient(900px 500px at 85% -10%, rgba(124, 58, 237, 0.18) 0%, transparent 62%), linear-gradient(180deg, #080d1e 0%, #0f1730 48%, #080d1e 100%)' }}>
       <div className="relative">
@@ -30,7 +30,7 @@ function LoadingScreen({ leaving }) {
       <div className="w-48 h-1.5 rounded-full bg-white/10 overflow-hidden">
         <div className="h-full rounded-full bg-gradient-to-r from-indigo-400 to-purple-500 animate-[loadbar_1.2s_ease-in-out_forwards]" />
       </div>
-      <p className="text-xs text-slate-400">Loading your workspace…</p>
+      <p className="text-xs text-slate-400">{t?.loadingWorkspace || 'Loading your workspace…'}</p>
     </div>
   );
 }
@@ -45,7 +45,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [leaving, setLeaving] = useState(false);
   const [openLessonId, setOpenLessonId] = useState(() => parseInt(localStorage.getItem('ft_open_lesson') || '0', 10));
-  const { theme, user, authReady } = useApp();
+  const { theme, user, authReady, t } = useApp();
 
   const wasAuthed = useRef(!!user);
   useEffect(() => {
@@ -112,7 +112,7 @@ function App() {
   if (loading) {
     return (
       <>
-        <LoadingScreen leaving={leaving} />
+        <LoadingScreen leaving={leaving} t={t} />
         {user || guest ? null : <div className="h-screen" />}
       </>
     );

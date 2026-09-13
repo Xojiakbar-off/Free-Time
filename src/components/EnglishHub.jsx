@@ -166,14 +166,14 @@ function FlashcardTab({t,lang}) {
   const speak = (word)=>{ const u=new SpeechSynthesisUtterance(word); u.lang='en-US'; window.speechSynthesis?.speak(u); };
   return (
     <div className="max-w-md mx-auto">
-      <div className="flex justify-between mb-4 text-sm text-slate-500 dark:text-slate-400"><span>{idx+1}/{englishFlashcards.length}</span><span className="text-green-600 dark:text-green-400">{learned.length} mastered</span></div>
+      <div className="flex justify-between mb-4 text-sm text-slate-500 dark:text-slate-400"><span>{idx+1}/{englishFlashcards.length}</span><span className="text-green-600 dark:text-green-400">{learned.length} {t.masteredSuffix}</span></div>
       <div onClick={()=>setFlipped(!flipped)} className="glass-panel rounded-2xl p-8 min-h-[260px] flex flex-col items-center justify-center cursor-pointer hover:border-indigo-400/40 transition-all">
-        {!flipped?(<div className="text-center"><p className="text-xs text-indigo-600 dark:text-indigo-300 mb-2">{t.wordOfTheDay}</p><h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{card.word}</h3><p className="text-slate-500 dark:text-slate-400">{card.phonetic}</p><p className="text-xs text-slate-500 mt-1">{card.partOfSpeech} · {card.category}</p></div>):(<div className="text-center"><p className="text-sm text-slate-500 dark:text-slate-400 mb-1">Translation:</p><p className="text-xl font-bold text-slate-900 dark:text-white mb-3">{card.translation[lang]||card.translation.en}</p><p className="text-sm text-indigo-600 dark:text-indigo-300 italic mb-1">"{card.exampleEn}"</p><p className="text-xs text-slate-500">{card.exampleUz}</p></div>)}
+        {!flipped?(<div className="text-center"><p className="text-xs text-indigo-600 dark:text-indigo-300 mb-2">{t.wordOfTheDay}</p><h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{card.word}</h3><p className="text-slate-500 dark:text-slate-400">{card.phonetic}</p><p className="text-xs text-slate-500 mt-1">{card.partOfSpeech} · {card.category}</p></div>):(<div className="text-center"><p className="text-sm text-slate-500 dark:text-slate-400 mb-1">{t.flashcardTranslation}</p><p className="text-xl font-bold text-slate-900 dark:text-white mb-3">{card.translation[lang]||card.translation.en}</p><p className="text-sm text-indigo-600 dark:text-indigo-300 italic mb-1">"{card.exampleEn}"</p><p className="text-xs text-slate-500">{card.exampleUz}</p></div>)}
       </div>
       <div className="flex gap-3 mt-4">
-        <button onClick={()=>speak(card.word)} className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl bg-slate-900/5 text-slate-700 text-sm font-medium hover:bg-slate-900/10 dark:bg-white/10 dark:text-slate-300 dark:hover:bg-white/20"><Volume2 size={14}/> Pronounce</button>
-        <button onClick={toggleLearned} className={`flex-1 py-3 rounded-xl text-sm font-medium ${learned.includes(card.id)?'bg-green-500 text-white':'bg-slate-900/5 text-slate-700 dark:bg-white/10 dark:text-slate-300'}`}>{learned.includes(card.id)?'✓ Learned':'Mark Learned'}</button>
-        <button onClick={next} className="flex-1 py-3 rounded-xl bg-indigo-500 text-white text-sm font-medium">Next →</button>
+        <button onClick={()=>speak(card.word)} className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl bg-slate-900/5 text-slate-700 text-sm font-medium hover:bg-slate-900/10 dark:bg-white/10 dark:text-slate-300 dark:hover:bg-white/20"><Volume2 size={14}/> {t.pronounce}</button>
+        <button onClick={toggleLearned} className={`flex-1 py-3 rounded-xl text-sm font-medium ${learned.includes(card.id)?'bg-green-500 text-white':'bg-slate-900/5 text-slate-700 dark:bg-white/10 dark:text-slate-300'}`}>{learned.includes(card.id)?'✓ '+t.learnedBtn:t.markLearnedBtn}</button>
+        <button onClick={next} className="flex-1 py-3 rounded-xl bg-indigo-500 text-white text-sm font-medium">{t.flashcardNext} →</button>
       </div>
     </div>
   );

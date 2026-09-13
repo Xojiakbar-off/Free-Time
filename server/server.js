@@ -549,6 +549,9 @@ app.post('/api/auth/login', (req, res) => {
 });
 
 app.post('/api/auth/google', async (req, res) => {
+  if (!process.env.GOOGLE_CLIENT_ID) {
+    return res.status(403).json({ error: 'Google login faqat administrator yoqganda ishlaydi' });
+  }
   const { email, name, sub } = req.body || {};
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'Email manzili noto\'g\'ri' });

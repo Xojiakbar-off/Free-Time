@@ -239,7 +239,7 @@ export default function AdminPanel() {
             <Typography variant="subtitle1" fontWeight={700} mb={2} sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 1 }}>
               <UserPlus size={18} className="text-amber-500 dark:text-amber-400" />{t.visitorsTrend}
             </Typography>
-            <MuiVisitorTrend analytics={analytics} />
+            <MuiVisitorTrend analytics={analytics} t={t} />
           </CardContent>
         </Card>
       </Box>
@@ -350,7 +350,7 @@ function MuiVisitorChart({ analytics }) {
   );
 }
 
-function MuiVisitorTrend({ analytics }) {
+function MuiVisitorTrend({ analytics, t }) {
   const days = analytics?.visitsByDay || [];
   if (days.length === 0) return <Typography className="text-slate-500 dark:text-slate-400" variant="body2" sx={{ color: 'inherit' }}>—</Typography>;
   const totalVisits = days.reduce((a, d) => a + (d.visits || 0), 0);
@@ -365,9 +365,9 @@ function MuiVisitorTrend({ analytics }) {
   return (
     <Box>
       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1 }}>
-        <Chip label={`${totalVisits} Visits`} sx={{ bgcolor: '#6366f122', color: 'inherit', fontWeight: 600 }} size="small" />
-        <Chip label={`${totalUnique} Unique`} sx={{ bgcolor: '#a855f722', color: 'inherit', fontWeight: 600 }} size="small" />
-        <Chip label={`avg ${avg}/day`} sx={{ bgcolor: '#06b6d422', color: 'inherit', fontWeight: 600 }} size="small" />
+        <Chip label={`${totalVisits} ${t.trendVisits}`} sx={{ bgcolor: '#6366f122', color: 'inherit', fontWeight: 600 }} size="small" />
+        <Chip label={`${totalUnique} ${t.trendUnique}`} sx={{ bgcolor: '#a855f722', color: 'inherit', fontWeight: 600 }} size="small" />
+        <Chip label={`${avg} ${t.trendAvg}`} sx={{ bgcolor: '#06b6d422', color: 'inherit', fontWeight: 600 }} size="small" />
         <Chip
           label={`${growth >= 0 ? '+' : ''}${growth}%`}
           size="small"

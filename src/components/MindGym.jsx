@@ -23,7 +23,7 @@ export default function MindGym() {
       {game==='riddles'&&<RiddlesGame lang={lang} setScore={setScore} t={t}/>}
       {game==='math'&&<MathGame setScore={setScore} t={t} lang={lang}/>}
       {game==='memory'&&<MemoryGame setScore={setScore} t={t}/>}
-      {game==='wordle'&&<WordleGame setScore={setScore}/>}
+      {game==='wordle'&&<WordleGame setScore={setScore} t={t}/>}
     </section>
   );
 }
@@ -107,11 +107,11 @@ function MemoryGame({setScore,t}) {
     <div className="max-w-md mx-auto">
       <p className="text-center text-sm text-slate-500 dark:text-slate-400 mb-3">{t.score}: {moves}</p>
       <div className="grid grid-cols-4 gap-3">{grid.map(c=>(<button key={c.id} onClick={()=>flip(c.id)} className={`aspect-square rounded-xl text-3xl flex items-center justify-center transition-all ${c.match?'bg-emerald-500/30 border-emerald-400/50':c.flipped?'bg-indigo-100/70 border-indigo-400/50 dark:bg-white/15 dark:border-indigo-400/50':'bg-slate-100 border-slate-200 dark:bg-white/5 dark:border-white/10'}`}>{c.flipped||c.match?c.emoji:''}</button>))}</div>
-      {allMatched&&<div className="text-center mt-4"><p className="text-green-700 dark:text-green-400 font-bold mb-2">🎉 Well done!</p><button onClick={()=>{setGrid(pairs.sort(()=>Math.random()-0.5));setMoves(0);}} className="px-5 py-2.5 rounded-xl bg-indigo-500 text-white text-sm"><RotateCcw size={14} className="inline mr-1"/>Restart</button></div>}
+      {allMatched&&<div className="text-center mt-4"><p className="text-green-700 dark:text-green-400 font-bold mb-2">🎉 {t.wellDoneBtn}</p><button onClick={()=>{setGrid(pairs.sort(()=>Math.random()-0.5));setMoves(0);}} className="px-5 py-2.5 rounded-xl bg-indigo-500 text-white text-sm"><RotateCcw size={14} className="inline mr-1"/>{t.restartBtn}</button></div>}
     </div>
   );
 }
-function WordleGame({setScore}) {
+function WordleGame({setScore, t}) {
   const [target] = useState(()=>wordleWords[Math.floor(Math.random()*wordleWords.length)]);
   const [guesses,setGuesses] = useState([]);
   const [current,setCurrent] = useState('');
@@ -138,11 +138,11 @@ function WordleGame({setScore}) {
       <p className="text-center text-xs text-slate-500 dark:text-slate-400 mb-1">💡 {target.hint}</p>
       <div className="space-y-2 mb-4">{Array.from({length:6}).map((_,gi)=>(<div key={gi} className="grid grid-cols-5 gap-1.5">{Array.from({length:5}).map((_,ci)=>{const g=guesses[gi];return(<div key={ci} className={`aspect-square rounded-lg border flex items-center justify-center text-xl font-extrabold ${g?cellClass(g,ci):gi===guesses.length?'border-indigo-400/40':'border-slate-200 dark:border-white/10'}`}>{g?g[ci]:''}</div>);})}</div>))}</div>
       <div className="flex gap-2">
-        <input value={current} onChange={e=>setCurrent(e.target.value.replace(/[^a-zA-Z]/g,'').slice(0,5))} onKeyDown={e=>{if(e.key==='Enter')submit();}} placeholder="WORD" className="flex-1 px-4 py-3 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-center uppercase font-bold tracking-[0.4em] outline-none focus:border-indigo-400"/>
-        <button onClick={submit} className="px-5 py-3 rounded-xl bg-indigo-500 text-white font-semibold">Go</button>
+        <input value={current} onChange={e=>setCurrent(e.target.value.replace(/[^a-zA-Z]/g,'').slice(0,5))} onKeyDown={e=>{if(e.key==='Enter')submit();}} placeholder={t.wordPlaceholder} className="flex-1 px-4 py-3 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-center uppercase font-bold tracking-[0.4em] outline-none focus:border-indigo-400"/>
+        <button onClick={submit} className="px-5 py-3 rounded-xl bg-indigo-500 text-white font-semibold">{t.goBtn}</button>
       </div>
-      {won&&<p className="text-center text-green-700 dark:text-green-400 font-bold mt-3">🎉 {target.word} — Well done!</p>}
-      {lost&&<p className="text-center text-red-700 dark:text-red-400 font-bold mt-3">Answer: {target.word}. Try again!</p>}
+      {won&&<p className="text-center text-green-700 dark:text-green-400 font-bold mt-3">🎉 {target.word} — {t.wellDoneBtn}</p>}
+      {lost&&<p className="text-center text-red-700 dark:text-red-400 font-bold mt-3">{target.word}. {t.tryAgainText}</p>}
     </div>
   );
 }
