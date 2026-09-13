@@ -360,6 +360,8 @@ function MuiVisitorTrend({ analytics }) {
   const h1 = days[days.length - 1]?.visits || 0;
   const h0 = days[days.length - 2]?.visits || 0;
   const growth = h0 > 0 ? Math.round(((h1 - h0) / h0) * 100) : 0;
+  const n = Math.max(days.length - 1, 1);
+  const pts = days.map((d, i) => `${(i / n) * 100},${100 - ((d.visits || 0) / max) * 100}`);
   return (
     <Box>
       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1 }}>
@@ -372,25 +374,32 @@ function MuiVisitorTrend({ analytics }) {
           sx={{ bgcolor: (growth >= 0 ? '#22c55e22' : '#ef444422'), color: growth >= 0 ? '#22c55e' : '#ef4444', fontWeight: 700 }}
         />
       </Box>
-      <div className="flex items-end gap-1 h-28 px-0.5 pt-2">
-        {days.map(d => {
-          const v = d.visits || 0;
-          const h = v ? Math.max((v / max) * 100, 4) : 0;
+      <Box sx={{ position: 'relative', height: 150, mt: 1 }}>
+        <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#6366f1" stopOpacity="0.04" />
+            </linearGradient>
+          </defs>
+          <polygon points={`0,100 ${pts.join(' ')} 100,100`} fill="url(#trendFill)" />
+          <polyline
+            points={pts.join(' ')}
+            fill="none" stroke="#6366f1" strokeWidth="2.5"
+            strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+        {days.map((d, i) => {
+          const left = (i / n) * 100;
+          const top = 100 - ((d.visits || 0) / max) * 100;
           return (
-            <div key={d.date} className="relative flex-1 flex flex-col items-center justify-end gap-1 h-full min-w-0 group" title="">
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 z-10 mb-1 px-2 py-1 rounded-md bg-slate-900 text-white text-[10px] font-semibold text-center whitespace-nowrap opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all pointer-events-none shadow-lg">
-                <span className="block text-slate-300">{d.date}</span>
-                <span className="block">{v} ta</span>
-              </div>
-              <div
-                className="w-full rounded-t bg-indigo-500/70 hover:bg-indigo-500 dark:bg-indigo-300/70 dark:hover:bg-indigo-300 transition-all duration-300 cursor-pointer group-hover:brightness-110"
-                style={{ height: `${h}%` }}
-              />
-              <span className="text-[9px] text-slate-400 leading-none">{(d.date || '').slice(8)}</span>
-            </div>
+            <div key={d.date} title={`${d.date} · ${d.visits} ta`}
+              className="absolute w-2 h-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500 ring-2 ring-white/70 dark:ring-slate-900/70"
+              style={{ left: `${left}%`, top: `${top}%` }} />
           );
         })}
-      </div>
+        <Typography className="text-slate-500 dark:text-slate-400" sx={{ position: 'absolute', left: 0, top: 0, fontSize: '9px' }}>{max}</Typography>
+      </Box>
     </Box>
   );
 }
