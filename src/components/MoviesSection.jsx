@@ -2,22 +2,17 @@ import { useState } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { moviesData, MOVIE_COST } from '../data/moviesData.js';
 import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { Bookmark, Star, PlayCircle, Copy, ChevronLeft, ArrowDownRight, Clock, Calendar, User, ShieldCheck, TriangleAlert, CheckCircle2 } from 'lucide-react';
+import { Bookmark, Star, PlayCircle, Copy, ChevronLeft, ArrowDownRight, Clock, Calendar, User, ShieldCheck, TriangleAlert, X, Sparkles } from 'lucide-react';
 
-export default function MoviesSection() {
+export default function MoviesSection({ onNavigate }) {
   const { t, lang, stars, spendStars, toggleBookmark, isBookmarked } = useApp();
   const [selected, setSelected] = useState(null);
   const [showCopied, setShowCopied] = useState(false);
   const [confirmMovie, setConfirmMovie] = useState(null);
-  const [warnMovie, setWarnMovie] = useState(null);
   const [spending, setSpending] = useState(false);
 
   const tryWatch = (movie) => {
-    const cost = movie.cost ?? MOVIE_COST;
-    if (stars < cost) { setWarnMovie(movie); return; }
     setConfirmMovie(movie);
   };
 
@@ -37,140 +32,185 @@ export default function MoviesSection() {
       <Dialog
         open={!!confirmMovie}
         onClose={() => setConfirmMovie(null)}
-        maxWidth="xs"
+        maxWidth="sm"
         fullWidth
-        PaperProps={{ sx: { borderRadius: '1.25rem', overflow: 'hidden', backgroundImage: 'none' } }}
-      >
-        {confirmMovie && (
-          <div className="relative h-36">
-            <img src={confirmMovie.cover} alt="" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent" />
-            <div className="absolute bottom-3 left-5 right-5 flex items-end justify-between">
-              <div>
-                <p className="text-white/70 text-[11px] font-semibold uppercase tracking-wide mb-0.5">{t.confirmWatchTitle}</p>
-                <h4 className="text-white font-bold text-lg leading-tight">{confirmMovie.title[lang] || confirmMovie.title.en}</h4>
-              </div>
-              <div className="flex items-center gap-1 bg-yellow-400/20 border border-yellow-400/40 text-yellow-300 rounded-full px-3 py-1 text-sm font-extrabold">
-                <Star size={14} className="fill-yellow-400" /> {confirmMovie.cost ?? MOVIE_COST}
-              </div>
-            </div>
-          </div>
-        )}
-        <DialogContent sx={{ pt: { xs: '24px !important' }, pb: 0 }}>
-          <div className="flex items-center justify-center gap-2 mb-3 py-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-sm font-semibold text-indigo-700 dark:text-indigo-300">
-            <Star size={16} className="fill-yellow-400 text-yellow-400" />
-            <span>{t.confirmWatchBody.replace('{cost}', String(confirmMovie?.cost ?? MOVIE_COST)).replace('{balance}', String(stars))}</span>
-          </div>
-          <p className="text-xs text-center text-slate-500 dark:text-slate-400 mb-1">{t.notEnoughStarsBody.split('.')[0] + '.'}</p>
-        </DialogContent>
-        <DialogActions sx={{ p: { xs: '12px 24px 20px', sm: '12px 24px 20px' } }}>
-          <Button fullWidth onClick={() => setConfirmMovie(null)} sx={{ borderRadius: '0.75rem', py: 1.25, textTransform: 'none', fontWeight: 600 }}>
-            {t.close}
-          </Button>
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={confirmWatch}
-            disabled={spending}
-            sx={{
-              borderRadius: '0.75rem',
-              py: 1.25,
-              textTransform: 'none',
-              fontWeight: 700,
-              background: 'linear-gradient(90deg, #6366f1, #a855f7)',
-              '&:hover': { background: 'linear-gradient(90deg, #4f46e5, #9333ea)' },
-            }}
-          >
-            {spending ? '...' : <><Star size={16} className="fill-yellow-400 mr-1.5 inline text-yellow-400" />{t.confirmAction}</>}
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        open={!!warnMovie}
-        onClose={() => setWarnMovie(null)}
-        maxWidth="xs"
-        fullWidth
+        transitionDuration={{ enter: 240, exit: 200 }}
+        slotProps={{
+          backdrop: {
+            sx: {
+              backgroundColor: 'rgba(5, 10, 26, 0.68)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              '@keyframes movieBackdropIn': {
+                from: { opacity: 0 },
+                to: { opacity: 1 },
+              },
+              animation: 'movieBackdropIn 240ms ease-out',
+            },
+          },
+        }}
         PaperProps={{
           sx: {
-            borderRadius: '10px',
+            borderRadius: '20px',
             overflow: 'hidden',
             backgroundImage: 'none',
-            bgcolor: 'rgb(0, 16, 60)',
-            border: '1px solid rgba(101, 66, 255, 0.45)',
-            boxShadow: '0 30px 70px -18px rgba(0, 0, 0, 0.65)',
+            bgcolor: '#00103c',
+            background: '#00103c',
+            backdropFilter: 'blur(22px)',
+            WebkitBackdropFilter: 'blur(22px)',
+            border: '1px solid rgba(129, 140, 248, 0.28)',
             transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
-            '&:hover': { borderColor: '#6542ff', boxShadow: '0 34px 80px -18px rgba(101, 66, 255, 0.35)' },
+            '&:hover': { borderColor: 'rgb(138, 43, 226)' },
+            boxShadow: '0 34px 90px -22px rgba(2, 6, 23, 0.9), 0 0 60px -18px rgba(99, 102, 241, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+            maxHeight: '92vh',
+            '@keyframes movieModalIn': {
+              '0%': { opacity: 0, transform: 'translateY(26px) scale(0.94)' },
+              '60%': { opacity: 1, transform: 'translateY(-4px) scale(1.01)' },
+              '100%': { opacity: 1, transform: 'translateY(0) scale(1)' },
+            },
+            animation: 'movieModalIn 360ms cubic-bezier(0.22, 1, 0.36, 1) both',
           },
         }}
       >
-        {warnMovie && (() => {
-          const cost = warnMovie.cost ?? MOVIE_COST;
+        {confirmMovie && (() => {
+          const cost = confirmMovie.cost ?? MOVIE_COST;
+          const hasEnough = stars >= cost;
           const missing = Math.max(0, cost - stars);
-          const pct = Math.min(100, Math.round((stars / cost) * 100));
+          const title = confirmMovie.title[lang] || confirmMovie.title.en;
+          const goEarnStars = () => {
+            setConfirmMovie(null);
+            if (onNavigate) onNavigate('english');
+          };
           return (
-            <div className="bg-[rgb(0,16,60)] rounded-[10px] overflow-hidden">
-              <div className="px-6 pt-9 pb-7 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-[10px] bg-[#6542ff]/15 ring-1 ring-[#6542ff]/40 shadow-[0_10px_28px_-8px_rgba(101,66,255,0.6)] mb-4">
-                  <TriangleAlert size={28} className="text-[#b3a0ff]" />
-                </div>
-                <h4 className="text-white text-lg font-extrabold tracking-tight">{t.notEnoughStars}</h4>
-                <p className="text-slate-400 text-sm mt-1.5 leading-relaxed">
-                  {t.notEnoughStarsBody.replace('{cost}', String(cost))}
-                </p>
-              </div>
+            <div className="relative overflow-hidden text-left rounded-[20px] bg-[#00103c]">
+              <div className="pointer-events-none absolute -top-24 -right-20 w-64 h-64 rounded-full bg-indigo-600/30 blur-[80px]" />
+              <div className="pointer-events-none absolute -bottom-28 -left-24 w-72 h-72 rounded-full bg-purple-600/25 blur-[90px]" />
 
-              <div className="px-6 pb-8">
-                <div className="grid grid-cols-2 gap-3 mb-5">
-                  <div className="rounded-[10px] p-4 bg-white/[0.06] ring-1 ring-white/10 text-center">
-                    <p className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold mb-1.5">{t.totalStars}</p>
-                    <p className="flex items-center justify-center gap-1.5 font-extrabold text-white text-lg">
-                      <Star size={16} className="fill-yellow-400 text-yellow-500" />{stars}
-                    </p>
-                  </div>
-                  <div className="rounded-[10px] p-4 bg-[#6542ff]/15 ring-1 ring-[#6542ff]/40 text-center">
-                    <p className="text-[11px] uppercase tracking-wider text-[#b3a0ff] font-semibold mb-1.5">{t.requiredStars}</p>
-                    <p className="flex items-center justify-center gap-1.5 font-extrabold text-[#a78bfa] text-lg">
-                      <Star size={16} className="text-[#6542ff]" />{cost}
-                    </p>
-                  </div>
+              <div className="relative">
+                <div className="relative h-28 sm:h-36 overflow-hidden rounded-t-[20px]">
+                  <img src={confirmMovie.cover} alt="" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-indigo-950/50 via-[#00103c]/70 to-[#00103c]" />
                 </div>
 
-                <div className="h-2.5 rounded-[10px] bg-white/10 overflow-hidden shadow-inner">
-                  <div
-                    className="h-full rounded-[10px] bg-[#6542ff] transition-all duration-500"
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-                <div className="flex items-center justify-between text-xs mt-2.5 text-slate-400">
-                  <span className="inline-flex items-center gap-1 font-semibold text-emerald-400">
-                    <CheckCircle2 size={13} /> {t.yourBalance}: {stars} ⭐
-                  </span>
-                  <span className="inline-flex items-center gap-1 font-extrabold text-[#b3a0ff]">
-                    {t.missingStars}: {missing} ⭐
-                  </span>
-                </div>
-                <p className="text-[11px] text-center text-slate-500 mt-4 leading-relaxed">⭐ {t.movieEarnHint}</p>
-              </div>
-
-              <div className="px-6 pb-7">
-                <Button
-                  fullWidth
-                  variant="contained"
-                  onClick={() => setWarnMovie(null)}
-                  sx={{
-                    borderRadius: '10px',
-                    minHeight: 60,
-                    textTransform: 'none',
-                    fontWeight: 700,
-                    fontSize: '0.95rem',
-                    background: '#6542ff',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    boxShadow: '0 12px 28px -8px rgba(101, 66, 255, 0.55)',
-                    '&:hover': { background: '#5435e0', borderColor: '#6542ff', boxShadow: '0 14px 32px -8px rgba(101, 66, 255, 0.7)' },
-                  }}
+                <button
+                  onClick={() => setConfirmMovie(null)}
+                  aria-label={t.close}
+                  className="absolute top-3 right-3 z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-black/40 border border-white/15 text-white/85 hover:bg-white/15 hover:text-white backdrop-blur-md transition-colors"
                 >
-                  <CheckCircle2 size={18} className="mr-2" /> {t.close}
-                </Button>
+                  <X size={18} />
+                </button>
+
+                <div className="relative -mt-9 sm:-mt-10 px-4 sm:px-6 flex items-end gap-3.5 sm:gap-4">
+                  <div className="w-20 h-28 sm:w-24 sm:h-32 rounded-xl sm:rounded-2xl overflow-hidden shrink-0 ring-1 ring-white/25 shadow-[0_10px_30px_rgba(2,6,23,0.65)]">
+                    <img src={confirmMovie.cover} alt={title} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="min-w-0 pb-1.5 flex-1">
+                    <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] text-indigo-300 mb-1">{t.confirmWatchTitle}</p>
+                    <h3 className="text-white font-extrabold text-lg sm:text-xl leading-tight truncate">{title}</h3>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-xs text-white/70">
+                      <span className="inline-flex items-center gap-1"><Calendar size={12} className="text-indigo-300" />{confirmMovie.year}</span>
+                      <span className="inline-flex items-center gap-1"><Clock size={12} className="text-indigo-300" />{confirmMovie.duration}</span>
+                      <span className="inline-flex items-center gap-1 text-yellow-300"><Star size={12} className="fill-yellow-400" />{confirmMovie.rating}</span>
+                      <span className="px-2 py-0.5 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-200 text-[11px] font-semibold">{confirmMovie.genre}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative px-4 sm:px-6 pt-5 sm:pt-6 pb-5 sm:pb-6">
+                <div className="text-center mb-5">
+                  <h4 className="text-white text-xl sm:text-2xl font-extrabold tracking-tight">
+                    {t.movieConfirmQuestion.replace('{cost}', String(cost))}
+                  </h4>
+                  <p className="text-slate-400 text-[13px] sm:text-sm mt-2 max-w-md mx-auto leading-relaxed">
+                    {t.movieConfirmExplain.replace('{cost}', String(cost))}
+                  </p>
+                </div>
+
+                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] p-4">
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-purple-400/60" />
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#00103c] border border-yellow-400/25 flex items-center justify-center shadow-[0_0_18px_rgba(250,204,21,0.16)] shrink-0">
+                        <Star size={19} className="fill-yellow-400 text-yellow-400" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-400">{t.yourStarsLabel}</p>
+                        <p className="text-xl sm:text-2xl font-extrabold text-white leading-none">{stars} <span className="text-base sm:text-lg align-middle text-yellow-300">⭐</span></p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-400">{t.requiredStars}</p>
+                      <p className="text-xl sm:text-2xl font-extrabold text-white leading-none flex items-center justify-end gap-1">
+                        {cost} <Star size={16} className="fill-indigo-400 text-indigo-400" />
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={goEarnStars}
+                    className="mt-3 w-full sm:w-auto inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-indigo-300 hover:text-indigo-100 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-400/25 hover:border-indigo-400/40 rounded-full px-4 py-1.5 transition-colors"
+                  >
+                    <Sparkles size={13} /> {t.earnStarsAction}
+                  </button>
+                </div>
+
+                {!hasEnough && (
+                  <div className="mt-3 rounded-xl border border-rose-400/25 bg-rose-500/10 px-4 py-3 flex items-center justify-between gap-3">
+                    <span className="flex items-center gap-2 text-sm font-bold text-rose-200">
+                      <TriangleAlert size={17} className="text-rose-400 shrink-0" />
+                      {t.notEnoughStars}
+                    </span>
+                    <span className="text-xs font-semibold text-rose-300/90">{t.missingStarsShort.replace('{amount}', String(missing))}</span>
+                  </div>
+                )}
+
+                <div className="flex flex-col sm:flex-row gap-3 mt-5">
+                  <Button
+                    fullWidth
+                    onClick={() => setConfirmMovie(null)}
+                    sx={{
+                      borderRadius: '0.9rem',
+                      py: 1.3,
+                      textTransform: 'none',
+                      fontWeight: 700,
+                      color: '#e2e8f0',
+                      border: '1px solid rgba(148, 163, 184, 0.25)',
+                      background: 'rgba(148, 163, 184, 0.08)',
+                      '&:hover': { background: 'rgba(148, 163, 184, 0.16)', borderColor: 'rgba(148, 163, 184, 0.4)' },
+                    }}
+                  >
+                    {t.cancelAction}
+                  </Button>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    onClick={confirmWatch}
+                    disabled={!hasEnough || spending}
+                    sx={{
+                      borderRadius: '0.9rem',
+                      py: { xs: 1.4, sm: 1.3 },
+                      textTransform: 'none',
+                      fontWeight: 800,
+                      fontSize: '0.95rem',
+                      color: '#fff',
+                      background: 'linear-gradient(90deg, #4f46e5 0%, #7c3aed 55%, #a855f7 100%)',
+                      boxShadow: '0 14px 34px -10px rgba(124, 58, 237, 0.6), 0 4px 14px rgba(99, 102, 241, 0.35), inset 0 1px 0 rgba(255,255,255,0.18)',
+                      '&:hover': { background: 'linear-gradient(90deg, #4338ca 0%, #6d28d9 55%, #9333ea 100%)' },
+                      '&.Mui-disabled': {
+                        background: 'rgba(148, 163, 184, 0.12)',
+                        color: 'rgba(148, 163, 184, 0.5)',
+                        boxShadow: 'none',
+                      },
+                    }}
+                  >
+                    {spending ? '...' : (
+                      <span className="inline-flex items-center justify-center gap-1.5">
+                        <Star size={17} className="fill-yellow-300 text-yellow-300 -mt-px" />
+                        {t.spendStarsAction.replace('{cost}', String(cost))}
+                      </span>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
           );

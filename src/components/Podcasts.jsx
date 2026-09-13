@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { podcastsData } from '../data/podcastsData.js';
-import { Play, Pause, Bookmark, Headphones, AlertTriangle, Loader2, RotateCcw } from 'lucide-react';
+import { Play, Pause, Bookmark, Headphones, AlertTriangle, Loader2, RotateCcw, Rewind, FastForward } from 'lucide-react';
 
 function PodcastCard({ pod, lang, t, toggleBookmark, isBookmarked }) {
   const audioRef = useRef(null);
@@ -58,6 +58,13 @@ function PodcastCard({ pod, lang, t, toggleBookmark, isBookmarked }) {
     a.play().catch(() => setFailed(true));
   }, []);
 
+  const skip = useCallback((sec) => {
+    const a = audioRef.current;
+    if (!a || !isFinite(a.currentTime)) return;
+    const target = a.currentTime + sec;
+    a.currentTime = Math.min(Math.max(target, 0), a.duration || 0);
+  }, []);
+
   const formatTime = (s) => {
     if (!s || !isFinite(s)) return '0:00';
     const m = Math.floor(s / 60);
@@ -97,11 +104,19 @@ function PodcastCard({ pod, lang, t, toggleBookmark, isBookmarked }) {
           </div>
         )}
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
+          <button onClick={() => skip(-10)} title="-10s"
+            className="flex flex-col items-center justify-center gap-0.5 p-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10">
+            <Rewind size={16} /><span className="text-[9px] font-bold leading-none">-10</span>
+          </button>
           <button onClick={togglePlay} disabled={loading && !playing}
             className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-sm font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-70">
             {loading && !playing ? <Loader2 size={16} className="animate-spin" /> : playing ? <Pause size={16} /> : <Play size={16} />}
             {loading && !playing ? 'Loading...' : playing ? 'Pause' : t.listenAudio}
+          </button>
+          <button onClick={() => skip(10)} title="+10s"
+            className="flex flex-col items-center justify-center gap-0.5 p-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10">
+            <FastForward size={16} /><span className="text-[9px] font-bold leading-none">+10</span>
           </button>
           <button onClick={() => toggleBookmark({ id: pod.id, type: 'podcast', title: pod.title, host: pod.host })}
             className={`p-2.5 rounded-xl border ${isBookmarked(pod.id, 'podcast') ? 'bg-indigo-500 text-white' : 'border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300'}`}>

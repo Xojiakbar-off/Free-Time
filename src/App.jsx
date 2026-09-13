@@ -151,7 +151,7 @@ function App() {
           <Hero onNavigate={navigate} />
         </div>
         <div className={section === 'books' ? '' : 'hidden'}><BooksSection onOpenBook={openFullBook} /></div>
-        <div className={section === 'movies' ? '' : 'hidden'}><MoviesSection /></div>
+        <div className={section === 'movies' ? '' : 'hidden'}><MoviesSection onNavigate={navigate} /></div>
         <div className={section === 'english' ? '' : 'hidden'}><EnglishHub onNavigate={navigate} /></div>
         <div className={section === 'lessons' ? '' : 'hidden'}><LessonPage openLessonId={openLessonId} /></div>
         <div className={section === 'mindGym' ? '' : 'hidden'}><MindGym /></div>
