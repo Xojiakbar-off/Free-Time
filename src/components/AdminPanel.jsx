@@ -360,39 +360,37 @@ function MuiVisitorTrend({ analytics }) {
   const h1 = days[days.length - 1]?.visits || 0;
   const h0 = days[days.length - 2]?.visits || 0;
   const growth = h0 > 0 ? Math.round(((h1 - h0) / h0) * 100) : 0;
-  const points = days.map((d, i) => ({ x: i, y: ((d.visits || 0) / max) * 100 }));
   return (
     <Box>
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1 }}>
         <Chip label={`${totalVisits} Visits`} sx={{ bgcolor: '#6366f122', color: 'inherit', fontWeight: 600 }} size="small" />
         <Chip label={`${totalUnique} Unique`} sx={{ bgcolor: '#a855f722', color: 'inherit', fontWeight: 600 }} size="small" />
+        <Chip label={`avg ${avg}/day`} sx={{ bgcolor: '#06b6d422', color: 'inherit', fontWeight: 600 }} size="small" />
         <Chip
           label={`${growth >= 0 ? '+' : ''}${growth}%`}
           size="small"
           sx={{ bgcolor: (growth >= 0 ? '#22c55e22' : '#ef444422'), color: growth >= 0 ? '#22c55e' : '#ef4444', fontWeight: 700 }}
         />
       </Box>
-      <Box sx={{ position: 'relative', height: 60, mt: 1 }}>
-        <Typography className="text-slate-500 dark:text-slate-400" sx={{ position: 'absolute', left: 0, top: -16, fontSize: '9px' }}>{max}</Typography>
-        <svg width="100%" height="60" viewBox="0 0 100 60" preserveAspectRatio="none">
-          <polyline
-            points={points.map(p => `${(p.x / Math.max(points.length - 1, 1)) * 100},${100 - p.y * 0.55}`).join(' ')}
-            fill="none"
-            stroke="#6366f1"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            style={{ filter: 'drop-shadow(0 0 3px rgba(99,102,241,0.55))' }}
-          />
-          <polyline
-            points={`0,60 ${points.map(p => `${(p.x / Math.max(points.length - 1, 1)) * 100},${100 - p.y * 0.55}`).join(' ')} 100,60`}
-            fill="rgba(99,102,241,0.25)"
-            stroke="none"
-          />
-        </svg>
-        <Typography className="text-slate-500 dark:text-slate-400" sx={{ position: 'absolute', right: 0, bottom: -16, fontSize: '9px' }}>0 · avg {avg}</Typography>
-      </Box>
+      <div className="flex items-end gap-1 h-28 px-0.5 pt-2">
+        {days.map(d => {
+          const v = d.visits || 0;
+          const h = v ? Math.max((v / max) * 100, 4) : 0;
+          return (
+            <div key={d.date} className="relative flex-1 flex flex-col items-center justify-end gap-1 h-full min-w-0 group" title="">
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 z-10 mb-1 px-2 py-1 rounded-md bg-slate-900 text-white text-[10px] font-semibold text-center whitespace-nowrap opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all pointer-events-none shadow-lg">
+                <span className="block text-slate-300">{d.date}</span>
+                <span className="block">{v} ta</span>
+              </div>
+              <div
+                className="w-full rounded-t bg-indigo-500/70 hover:bg-indigo-500 dark:bg-indigo-300/70 dark:hover:bg-indigo-300 transition-all duration-300 cursor-pointer group-hover:brightness-110"
+                style={{ height: `${h}%` }}
+              />
+              <span className="text-[9px] text-slate-400 leading-none">{(d.date || '').slice(8)}</span>
+            </div>
+          );
+        })}
+      </div>
     </Box>
   );
 }
