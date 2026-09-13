@@ -5,7 +5,7 @@ import { api, API_BASE } from '../services/api.js';
 import { Gift, Users, Eye, Activity, ArrowRight, BookOpen, GraduationCap, BarChart3, Focus } from 'lucide-react';
 import Leaderboard from './Leaderboard.jsx';
 
-function AuthCard() {
+export function AuthCard() {
   const { t, login, register, setSession } = useApp();
   const [mode, setMode] = useState('register');
   const [name, setName] = useState('');

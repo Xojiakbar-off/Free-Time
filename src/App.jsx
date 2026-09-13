@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useApp } from './context/AppContext.jsx';
 import Sidebar from './components/Sidebar.jsx';
-import Landing from './components/Landing.jsx';
 import Hero from './components/Hero.jsx';
 import BooksSection from './components/BooksSection.jsx';
 import MoviesSection from './components/MoviesSection.jsx';
@@ -16,6 +15,8 @@ import UserProfile from './components/UserProfile.jsx';
 import FullBookReader from './components/FullBookReader.jsx';
 import Footer from './components/Footer.jsx';
 import { analyticsService } from './services/analyticsService.js';
+import { AuthCard } from './components/Landing.jsx';
+import { X } from 'lucide-react';
 
 function LoadingScreen({ leaving }) {
   return (
@@ -35,15 +36,33 @@ function LoadingScreen({ leaving }) {
   );
 }
 
+function ProfileSetupModal({ onClose }) {
+  const { t } = useApp();
+  return (
+    <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" role="dialog" aria-modal="true">
+      <div className="absolute inset-0 bg-black/65 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full max-w-md max-h-[92vh] overflow-y-auto rounded-3xl">
+        <button onClick={onClose} aria-label="Close" className="absolute top-3 right-3 z-10 p-2 rounded-full bg-slate-900/5 dark:bg-white/10 text-slate-500 dark:text-slate-300 hover:bg-slate-900/10 dark:hover:bg-white/20 transition-colors">
+          <X size={18} />
+        </button>
+        <AuthCard />
+        <button onClick={onClose} className="mt-3 w-full text-center text-xs text-slate-300 hover:text-white font-medium transition-colors">
+          {t.skipForNow}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [section, setSection] = useState(() => {
     const s = localStorage.getItem('ft_section');
     return s === 'saved' ? 'profile' : (s || 'home');
   });
   const [fullBook, setFullBook] = useState(null);
-  const [guest, setGuest] = useState(false);
   const [loading, setLoading] = useState(true);
   const [leaving, setLeaving] = useState(false);
+  const [showSetup, setShowSetup] = useState(false);
   const [openLessonId, setOpenLessonId] = useState(() => parseInt(localStorage.getItem('ft_open_lesson') || '0', 10));
   const { theme, user, authReady } = useApp();
 
@@ -80,6 +99,19 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (loading) return;
+    if (user) { setShowSetup(false); return; }
+    if (localStorage.getItem('ft_onboarding_seen')) return;
+    const t = setTimeout(() => setShowSetup(true), 600);
+    return () => clearTimeout(t);
+  }, [loading, user]);
+
+  const closeSetup = () => {
+    setShowSetup(false);
+    localStorage.setItem('ft_onboarding_seen', '1');
+  };
+
+  useEffect(() => {
     analyticsService.trackPageVisit(section === 'home' ? '/' : '/' + section);
     localStorage.setItem('ft_section', section);
   }, [section]);
@@ -113,22 +145,15 @@ function App() {
     return (
       <>
         <LoadingScreen leaving={leaving} />
-        {user || guest ? null : <div className="h-screen" />}
+        <div className="h-screen" />
       </>
     );
   }
 
-  if (!authReady || (!user && !guest)) {
-    if (!authReady) {
-      return (
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-slate-400 text-sm">...</div>
-        </div>
-      );
-    }
+  if (!authReady) {
     return (
-      <div className="flex-1">
-        <Landing onEnterGuest={() => { setGuest(true); setSection('home'); localStorage.setItem('ft_section', 'home'); window.scrollTo({ top: 0 }); }} />
+      <div className="flex-1 flex items-center justify-center min-h-screen">
+        <div className="text-slate-400 text-sm">...</div>
       </div>
     );
   }
@@ -139,6 +164,7 @@ function App() {
         <Sidebar currentSection={section} onNavigate={navigate} />
         <FullBookReader book={fullBook} onBack={() => setFullBook(null)} />
         <Footer onNavigate={navigate} />
+        {showSetup && !user && <ProfileSetupModal onClose={closeSetup} />}
       </div>
     );
   }
@@ -162,6 +188,7 @@ function App() {
         <div className={section === 'profile' ? '' : 'hidden'}><UserProfile /></div>
       </main>
       <Footer onNavigate={navigate} />
+      {showSetup && !user && <ProfileSetupModal onClose={closeSetup} />}
     </div>
   );
 }
