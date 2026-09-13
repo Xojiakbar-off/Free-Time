@@ -76,10 +76,6 @@ export default function UserProfile() {
   if (!user) {
     return (
       <section id="profile" className="max-w-md mx-auto px-4 py-16 scroll-mt-16">
-        <div className="glass-panel rounded-2xl p-4 mb-5 flex items-start gap-3 border border-indigo-400/30 bg-indigo-500/5">
-          <User size={18} className="text-indigo-500 dark:text-indigo-300 shrink-0 mt-0.5" />
-          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{t.guestModeDesc}</p>
-        </div>
         <div className="glass-panel rounded-2xl p-8">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-5">
             <User size={30} className="text-white" />
