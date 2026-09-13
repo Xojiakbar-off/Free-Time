@@ -71,6 +71,15 @@ CREATE TABLE IF NOT EXISTS watched_videos (
   UNIQUE(user_id, video_id)
 );
 
+CREATE TABLE IF NOT EXISTS listened_podcasts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER,
+  podcast_id TEXT,
+  title TEXT,
+  listened_at TEXT,
+  UNIQUE(user_id, podcast_id)
+);
+
 CREATE TABLE IF NOT EXISTS bookmarks (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER,

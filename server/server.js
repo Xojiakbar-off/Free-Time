@@ -668,6 +668,20 @@ app.post('/api/videos/complete', (req, res) => {
   res.json({ ok: true, already: false, newStars: 50, stars: updated.stars });
 });
 
+app.post('/api/podcasts/complete', (req, res) => {
+  const { email, podcastId, title } = req.body || {};
+  if (!email || !podcastId) return res.status(400).json({ error: 'email va podcastId kerak' });
+  const u = db.prepare('SELECT * FROM users WHERE email = ?').get(email.toLowerCase());
+  if (!u) return res.status(404).json({ error: 'foydalanuvchi topilmadi' });
+  const existing = db.prepare('SELECT * FROM listened_podcasts WHERE user_id = ? AND podcast_id = ?').get(u.id, podcastId);
+  if (existing) return res.json({ ok: true, already: true, newStars: 0 });
+  db.prepare('INSERT INTO listened_podcasts (user_id, podcast_id, title, listened_at) VALUES (?,?,?,?)').run(u.id, podcastId, title || '', now());
+  db.prepare('UPDATE users SET stars = stars + 50 WHERE id = ?').run(u.id);
+  db.prepare('INSERT INTO stars_log (user_id, amount, reason, timestamp) VALUES (?,?,?,?)').run(u.id, 50, `Podcast: ${title || podcastId}`, now());
+  const updated = db.prepare('SELECT stars FROM users WHERE id = ?').get(u.id);
+  res.json({ ok: true, already: false, newStars: 50, stars: updated.stars });
+});
+
 // ---------- Messages / contact ----------
 app.post('/api/contact', async (req, res) => {
   const { name, contact, text } = req.body || {};

@@ -302,6 +302,9 @@ export const translations = {
     videoCompleted: "Ko'rildi",
     videoCongrats: "Sizni tabriklaymiz! Yangi bilim olganingiz uchun +50 yulduz sizga sovg'a!",
     videoRewardHint: "Videoni to'liq ko'ring",
+    podcastCompleted: "Tinglandi",
+    podcastCongrats: "Tabriklaymiz! Foydali podkast tinglaganingiz uchun sizga 50 ta yulduz sovg'a!",
+    podcastRewardHint: "Podkastni to'liq tinglang",
   },
 en: {
     siteName: "FreeTime",
@@ -604,6 +607,9 @@ timeLeft: "Time",
     videoCompleted: "Watched",
     videoCongrats: "Congratulations! +50 stars are yours as a gift for learning something new!",
     videoRewardHint: "Watch the full video",
+    podcastCompleted: "Listened",
+    podcastCongrats: "Congratulations! You get 50 stars as a gift for listening to a useful podcast!",
+    podcastRewardHint: "Listen to the full podcast",
   },
 ru: {
     siteName: "FreeTime",
@@ -906,5 +912,8 @@ ru: {
     videoCompleted: "Просмотрено",
     videoCongrats: "Поздравляем! +50 звёзд в подарок за новые знания!",
     videoRewardHint: "Посмотрите видео до конца",
+    podcastCompleted: "Прослушано",
+    podcastCongrats: "Поздравляем! 50 звёзд в подарок за прослушивание полезного подкаста!",
+    podcastRewardHint: "Прослушайте подкаст до конца",
   }
 };

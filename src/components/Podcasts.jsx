@@ -1,15 +1,30 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { podcastsData } from '../data/podcastsData.js';
-import { Play, Pause, Bookmark, Headphones, AlertTriangle, Loader2, RotateCcw, Rewind, FastForward } from 'lucide-react';
+import { Play, Pause, Bookmark, Headphones, AlertTriangle, Loader2, RotateCcw, Rewind, FastForward, Star } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
-function PodcastCard({ pod, lang, t, toggleBookmark, isBookmarked }) {
+function PodcastCard({ pod, lang, t, toggleBookmark, isBookmarked, isListened, onPodcastEnded }) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [failed, setFailed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [rewarded, setRewarded] = useState(false);
+  const rewardedTimerRef = useRef(null);
+
+  const handleEnded = () => {
+    setPlaying(false);
+    if (!onPodcastEnded) return;
+    const ok = onPodcastEnded();
+    if (ok) {
+      setRewarded(true);
+      confetti({ particleCount: 160, spread: 90, origin: { y: 0.6 } });
+      if (rewardedTimerRef.current) clearTimeout(rewardedTimerRef.current);
+      rewardedTimerRef.current = setTimeout(() => setRewarded(false), 8000);
+    }
+  };
 
   useEffect(() => {
     const a = audioRef.current;
@@ -77,6 +92,7 @@ function PodcastCard({ pod, lang, t, toggleBookmark, isBookmarked }) {
       <div className="relative h-44">
         <img src={pod.cover} alt={pod.title[lang] || pod.title.en} className="w-full h-full object-cover" />
         <span className="absolute top-2 left-2 px-2 py-1 rounded-lg bg-purple-500 text-white text-xs font-semibold">{pod.category}</span>
+        {isListened && <span className="absolute top-2 right-2 px-2 py-1 rounded bg-green-500 text-white text-xs font-bold pointer-events-none">✓ {t.podcastCompleted}</span>}
         {playing && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             {Array.from({ length: 5 }).map((_, i) => (
@@ -87,9 +103,24 @@ function PodcastCard({ pod, lang, t, toggleBookmark, isBookmarked }) {
         )}
       </div>
       <div className="p-5 flex-1 flex flex-col">
+        {rewarded && (
+          <div className="mb-3 rounded-2xl p-4 text-center border border-yellow-500/40 bg-gradient-to-r from-yellow-500/20 via-amber-500/15 to-orange-500/20 animate-pulse">
+            <div className="text-3xl mb-1">🎉</div>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">{t.podcastCongrats}</h3>
+            <p className="text-sm text-yellow-600 dark:text-yellow-300 font-semibold">⭐ +50</p>
+          </div>
+        )}
         <div className="flex items-center gap-2 mb-2 text-xs text-slate-500 dark:text-slate-400"><Headphones size={14} />{pod.host} · {pod.duration}</div>
         <h3 className="font-bold text-slate-900 dark:text-white mb-2">{pod.title[lang] || pod.title.en}</h3>
-        <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2 mb-4 flex-1">{pod.description[lang] || pod.description.en}</p>
+        <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2 mb-3 flex-1">{pod.description[lang] || pod.description.en}</p>
+        <div className="flex items-center justify-between text-xs mb-3">
+          <span className="inline-flex items-center gap-1 font-semibold text-yellow-600 dark:text-yellow-400"><Star size={14} className="text-yellow-500" /> +50</span>
+          {isListened ? (
+            <span className="inline-flex items-center gap-1 text-green-600 dark:text-green-400 font-semibold">✓ +50 ⭐</span>
+          ) : (
+            <span className="text-slate-500 dark:text-slate-400">{t.podcastRewardHint}</span>
+          )}
+        </div>
 
         {duration > 0 && (
           <div className="mb-3">
@@ -135,11 +166,10 @@ function PodcastCard({ pod, lang, t, toggleBookmark, isBookmarked }) {
           ref={audioRef}
           src={pod.audioSrc}
           preload="metadata"
-          loop
           className="w-full mt-3 h-9"
           onPlay={() => { setPlaying(true); setLoading(false); }}
           onPause={() => setPlaying(false)}
-          onEnded={() => setPlaying(false)}
+          onEnded={handleEnded}
           onError={(e) => { console.warn('Audio error:', e); setFailed(true); setLoading(false); }}
         />
       </div>
@@ -148,14 +178,16 @@ function PodcastCard({ pod, lang, t, toggleBookmark, isBookmarked }) {
 }
 
 export default function Podcasts() {
-  const { t, lang, toggleBookmark, isBookmarked } = useApp();
+  const { t, lang, toggleBookmark, isBookmarked, listenedPodcasts, listenPodcast } = useApp();
 
   return (
     <section id="podcasts" className="max-w-7xl mx-auto px-4 py-12 scroll-mt-16">
       <div className="mb-8"><h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{t.podcastsTitle}</h2><p className="text-slate-500 dark:text-slate-400">{t.podcastsSub}</p></div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {podcastsData.map(pod => (
-          <PodcastCard key={pod.id} pod={pod} lang={lang} t={t} toggleBookmark={toggleBookmark} isBookmarked={isBookmarked} />
+          <PodcastCard key={pod.id} pod={pod} lang={lang} t={t} toggleBookmark={toggleBookmark} isBookmarked={isBookmarked}
+            isListened={!!listenedPodcasts[pod.id]}
+            onPodcastEnded={() => listenPodcast(pod.id, pod.title.en)} />
         ))}
       </div>
     </section>
