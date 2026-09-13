@@ -339,7 +339,7 @@ function MuiVisitorChart({ analytics }) {
               <span className="block">{d.visits} ta tashrif</span>
             </div>
             <div
-              className="w-full rounded-t bg-white transition-all duration-300 cursor-pointer group-hover:brightness-110"
+              className="w-full rounded-t bg-indigo-500/70 hover:bg-indigo-500 dark:bg-indigo-300/70 dark:hover:bg-indigo-300 transition-all duration-300 cursor-pointer group-hover:brightness-110"
               style={{ height: `${h}%` }}
             />
             <span className="text-[9px] text-slate-400 leading-none">{(d.date || '').slice(8)}</span>
@@ -378,16 +378,16 @@ function MuiVisitorTrend({ analytics }) {
           <polyline
             points={points.map(p => `${(p.x / Math.max(points.length - 1, 1)) * 100},${100 - p.y * 0.55}`).join(' ')}
             fill="none"
-            stroke="#fff"
-            strokeWidth="2"
+            stroke="#6366f1"
+            strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             vectorEffect="non-scaling-stroke"
-            style={{ filter: 'drop-shadow(0 0 3px rgba(255,255,255,0.55))' }}
+            style={{ filter: 'drop-shadow(0 0 3px rgba(99,102,241,0.55))' }}
           />
           <polyline
             points={`0,60 ${points.map(p => `${(p.x / Math.max(points.length - 1, 1)) * 100},${100 - p.y * 0.55}`).join(' ')} 100,60`}
-            fill="rgba(255,255,255,0.22)"
+            fill="rgba(99,102,241,0.25)"
             stroke="none"
           />
         </svg>
@@ -397,7 +397,7 @@ function MuiVisitorTrend({ analytics }) {
   );
 }
 
-function DailyChart({ days, accent = 'bg-white' }) {
+function DailyChart({ days, accent = 'bg-indigo-500/70 dark:bg-indigo-300/70' }) {
   const max = Math.max(...(days || []).map(d => d.visits || 0), 1);
   if (!days || days.length === 0) return <p className="text-sm text-slate-500">{'—'}</p>;
   return (
