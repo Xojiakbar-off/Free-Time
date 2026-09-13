@@ -226,7 +226,7 @@ export default function AdminPanel() {
       </div>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: 2, mb: 3 }}>
-        <Card className="glass-panel card-hover" elevation={0} sx={{ borderRadius: '1rem', p: 2 }}>
+        <Card className="glass-panel card-hover" elevation={0} sx={{ borderRadius: '1rem', p: 2, overflow: 'visible' }}>
           <CardContent>
             <Typography variant="subtitle1" fontWeight={700} mb={2} sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 1 }}>
               <BarChart3 size={18} className="text-indigo-500 dark:text-indigo-400" />{t.visitorStats}
@@ -234,7 +234,7 @@ export default function AdminPanel() {
             <MuiVisitorChart analytics={analytics} />
           </CardContent>
         </Card>
-        <Card className="glass-panel card-hover" elevation={0} sx={{ borderRadius: '1rem', p: 2 }}>
+        <Card className="glass-panel card-hover" elevation={0} sx={{ borderRadius: '1rem', p: 2, overflow: 'visible' }}>
           <CardContent>
             <Typography variant="subtitle1" fontWeight={700} mb={2} sx={{ color: 'text.primary', display: 'flex', alignItems: 'center', gap: 1 }}>
               <UserPlus size={18} className="text-amber-500 dark:text-amber-400" />{t.visitorsTrend}
@@ -393,9 +393,16 @@ function MuiVisitorTrend({ analytics }) {
           const left = (i / n) * 100;
           const top = 100 - ((d.visits || 0) / max) * 100;
           return (
-            <div key={d.date} title={`${d.date} · ${d.visits} ta`}
-              className="absolute w-2 h-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500 ring-2 ring-white/70 dark:ring-slate-900/70"
-              style={{ left: `${left}%`, top: `${top}%` }} />
+            <div key={d.date} className="absolute inset-y-0 group cursor-pointer" style={{ left: `${left}%`, width: `${100 / days.length}%` }}>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 z-20 mb-1 px-2 py-1 rounded-md bg-slate-900 text-white text-[10px] font-semibold text-center whitespace-nowrap opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all pointer-events-none shadow-lg">
+                <span className="block text-slate-300">{d.date}</span>
+                <span className="block">{d.visits || 0} ta tashrif</span>
+              </div>
+              <div
+                className="absolute w-2 h-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500 ring-2 ring-white/70 dark:ring-slate-900/70"
+                style={{ left: 0, top: `${top}%` }}
+              />
+            </div>
           );
         })}
         <Typography className="text-slate-500 dark:text-slate-400" sx={{ position: 'absolute', left: 0, top: 0, fontSize: '9px' }}>{max}</Typography>
